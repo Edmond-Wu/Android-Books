@@ -1,14 +1,18 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @author Edmond Wu & Vincent Xie
  */
 
 import java.util.*;
 
-public class Book {
+public class Book implements Serializable {
 	private String title;
+	private HashMap<String, User> subscribers;
 	private ArrayList<Chapter> chapters;
+	private ArrayList<Review> reviews;
 	
 	/**
 	 * Book constructor
@@ -17,6 +21,8 @@ public class Book {
 	public Book(String t) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
+		reviews = new ArrayList<Review>();
+		subscribers = new HashMap<String, User>();
 	}
 	
 	/**
@@ -33,5 +39,21 @@ public class Book {
 	 */
 	public ArrayList<Chapter> getChapters() {
 		return chapters;
+	}
+	
+	/**
+	 * Gtes the book's reviews
+	 * @return ArrayList of reviews
+	 */
+	public ArrayList<Review> getReviews() {
+		return reviews;
+	}
+	
+	/**
+	 * Gets a map of the book's subscribers
+	 * @return HashMap of subscribers
+	 */
+	public HashMap<String, User> getSubscribers() {
+		return subscribers;
 	}
 }

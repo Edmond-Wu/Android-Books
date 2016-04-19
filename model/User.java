@@ -1,12 +1,16 @@
 package model;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * @author Edmond Wu & Vincent Xie
  */
 
 import java.util.*;
 
-public class User {
+public class User implements Serializable {
 	private String username;
 	private String password;
 	private HashMap<String, Book> subscribed_books;
@@ -44,5 +48,20 @@ public class User {
 	 */
 	public HashMap<String, Book> getSubscriptions() {
 		return subscribed_books;
+	}
+	
+	/**
+	 * Serializes the user data
+	 */
+	public void serialize() {
+		try {
+	        FileOutputStream fileOut = new FileOutputStream("data/" + username + ".ser");
+	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	        out.writeObject(this);
+	        out.close();
+	        fileOut.close();
+	    } catch(Exception e) {
+	    	System.out.println("Invalid serialization.");
+	    }
 	}
 }

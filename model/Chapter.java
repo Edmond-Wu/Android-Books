@@ -1,12 +1,14 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @author Edmond Wu & Vincent Xie
  */
 
 import java.util.*;
 
-public class Chapter {
+public class Chapter implements Serializable {
 	private String chapter_name;
 	private ArrayList<String> text;
 	
