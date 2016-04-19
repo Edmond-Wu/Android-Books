@@ -1,12 +1,11 @@
 package model;
 
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author Edmond Wu & Vincent Xie
  */
-
-import java.util.*;
 
 public class Book implements Serializable {
 	private String title;

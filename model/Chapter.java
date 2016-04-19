@@ -1,12 +1,11 @@
 package model;
 
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author Edmond Wu & Vincent Xie
  */
-
-import java.util.*;
 
 public class Chapter implements Serializable {
 	private String chapter_name;

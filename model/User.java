@@ -1,14 +1,11 @@
 package model;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author Edmond Wu & Vincent Xie
  */
-
-import java.util.*;
 
 public class User implements Serializable {
 	private String username;
