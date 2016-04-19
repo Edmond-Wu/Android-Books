@@ -1,38 +1,47 @@
-package model;
+package com.example.edmond.android_books.model;
 
 import java.io.Serializable;
-import java.util.*;
 
 /**
  * @author Edmond Wu & Vincent Xie
  */
 
-public class Chapter implements Serializable {
+public class Chapter implements Serializable, Comparable<Chapter> {
 	private String chapter_name;
-	private ArrayList<String> text;
+	private String text;
 	
 	/**
 	 * Chapter constructor
 	 * @param c chapter title
+	 * @param t chapter text body
 	 */
-	public Chapter(String c) {
+	public Chapter(String c, String t) {
 		chapter_name = c;
-		text = new ArrayList<String>();
+		text = t;
 	}
 	
 	/**
 	 * Gets the chapter title
 	 * @return chapter title string
 	 */
-	public String chapterTitle() {
+	public String getChapterTitle() {
 		return chapter_name;
 	}
 	
 	/**
 	 * Gets the chapter's text in ArrayList form
-	 * @return ArrayList of text
+	 * @return text string
 	 */
-	public ArrayList<String> getText() {
+	public String getText() {
 		return text;
+	}
+
+	/**
+	 * Compares chapters
+	 * @param c another chapter
+	 * @return alphabetical comparsion by title
+     */
+	public int compareTo(Chapter c) {
+		return chapter_name.compareTo(c.getChapterTitle());
 	}
 }

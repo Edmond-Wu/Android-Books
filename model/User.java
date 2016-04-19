@@ -1,4 +1,6 @@
-package model;
+package com.example.edmond.android_books.model;
+
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.*;
@@ -46,7 +48,7 @@ public class User implements Serializable {
 	public HashMap<String, Book> getSubscriptions() {
 		return subscribed_books;
 	}
-	
+
 	/**
 	 * Serializes the user data
 	 */

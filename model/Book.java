@@ -1,6 +1,6 @@
-package model;
+package com.example.edmond.android_books.model;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -9,19 +9,23 @@ import java.util.*;
 
 public class Book implements Serializable {
 	private String title;
-	private HashMap<String, User> subscribers;
+	private String author;
+	private String genre;
 	private ArrayList<Chapter> chapters;
 	private ArrayList<Review> reviews;
+	private File cover;
 	
 	/**
 	 * Book constructor
 	 * @param t title of book
 	 */
-	public Book(String t) {
+	public Book(String t, String a, String g, File c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
 		reviews = new ArrayList<Review>();
-		subscribers = new HashMap<String, User>();
+		author = a;
+		genre = g;
+		cover = c;
 	}
 	
 	/**
@@ -47,12 +51,28 @@ public class Book implements Serializable {
 	public ArrayList<Review> getReviews() {
 		return reviews;
 	}
-	
+
 	/**
-	 * Gets a map of the book's subscribers
-	 * @return HashMap of subscribers
-	 */
-	public HashMap<String, User> getSubscribers() {
-		return subscribers;
+	 * Returns the book's author
+	 * @return author
+     */
+	public String getAuthor() {
+		return author;
+	}
+
+	/**
+	 * Return's the book's genre
+	 * @return genre
+     */
+	public String getGenre() {
+		return genre;
+	}
+
+	/**
+	 * Gets the book's cover
+	 * @return cover file
+     */
+	public File getCover() {
+		return cover;
 	}
 }

@@ -1,4 +1,4 @@
-package model;
+package com.example.edmond.android_books.model;
 
 import java.io.Serializable;
 
