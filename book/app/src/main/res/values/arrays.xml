@@ -13,4 +13,9 @@
         <item>"Large"</item>
     </string-array>
 
+    <string-array name="browse_sortby">
+        <item>title</item>
+        <item>author</item>
+    </string-array>
+
 </resources>

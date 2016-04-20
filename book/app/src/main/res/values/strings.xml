@@ -13,6 +13,9 @@
     <string name="settings">Settings</string>
     <string name="search">Search</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="sortby">Sort by</string>
+    <!-- Browse -->
+
 
     <!-- General settings -->
     <string name="pref_header_general">General</string>

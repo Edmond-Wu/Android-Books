@@ -75,4 +75,12 @@ public class Book implements Serializable {
 	public File getCover() {
 		return cover;
 	}
+
+	/**
+	 * Gets string representation of book.
+	 * @return
+     */
+	public String toString(){
+		return title + " - " + author;
+	}
 }

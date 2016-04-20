@@ -16,7 +16,6 @@ import android.view.View;
 import android.app.SearchManager;
 import android.support.v7.widget.SearchView;
 import android.content.Context;
-import android.support.v4.view.MenuItemCompat;
 
 import com.vincentxie.book.*;
 import android.content.Intent;
