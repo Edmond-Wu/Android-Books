@@ -13,6 +13,10 @@ import android.view.Menu;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
+import android.app.SearchManager;
+import android.support.v7.widget.SearchView;
+import android.content.Context;
+import android.support.v4.view.MenuItemCompat;
 
 import com.vincentxie.book.*;
 import android.content.Intent;
@@ -21,6 +25,9 @@ import android.content.SharedPreferences;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SearchView searchView = null;
+    private SearchView.OnQueryTextListener queryTextListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,7 @@ public class MainMenu extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -73,7 +81,31 @@ public class MainMenu extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    System.out.println("onQueryTextChange " + newText);
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    //Log.i("onQueryTextSubmit", query);
+                    searchView.onActionViewCollapsed();
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -117,22 +149,17 @@ public class MainMenu extends AppCompatActivity
     public void setName(DrawerLayout drawer){
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(View view, float v) {
-
-            }
+            public void onDrawerSlide(View view, float v) {}
 
             @Override
-            public void onDrawerOpened(View view) {
-
-            }
+            public void onDrawerOpened(View view) {}
 
             @Override
-            public void onDrawerClosed(View view) {
-
-            }
+            public void onDrawerClosed(View view) {}
 
             @Override
             public void onDrawerStateChanged(int i) {
+                searchView.onActionViewCollapsed();
                 setNameUtil();
             }
         });
@@ -161,9 +188,6 @@ public class MainMenu extends AppCompatActivity
                 break;
             case R.id.nav_browse:
                 setFragment(Browse.class, "Browse");
-                break;
-            case R.id.nav_search:
-                setFragment(Search.class, "Search");
                 break;
             case R.id.nav_profile:
                 setFragment(Profile.class, "Profile");
