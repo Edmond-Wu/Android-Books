@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications_new_message"
+        android:title="@string/pref_notifications"
+        android:summary="@string/pref_noti_summary"/>
+
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked.
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="notifications_new_message"
+        android:key="notifications_new_message_vibrate"
+        android:title="Test"
+        android:summary="@string/pref_noti_chap_summary "/> -->
+
+</PreferenceScreen>
