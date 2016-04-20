@@ -21,6 +21,14 @@ public class Browse extends Fragment {
 
     }
 
+    public void sortTitles(View view) {
+        System.out.println("Test");
+    }
+
+    public void sortAuthors(View view) {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
