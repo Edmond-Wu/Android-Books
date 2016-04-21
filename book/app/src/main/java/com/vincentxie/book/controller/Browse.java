@@ -12,6 +12,9 @@ import com.vincentxie.book.model.Book;
 import android.content.Context;
 import android.widget.TextView;
 import android.widget.Spinner;
+import android.content.Intent;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.*;
@@ -24,8 +27,8 @@ import com.vincentxie.book.R;
  */
 public class Browse extends Fragment {
 
-    List<Book> books = new ArrayList<Book>();
     ListView list;
+    public static List<Book> books = new ArrayList<Book>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,18 @@ public class Browse extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.browse, container, false);
+        setUpList(view, books);
 
-        books.add(new Book("title", "author", "test", new File("")));
+        return view;
+    }
+
+    /**
+     * Sets up listview with booklist.
+     * @param view
+     * @param books Arraylist of books
+     */
+    private void setUpList(View view, List<Book> books){
+        books.add(new Book("Reincarnator", "ALLA", "test", new File("")));
         books.add(new Book("title2", "author2", "test2", new File("")));
         books.add(new Book("title", "author", "test", new File("")));
         books.add(new Book("title2", "author2", "test2", new File("")));
@@ -58,7 +71,13 @@ public class Browse extends Fragment {
         list = (ListView) view.findViewById(R.id.book_list);
         list.setAdapter(adapter);
 
-        return view;
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
+                myIntent.putExtra("index", position);
+                startActivity(myIntent);
+            }
+        });
     }
 
     private static class BookAdapter extends ArrayAdapter<Book> {
@@ -85,8 +104,10 @@ public class Browse extends Fragment {
             TextView authorView = (TextView) row.findViewById(R.id.author);
             authorView.setText(books.get(position).getAuthor());
 
+            ImageView cover = (ImageView) row.findViewById(R.id.cover);
+            cover.setImageResource(R.drawable.cover);
+
             return row;
         }
     }
-
 }
