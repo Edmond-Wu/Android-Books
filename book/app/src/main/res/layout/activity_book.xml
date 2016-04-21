@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Reincarnator"
-        android:id="@+id/textView"
+        android:id="@+id/title"
         android:layout_alignTop="@+id/book_activity_cover"
         android:layout_toEndOf="@+id/book_activity_cover" />
 
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Synopsis"
-        android:id="@+id/textView3"
+        android:id="@+id/synopsis"
         android:layout_below="@+id/ratingBar"
         android:layout_alignParentStart="true" />
 
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Once upon a time existed a God who enjoyed watching creatures fight the most. Bored, the God created a new world to entertain himself. The [Abyss]. Fight and you’ll be rewarded. Do not and you’ll perish.  The God started to fill his new world [Abyss] with the creatures he created.  The whole of humankind was sent to this brutal world 50 years ago and since then fought relentlessly. In the end only 4 have survived and threatened with extinction, they had to choose who will return to the past to save humankind from its perishment.  And so, Kang Hansoo is going back 55 years in time, to the time when he first came in this world, when he was 20.  Now, Hansoo has 5 years left before the rest of the world population is transported to this otherworld, this will also mark the time when humankind will be sent again into the new world [Abyss], to be forced to fight the other races and creatures inhabiting it…"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textView3"
+        android:id="@+id/synopsis_text"
+        android:layout_below="@+id/synopsis"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -54,8 +54,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="ALLA"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
+        android:id="@+id/author"
+        android:layout_below="@+id/title"
         android:layout_toEndOf="@+id/book_activity_cover" />
 
     <RatingBar
@@ -71,8 +71,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Bookmarks"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/textView4"
+        android:id="@+id/bookmark"
+        android:layout_below="@+id/synopsis_text"
         android:layout_alignParentStart="true" />
 
     <ToggleButton
@@ -81,14 +81,14 @@
         android:text="Subscribe"
         android:id="@+id/toggleButton"
         android:checked="false"
-        android:layout_below="@+id/textView2"
-        android:layout_alignEnd="@+id/ratingBar" />
+        android:layout_below="@+id/author"
+        android:layout_toEndOf="@+id/book_activity_cover" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/textView5"
+        android:id="@+id/bookmarks"
+        android:layout_below="@+id/bookmark"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -96,15 +96,15 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Chapters"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/listView"
+        android:id="@+id/chapter"
+        android:layout_below="@+id/bookmarks"
         android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView2"
-        android:layout_below="@+id/textView6"
+        android:id="@+id/chapters"
+        android:layout_below="@+id/chapter"
         android:layout_toStartOf="@+id/toggleButton"
         android:layout_alignParentEnd="true" />
 
