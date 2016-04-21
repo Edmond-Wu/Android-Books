@@ -1,6 +1,7 @@
 package com.vincentxie.book.model;
 
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author Edmond Wu & Vincent Xie
@@ -9,6 +10,7 @@ import java.io.Serializable;
 public class Chapter implements Serializable, Comparable<Chapter> {
 	private String chapter_name;
 	private String text;
+	private Date added;
 	
 	/**
 	 * Chapter constructor
@@ -18,6 +20,7 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	public Chapter(String c, String t) {
 		chapter_name = c;
 		text = t;
+		added = new Date();
 	}
 	
 	/**
@@ -34,6 +37,10 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	 */
 	public String getText() {
 		return text;
+	}
+
+	public Date getAdded() {
+		return added;
 	}
 
 	/**

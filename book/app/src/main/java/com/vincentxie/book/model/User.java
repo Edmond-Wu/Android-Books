@@ -1,6 +1,5 @@
 package com.vincentxie.book.model;
 
-import com.google.*;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -55,13 +54,13 @@ public class User implements Serializable {
 	 */
 	public void serialize() {
 		try {
-	        FileOutputStream fileOut = new FileOutputStream("data/" + username + ".ser");
+	        FileOutputStream fileOut = new FileOutputStream("data/users/" + username + ".ser");
 	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	        out.writeObject(this);
 	        out.close();
 	        fileOut.close();
 	    } catch(Exception e) {
-	    	System.out.println("Invalid serialization.");
+	    	System.out.println("Invalid user serialization.");
 	    }
 	}
 
@@ -72,7 +71,7 @@ public class User implements Serializable {
 		Gson gson = new Gson();
 		String json = gson.toJson(this);
 		try {
-			FileWriter writer = new FileWriter("data/" + username + ".json");
+			FileWriter writer = new FileWriter("data/users" + username + ".json");
 			writer.write(json);
 			writer.close();
 		} catch(Exception e) {
