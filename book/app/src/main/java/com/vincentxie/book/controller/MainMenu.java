@@ -18,9 +18,13 @@ import android.support.v7.widget.SearchView;
 import android.content.Context;
 
 import com.vincentxie.book.*;
+import com.vincentxie.book.model.Book;
+
 import android.content.Intent;
 import android.widget.TextView;
 import android.content.SharedPreferences;
+
+import java.util.*;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -97,7 +101,7 @@ public class MainMenu extends AppCompatActivity
                 }
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    //Log.i("onQueryTextSubmit", query);
+                    //System.out.println("Submitted " + query);
                     searchView.onActionViewCollapsed();
                     return true;
                 }
@@ -131,6 +135,25 @@ public class MainMenu extends AppCompatActivity
         for(int i = 0; i < m.size(); i++){
             m.getItem(i).setChecked(false);
         }
+    }
+
+    /**
+     * Gets a list of books based on a search query
+     * @param query String keyword
+     * @return a list of books relevant to that keyword
+     */
+    public List<Book> search(String query) {
+        List<Book> list = Browse.books;
+        List<Book> results = new ArrayList<Book>();
+        System.out.println(list.size());
+        for (Book b : list) {
+            if (b.getTitle().contains(query) || b.getAuthor().contains(query) || query.contains(b.getTitle()) || query.contains(b.getAuthor())) {
+                if (!results.contains(b)) {
+                    results.add(b);
+                }
+            }
+        }
+        return results;
     }
 
     /**

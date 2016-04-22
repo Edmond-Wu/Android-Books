@@ -69,6 +69,10 @@ public class Browse extends Fragment {
         books.add(new Book("title", "author", "test", new File("")));
         books.add(new Book("title2", "author2", "test2", new File("")));
 
+        for (Book b : books) {
+            b.serialize();
+        }
+
         BookAdapter adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, books);
         list = (ListView) view.findViewById(R.id.book_list);
         list.setAdapter(adapter);

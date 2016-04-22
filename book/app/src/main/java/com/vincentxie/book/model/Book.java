@@ -83,4 +83,19 @@ public class Book implements Serializable {
 	public String toString(){
 		return title + " - " + author;
 	}
+
+	/**
+	 * Serializes the book data
+	 */
+	public void serialize() {
+		try {
+			FileOutputStream fileOut = new FileOutputStream("data/books/" + title + ".ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this);
+			out.close();
+			fileOut.close();
+		} catch(Exception e) {
+			System.out.println("Invalid serialization.");
+		}
+	}
 }

@@ -1,7 +1,5 @@
 package com.vincentxie.book.model;
 
-import org.json.JSONObject;
-
 import java.io.*;
 import java.util.*;
 
@@ -54,7 +52,7 @@ public class User implements Serializable {
 	 */
 	public void serialize() {
 		try {
-	        FileOutputStream fileOut = new FileOutputStream("data/" + username + ".ser");
+	        FileOutputStream fileOut = new FileOutputStream("data/users/" + username + ".ser");
 	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	        out.writeObject(this);
 	        out.close();
