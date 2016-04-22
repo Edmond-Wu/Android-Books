@@ -20,7 +20,9 @@
         android:contentDescription="Cover"
         android:src="@drawable/ic_menu_slideshow"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toStartOf="@+id/toggleButton"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginRight="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,7 +39,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Synopsis"
         android:id="@+id/synopsis"
-        android:layout_below="@+id/ratingBar"
+        android:layout_below="@+id/genres_text"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -82,7 +84,7 @@
         android:id="@+id/toggleButton"
         android:checked="false"
         android:layout_below="@+id/author"
-        android:layout_toEndOf="@+id/book_activity_cover" />
+        android:layout_toEndOf="@+id/genres_text" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -107,6 +109,24 @@
         android:layout_below="@+id/chapter"
         android:layout_toStartOf="@+id/toggleButton"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Genres"
+        android:id="@+id/genres"
+        android:layout_below="@+id/ratingBar"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Action, Adventure"
+        android:id="@+id/genres_text"
+        android:layout_below="@+id/genres"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
 </ScrollView>

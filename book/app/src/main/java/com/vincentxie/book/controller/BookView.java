@@ -1,12 +1,14 @@
 package com.vincentxie.book.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,9 +16,12 @@ import android.widget.TextView;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
+import java.io.File;
 import java.util.List;
 import com.vincentxie.book.model.Chapter;
 import android.widget.ListView;
+import android.graphics.drawable.Drawable;
+import java.io.InputStream;
 
 public class BookView extends AppCompatActivity {
 
@@ -25,6 +30,7 @@ public class BookView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
         Book book = Browse.books.get(getIntent().getIntExtra("index", 0));
+        Browse.book = book;
         setUpScreen(book);
     }
 
@@ -44,18 +50,54 @@ public class BookView extends AppCompatActivity {
     }
 
     /**
+     * Adds image from assets folder to imageview
+     * @param imageView image view
+     * @param name name of file
+     */
+    public void addImageFromAssets(ImageView imageView, String name){
+        try
+        {
+            InputStream is = getAssets().open(name);
+            Drawable d = Drawable.createFromStream(is, null);
+            imageView.setImageDrawable(d);
+            is.close();
+        }
+        catch(Exception e)
+        {
+            return;
+        }
+    }
+
+    /**
      * Sets up screen with book information.
      * @param book
      */
     public void setUpScreen(Book book){
         ImageView cover = (ImageView)findViewById(R.id.book_activity_cover);
-        cover.setImageResource(R.drawable.cover);
-
-        ListView myListView = (ListView) findViewById(R.id.chapters);
-        ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
-        myListView.setAdapter(adapter);
-
+        addImageFromAssets(cover, "cover.jpg");
+        setUpChapters(book);
         setTitle(book.getTitle());
+    }
+
+    /**
+     * Sets up listview with chapters.
+     * @param book
+     */
+    private void setUpChapters(Book book){
+
+        book.serialize();
+
+        ListView chapters = (ListView) findViewById(R.id.chapters);
+        ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
+        chapters.setAdapter(adapter);
+
+        chapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(getApplicationContext(), Reader.class);
+                myIntent.putExtra("index", position);
+                startActivity(myIntent);
+            }
+        });
     }
 
     private static class ChapterAdapter extends ArrayAdapter<Chapter> {

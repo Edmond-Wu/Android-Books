@@ -1,5 +1,6 @@
 package com.vincentxie.book.controller;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 
 import com.vincentxie.book.R;
@@ -30,6 +32,7 @@ public class Browse extends Fragment {
 
     ListView list;
     public static List<Book> books = new ArrayList<Book>();
+    public static Book book;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,8 +114,14 @@ public class Browse extends Fragment {
             authorView.setText(books.get(position).getAuthor());
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
-            cover.setImageResource(R.drawable.cover);
-
+            try
+            {
+                InputStream is = context.getAssets().open("cover.jpg");
+                Drawable d = Drawable.createFromStream(is, null);
+                cover.setImageDrawable(d);
+                is.close();
+            }
+            catch(Exception e){}
             return row;
         }
     }

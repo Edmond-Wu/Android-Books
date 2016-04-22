@@ -28,7 +28,13 @@
             android:parentActivityName=".controller.MainMenu" />
         <activity
             android:name=".controller.BookView"
-            android:parentActivityName=".controller.MainMenu"></activity>
+            android:parentActivityName=".controller.MainMenu" />
+        <activity
+            android:name=".controller.Reader"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/FullscreenTheme"
+            android:parentActivityName=".controller.BookView"></activity>
     </application>
 
 </manifest>

@@ -35,4 +35,8 @@
 
     <string name="pref_noti_summary">Receive updates when new chapters of subscribed books are translated. </string>
 
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
