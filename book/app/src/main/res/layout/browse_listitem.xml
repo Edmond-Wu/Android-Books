@@ -22,7 +22,7 @@
         android:layout_toRightOf="@id/cover"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="Description"
+        android:text=""
         android:textSize="12sp" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/cover"
         android:gravity="center_vertical"
-        android:text="Example application"
+        android:text=""
         android:textSize="16sp" />
 
 </RelativeLayout>

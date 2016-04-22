@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.*;
 
 import com.vincentxie.book.R;
+import com.vincentxie.book.model.Chapter;
 
 
 /**
@@ -55,6 +56,7 @@ public class Browse extends Fragment {
      */
     private void setUpList(View view, List<Book> books){
         books.add(new Book("Reincarnator", "ALLA", "test", new File("")));
+        books.get(0).getChapters().add(new Chapter("Chapter 1", "Test Chapter"));
         books.add(new Book("title2", "author2", "test2", new File("")));
         books.add(new Book("title", "author", "test", new File("")));
         books.add(new Book("title2", "author2", "test2", new File("")));
