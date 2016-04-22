@@ -11,8 +11,8 @@ public class Book implements Serializable {
 	private String title;
 	private String author;
 	private String genre;
-	private ArrayList<Chapter> chapters;
-	private ArrayList<Review> reviews;
+	private List<Chapter> chapters;
+	private List<Review> reviews;
 	private File cover;
 	
 	/**
@@ -40,7 +40,7 @@ public class Book implements Serializable {
 	 * Gets the book's list of chapters
 	 * @return ArrayList of chapters
 	 */
-	public ArrayList<Chapter> getChapters() {
+	public List<Chapter> getChapters() {
 		return chapters;
 	}
 	
@@ -48,7 +48,7 @@ public class Book implements Serializable {
 	 * Gtes the book's reviews
 	 * @return ArrayList of reviews
 	 */
-	public ArrayList<Review> getReviews() {
+	public List<Review> getReviews() {
 		return reviews;
 	}
 
