@@ -25,6 +25,8 @@ import java.io.InputStream;
 
 public class BookView extends AppCompatActivity {
 
+    private static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,7 @@ public class BookView extends AppCompatActivity {
         Book book = Browse.books.get(getIntent().getIntExtra("index", 0));
         Browse.book = book;
         setUpScreen(book);
+        context = getApplicationContext();
     }
 
     /**
@@ -85,7 +88,12 @@ public class BookView extends AppCompatActivity {
      */
     private void setUpChapters(Book book){
 
-        book.serialize();
+        if (context != null) {
+            book.serialize(context);
+        }
+        else {
+            System.out.println("Null bookview context");
+        }
 
         ListView chapters = (ListView) findViewById(R.id.chapters);
         ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());

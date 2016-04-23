@@ -36,6 +36,7 @@ public class Browse extends Fragment {
     public static Book book;
     private BookAdapter adapter;
     private String currentSort;
+    private static Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class Browse extends Fragment {
 
         View view = inflater.inflate(R.layout.browse, container, false);
         setUpList(view, books);
-
+        context = getActivity();
         return view;
     }
 
@@ -237,7 +238,12 @@ public class Browse extends Fragment {
         books.add(new Book("title2", "author2", "test2", new File("")));
 
         for (Book b : books) {
-            b.serialize();
+            if (context != null) {
+                b.serialize(context);
+            }
+            else {
+                System.out.println("Null browse context");
+            }
         }
 
         currentSort = "title";

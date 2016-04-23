@@ -1,5 +1,7 @@
 package com.vincentxie.book.model;
 
+import android.content.Context;
+
 import java.io.*;
 import java.util.*;
 
@@ -87,15 +89,22 @@ public class Book implements Serializable {
 	/**
 	 * Serializes the book data
 	 */
-	public void serialize() {
+	public void serialize(Context context) {
+		FileOutputStream fileOut;
 		try {
-			FileOutputStream fileOut = new FileOutputStream("data/books/" + title + ".ser");
+			String path = context.getFilesDir() + "/data/books/";
+			File file = new File(path);
+			if (!file.isDirectory()) {
+				file.mkdirs();
+			}
+			path += (title + ".ser");
+			fileOut = new FileOutputStream(path, true);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
 		} catch(Exception e) {
-			System.out.println("Invalid serialization.");
+			System.out.println("Invalid book serialization");
 		}
 	}
 }
