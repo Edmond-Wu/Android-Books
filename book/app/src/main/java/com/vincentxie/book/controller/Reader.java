@@ -1,6 +1,9 @@
 package com.vincentxie.book.controller;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -97,7 +100,6 @@ public class Reader extends AppCompatActivity {
         mVisible = true;
         mContentView = findViewById(R.id.fullscreen_content);
 
-
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,9 +108,26 @@ public class Reader extends AppCompatActivity {
             }
         });
 
+        setSettings();
+
         Chapter chapter = Browse.book.getChapters().get(getIntent().getIntExtra("index", 0));
         setUpChapter(chapter);
     }
+
+    /**
+     * Set settings.
+     */
+    public void setSettings(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(preferences.getBoolean("nightmode", false) == true){
+            if(mContentView instanceof TextView) {
+                ((TextView) mContentView).setTextColor(Color.WHITE);
+                View view = findViewById(R.id.fullpage);
+                view.setBackgroundColor(Color.BLACK);
+            }
+        }
+    }
+
 
     /**
      * Sets up data for the page.
