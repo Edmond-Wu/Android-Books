@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Chapter;
+
+import org.w3c.dom.Text;
+
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -52,7 +56,6 @@ public class Reader extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -61,7 +64,6 @@ public class Reader extends AppCompatActivity {
             if (actionBar != null) {
                 actionBar.show();
             }
-            mControlsView.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
@@ -93,7 +95,6 @@ public class Reader extends AppCompatActivity {
         setContentView(R.layout.reader);
 
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
 
@@ -106,9 +107,21 @@ public class Reader extends AppCompatActivity {
         });
 
         Chapter chapter = Browse.book.getChapters().get(getIntent().getIntExtra("index", 0));
+        setUpChapter(chapter);
+    }
 
+    /**
+     * Sets up data for the page.
+     * @param chapter
+     */
+    public void setUpChapter(Chapter chapter){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(chapter.getChapterTitle());
+
+        if(mContentView instanceof TextView) {
+            ((TextView) mContentView).setText(chapter.getText());
+        }
+
     }
 
     @Override
@@ -118,7 +131,7 @@ public class Reader extends AppCompatActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        delayedHide(600);
     }
 
     private void toggle() {
@@ -135,7 +148,6 @@ public class Reader extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
