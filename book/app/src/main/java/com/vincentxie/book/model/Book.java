@@ -92,19 +92,15 @@ public class Book implements Serializable {
 	public void serialize(Context context) {
 		FileOutputStream fileOut;
 		try {
-			String path = context.getFilesDir() + "/data/books/";
-			File file = new File(path);
-			if (!file.isDirectory()) {
-				file.mkdirs();
-			}
-			path += (title + ".ser");
-			fileOut = new FileOutputStream(path, true);
+			String file_name = title + ".bin";
+			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
 		} catch(Exception e) {
 			System.out.println("Invalid book serialization");
+			e.printStackTrace();
 		}
 	}
 }

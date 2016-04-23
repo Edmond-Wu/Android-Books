@@ -55,19 +55,15 @@ public class User implements Serializable {
 	public void serialize(Context context) {
 		FileOutputStream fileOut;
 		try {
-			String path = context.getFilesDir() + "/data/users/";
-			File file = new File(path);
-			if (!file.isDirectory()) {
-				file.mkdirs();
-			}
-			path += (username + ".ser");
-			fileOut = new FileOutputStream(path, true);
+			String file_name = username + ".ser";
+			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
 		} catch(Exception e) {
 			System.out.println("Invalid user serialization");
+			e.printStackTrace();
 		}
 	}
 }
