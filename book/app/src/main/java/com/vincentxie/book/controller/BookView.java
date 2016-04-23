@@ -88,16 +88,16 @@ public class BookView extends AppCompatActivity {
      */
     private void setUpChapters(Book book){
 
+        ListView chapters = (ListView) findViewById(R.id.chapters);
+        ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
+        chapters.setAdapter(adapter);
+
         if (context != null) {
             book.serialize(context);
         }
         else {
             System.out.println("Null bookview context");
         }
-
-        ListView chapters = (ListView) findViewById(R.id.chapters);
-        ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
-        chapters.setAdapter(adapter);
 
         chapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
