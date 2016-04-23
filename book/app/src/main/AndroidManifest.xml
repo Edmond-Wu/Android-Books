@@ -18,7 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <uses-sdk xmlns:tools="http://schemas.android.com/tools"
             tools:overrideLibrary="android.support.v14.preference" />
 

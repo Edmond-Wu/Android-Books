@@ -1,5 +1,6 @@
 package com.vincentxie.book.controller;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +19,7 @@ import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 import com.vincentxie.book.R;
@@ -36,7 +36,7 @@ public class Browse extends Fragment {
     public static Book book;
     private BookAdapter adapter;
     private String currentSort;
-    private static Context context;
+    private static Context context1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +52,13 @@ public class Browse extends Fragment {
 
         View view = inflater.inflate(R.layout.browse, container, false);
         setUpList(view, books);
-        context = getActivity();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        context1 = context;
     }
 
     /**
@@ -238,8 +243,8 @@ public class Browse extends Fragment {
         books.add(new Book("title2", "author2", "test2", new File("")));
 
         for (Book b : books) {
-            if (context != null) {
-                b.serialize(context);
+            if (context1 != null) {
+                b.serialize(context1);
             }
             else {
                 System.out.println("Null browse context");
