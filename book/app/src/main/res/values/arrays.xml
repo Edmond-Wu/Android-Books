@@ -3,8 +3,8 @@
 
     <string-array name="pref_textsize_values">
         <item>14</item>
-        <item>24</item>
-        <item>36</item>
+        <item>20</item>
+        <item>28</item>
     </string-array>
 
     <string-array name="pref_textsize_entries">

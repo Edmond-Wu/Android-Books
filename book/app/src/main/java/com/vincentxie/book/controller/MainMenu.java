@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import java.util.*;
-import android.view.inputmethod.EditorInfo;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,6 +53,8 @@ public class MainMenu extends AppCompatActivity
 
         if (savedInstanceState == null) {
             setFragment(Home.class, "Home");
+        } else {
+            deselectAll();
         }
     }
 
@@ -128,13 +129,17 @@ public class MainMenu extends AppCompatActivity
         String[] queries = query.split(" ");
         List<Book> list = Browse.books;
         Search.results = new ArrayList<Book>();
-        for (Book b : list) {
-            String title = b.getTitle().toLowerCase();
-            String author = b.getAuthor().toLowerCase();
-            for(String q: queries) {
-                if (title.contains(q) || author.contains(q)) {
-                    Search.results.add(b);
-                    break;
+        for(Book b: list){
+            Search.results.add(b);
+        }
+        List<Book> results = Search.results;
+        for(String q: queries){
+            for(int i = 0; i < results.size(); i++){
+                String title = results.get(i).getTitle().toLowerCase();
+                String author = results.get(i).getAuthor().toLowerCase();
+                if(!title.contains(q) && !author.contains(q)){
+                    results.remove(i);
+                    i--;
                 }
             }
         }
