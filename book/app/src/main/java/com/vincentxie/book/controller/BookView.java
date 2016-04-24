@@ -33,8 +33,8 @@ public class BookView extends AppCompatActivity {
         setContentView(R.layout.activity_book);
         Book book = Browse.books.get(getIntent().getIntExtra("index", 0));
         Browse.book = book;
+        context = BookView.this;
         setUpScreen(book);
-        context = getApplicationContext();
     }
 
     /**
@@ -92,12 +92,7 @@ public class BookView extends AppCompatActivity {
         ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
         chapters.setAdapter(adapter);
 
-        if (context != null) {
-            book.serialize(context);
-        }
-        else {
-            System.out.println("Null bookview context");
-        }
+        book.serialize(context);
 
         chapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

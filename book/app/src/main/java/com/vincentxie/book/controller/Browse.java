@@ -243,12 +243,7 @@ public class Browse extends Fragment {
         books.add(new Book("title2", "author2", "test2", new File("")));
 
         for (Book b : books) {
-            if (context1 != null) {
-                b.serialize(context1);
-            }
-            else {
-                System.out.println("Null browse context");
-            }
+            b.serialize(context1);
         }
 
         currentSort = "title";
