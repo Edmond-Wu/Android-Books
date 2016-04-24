@@ -1,5 +1,7 @@
 package com.vincentxie.book.model;
 
+import android.content.Context;
+
 import java.io.*;
 import java.util.*;
 
@@ -50,15 +52,18 @@ public class User implements Serializable {
 	/**
 	 * Serializes the user data
 	 */
-	public void serialize() {
+	public void serialize(Context context) {
+		FileOutputStream fileOut;
 		try {
-	        FileOutputStream fileOut = new FileOutputStream("data/users/" + username + ".ser");
-	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	        out.writeObject(this);
-	        out.close();
-	        fileOut.close();
-	    } catch(Exception e) {
-	    	System.out.println("Invalid serialization.");
-	    }
+			String file_name = username + ".ser";
+			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this);
+			out.close();
+			fileOut.close();
+		} catch(Exception e) {
+			System.out.println("Invalid user serialization");
+			e.printStackTrace();
+		}
 	}
 }
