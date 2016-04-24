@@ -246,6 +246,19 @@ public class Browse extends Fragment {
             b.serialize(context1);
         }
 
+        File folder = context1.getFilesDir();
+        File[] directoryListing = folder.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String file_name = child.getName();
+                if (file_name.contains(".bin")) {
+                    System.out.println(file_name);
+                }
+            }
+        } else {
+            System.out.println("Empty or invalid directory");
+        }
+
         currentSort = "title";
         sortByTitle();
         adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, books);
