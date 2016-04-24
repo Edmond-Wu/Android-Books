@@ -126,6 +126,10 @@ public class Reader extends AppCompatActivity {
                 view.setBackgroundColor(Color.BLACK);
             }
         }
+        int textsize = Integer.parseInt(preferences.getString("textsize", "12"));
+        if(mContentView instanceof TextView) {
+            ((TextView) mContentView).setTextSize(textsize);
+        }
     }
 
 
