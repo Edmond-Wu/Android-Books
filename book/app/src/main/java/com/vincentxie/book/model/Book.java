@@ -98,7 +98,6 @@ public class Book implements Serializable {
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
-			System.out.println("Book serialized.");
 		} catch(Exception e) {
 			System.out.println("Invalid book serialization");
 			e.printStackTrace();
