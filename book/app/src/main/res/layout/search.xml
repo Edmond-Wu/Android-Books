@@ -9,12 +9,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/toolbar_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".controller.Home" >
+    tools:context=".controller.Search"
+    android:id="@+id/search_screen" >
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/updates"
+        android:id="@+id/search_results"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

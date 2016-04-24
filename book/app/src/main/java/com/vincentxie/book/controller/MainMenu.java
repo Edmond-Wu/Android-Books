@@ -1,5 +1,7 @@
 package com.vincentxie.book.controller;
 
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -8,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.support.v4.app.Fragment;
@@ -25,12 +28,12 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import java.util.*;
+import android.view.inputmethod.EditorInfo;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,9 @@ public class MainMenu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setFragment(Home.class, "Home");
+        if (savedInstanceState == null) {
+            setFragment(Home.class, "Home");
+        }
     }
 
     /**
@@ -65,7 +70,7 @@ public class MainMenu extends AppCompatActivity
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content, fragment, "fragment").commit();
         setTitle(title);
     }
 
@@ -86,29 +91,53 @@ public class MainMenu extends AppCompatActivity
         getMenuInflater().inflate(R.menu.menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
-
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
 
-            queryTextListener = new SearchView.OnQueryTextListener() {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    System.out.println("onQueryTextChange " + newText);
+                    if(newText.length() > 0) {
+                        setFragment(Search.class, "Results");
+                        deselectAll();
+                        search(newText);
+                    }
                     return true;
                 }
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    //System.out.println("Submitted " + query);
+                    setFragment(Search.class, "Results for " + "'" + query + "'");
                     searchView.onActionViewCollapsed();
                     return true;
                 }
-            };
-            searchView.setOnQueryTextListener(queryTextListener);
+            });
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Gets a list of books based on a search query
+     * @param query String keyword
+     * @return a list of books relevant to that keyword
+     */
+    public void search(String query) {
+        query = query.toLowerCase();
+        String[] queries = query.split(" ");
+        List<Book> list = Browse.books;
+        Search.results = new ArrayList<Book>();
+        for (Book b : list) {
+            String title = b.getTitle().toLowerCase();
+            String author = b.getAuthor().toLowerCase();
+            for(String q: queries) {
+                if (title.contains(q) || author.contains(q)) {
+                    Search.results.add(b);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -131,29 +160,10 @@ public class MainMenu extends AppCompatActivity
      */
     public void deselectSubmenu(){
         NavigationView menu = (NavigationView) findViewById(R.id.nav_view);
-        Menu m = menu.getMenu().getItem(4).getSubMenu();
+        Menu m = menu.getMenu().getItem(3).getSubMenu();
         for(int i = 0; i < m.size(); i++){
             m.getItem(i).setChecked(false);
         }
-    }
-
-    /**
-     * Gets a list of books based on a search query
-     * @param query String keyword
-     * @return a list of books relevant to that keyword
-     */
-    public List<Book> search(String query) {
-        List<Book> list = Browse.books;
-        List<Book> results = new ArrayList<Book>();
-        System.out.println(list.size());
-        for (Book b : list) {
-            if (b.getTitle().contains(query) || b.getAuthor().contains(query) || query.contains(b.getTitle()) || query.contains(b.getAuthor())) {
-                if (!results.contains(b)) {
-                    results.add(b);
-                }
-            }
-        }
-        return results;
     }
 
     /**
@@ -200,7 +210,6 @@ public class MainMenu extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
         switch (item.getItemId()){
             case R.id.nav_home:
                 setFragment(Home.class, "Home");

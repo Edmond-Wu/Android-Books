@@ -271,21 +271,23 @@ public class Browse extends Fragment {
 
         Context context;
         List<Book> books;
+        int rowID;
 
         private static class ViewHolder {
             private TextView itemView;
         }
 
-        public BookAdapter(Context context, int textViewResourceId, List<Book> items) {
+        public BookAdapter(Context context, int rowId, List<Book> items) {
             super(context, -1, items);
             this.books = items;
             this.context = context;
+            this.rowID = rowId;
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = inflater.inflate(R.layout.browse_listitem, parent, false);
+            View row = inflater.inflate(rowID, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
             titleView.setText(books.get(position).getTitle());
             TextView authorView = (TextView) row.findViewById(R.id.author);
