@@ -14,5 +14,6 @@
     <!-- Reader margins -->
     <dimen name="reader_margin">15dp</dimen>
     <dimen name="scroll_margin">10dp</dimen>
+    <dimen name="scroll_size">4dp</dimen>
 
 </resources>

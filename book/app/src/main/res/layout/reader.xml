@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/scroll_margin"
         android:layout_marginTop="@dimen/scroll_margin"
+        android:scrollbarThumbVertical="@color/lightBlue"
+        android:scrollbarSize="@dimen/scroll_size"
         android:id="@+id/reader_scroll" >
         <TextView
             android:id="@+id/fullscreen_content"

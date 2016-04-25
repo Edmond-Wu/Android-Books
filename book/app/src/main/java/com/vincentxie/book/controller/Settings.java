@@ -16,6 +16,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.EditTextPreference;
 import android.view.MenuItem;
+import android.preference.Preference.OnPreferenceChangeListener;
 
 import com.vincentxie.book.R;
 
@@ -164,6 +165,21 @@ public class Settings extends AppCompatPreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
+
+            ListPreference sizePref = (ListPreference) findPreference("textsize");
+            sizePref.setSummary(sizePref.getEntry());
+
+            sizePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    String size = (String) newValue;
+                    if (preference.getKey().equals("textsize")) {
+                        ListPreference sizePref = (ListPreference) preference;
+                        sizePref.setSummary(sizePref.getEntries()[sizePref.findIndexOfValue(size)]);
+                    }
+                    return true;
+                }
+            });
+
             setHasOptionsMenu(true);
         }
 

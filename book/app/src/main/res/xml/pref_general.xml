@@ -15,6 +15,7 @@
         android:entries="@array/pref_textsize_entries"
         android:entryValues="@array/pref_textsize_values"
         android:summary="@string/textsize_description"
+        android:defaultValue="20"
         />
     </PreferenceCategory>
 
