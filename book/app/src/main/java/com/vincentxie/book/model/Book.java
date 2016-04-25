@@ -14,7 +14,8 @@ public class Book implements Serializable {
 	private String author;
 	private String genre;
 	private List<Chapter> chapters;
-	private List<Review> reviews;
+	//private List<Review> reviews;
+	private Review review;
 	private File cover;
 	
 	/**
@@ -24,7 +25,7 @@ public class Book implements Serializable {
 	public Book(String t, String a, String g, File c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
-		reviews = new ArrayList<Review>();
+		//reviews = new ArrayList<Review>();
 		author = a;
 		genre = g;
 		cover = c;
@@ -50,9 +51,11 @@ public class Book implements Serializable {
 	 * Gtes the book's reviews
 	 * @return ArrayList of reviews
 	 */
+	/*
 	public List<Review> getReviews() {
 		return reviews;
 	}
+	*/
 
 	/**
 	 * Returns the book's author
@@ -79,6 +82,14 @@ public class Book implements Serializable {
 	}
 
 	/**
+	 * Returns the book's solo review
+	 * @return review
+     */
+	public Review getReview() {
+		return review;
+	}
+
+	/**
 	 * Gets string representation of book.
 	 * @return
      */
@@ -102,5 +113,13 @@ public class Book implements Serializable {
 			System.out.println("Invalid book serialization");
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Sets the book's review
+	 * @param rev a review
+     */
+	public void setReview(Review rev) {
+		review = rev;
 	}
 }

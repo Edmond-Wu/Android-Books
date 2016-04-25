@@ -122,6 +122,27 @@ public class Browse extends Fragment {
     }
 
     /**
+     * Deserializes book info from a file
+     * @param file_name name of the file
+     * @param context Context
+     * @return a Book object
+     */
+    public Book deserialize(String file_name, Context context) {
+        Book book = null;
+        FileInputStream fileIn;
+        try {
+            fileIn = context.openFileInput(file_name);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            book = (Book) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return book;
+    }
+
+    /**
      * Sets up listview with booklist.
      * @param view
      * @param books Arraylist of books
@@ -251,7 +272,9 @@ public class Browse extends Fragment {
             for (File child : directoryListing) {
                 String file_name = child.getName();
                 if (file_name.contains(".bin")) {
-                    System.out.println(file_name);
+                    Book test = deserialize(file_name, context1);
+                    System.out.println(test.getTitle());
+                    System.out.println(test.getAuthor());
                 }
             }
         } else {

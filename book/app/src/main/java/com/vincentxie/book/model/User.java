@@ -13,6 +13,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private HashMap<String, Book> subscribed_books;
+	private List<Bookmark> bookmarks;
 	
 	/**
 	 * User constructor
@@ -23,6 +24,7 @@ public class User implements Serializable {
 		username = u.toLowerCase();
 		password = p;
 		subscribed_books = new HashMap<String, Book>();
+		bookmarks = new ArrayList<Bookmark>();
 	}
 	
 	/**
@@ -65,5 +67,13 @@ public class User implements Serializable {
 			System.out.println("Invalid user serialization");
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Gets the user's bookmark list
+	 * @return bookmark list
+     */
+	public List<Bookmark> getBookmarks() {
+		return bookmarks;
 	}
 }
