@@ -14,7 +14,7 @@
         android:src="@drawable/ic_menu_slideshow" />
 
     <TextView
-        android:id="@+id/author"
+        android:id="@+id/description"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"

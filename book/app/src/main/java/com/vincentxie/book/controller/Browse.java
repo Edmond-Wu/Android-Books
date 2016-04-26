@@ -251,8 +251,15 @@ public class Browse extends Fragment {
                 "“Take care. We leave it up to you.”\n" +
                 "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.");
         books.get(0).getChapters().add(chapter);
-        MainMenu.user.getUpdates().addFirst(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().addFirst(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
         books.add(new Book("title2", "author2", "test2", new File("")));
         books.add(new Book("title", "author", "test", new File("")));
         books.add(new Book("title2", "author5", "test2", new File("")));
@@ -323,7 +330,7 @@ public class Browse extends Fragment {
             View row = inflater.inflate(rowID, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
             titleView.setText(books.get(position).getTitle());
-            TextView authorView = (TextView) row.findViewById(R.id.author);
+            TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);

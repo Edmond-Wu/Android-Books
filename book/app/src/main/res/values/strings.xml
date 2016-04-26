@@ -38,5 +38,7 @@
     <string name="title_activity_fullscreen">Reader</string>
     <string name="nightmode_description">Sets a dark background and light text for the reader.</string>
     <string name="textsize_description">Set text size for the reader.</string>
+    <string name="loading_more_updates">Loading more updates...</string>
+    <string name="no_updates">Subscribe to a book for updates.</string>
 
 </resources>
