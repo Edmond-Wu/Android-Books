@@ -9,7 +9,11 @@ import java.io.Serializable;
 public class Review implements Serializable {
 	private int rating;
 	private String review;
-	
+
+	public Review() {
+
+	}
+
 	/**
 	 * Review constructor
 	 * @param star number rating (1 - 5)

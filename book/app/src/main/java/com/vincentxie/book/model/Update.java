@@ -9,6 +9,10 @@ public class Update {
     private String desc;
     private Book book;
 
+    public Update() {
+
+    }
+
     public Update(Book book, String update, String description){
         this.book = book;
         this.update = update;

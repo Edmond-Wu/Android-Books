@@ -26,4 +26,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile files('libs/jackson-core-2.7.3.jar')
+    compile files('libs/jackson-annotations-2.7.3.jar')
+    compile files('libs/jackson-databind-2.7.3.jar')
 }

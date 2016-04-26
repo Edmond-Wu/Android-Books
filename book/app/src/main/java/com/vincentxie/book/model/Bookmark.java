@@ -9,6 +9,10 @@ public class Bookmark implements Serializable {
     private double scroll;
     private Chapter chapter;
 
+    public Bookmark() {
+
+    }
+
     public Bookmark(double scr, Chapter chap) {
         scroll = scr;
         chapter = chap;

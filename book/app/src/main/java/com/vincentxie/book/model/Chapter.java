@@ -8,17 +8,21 @@ import java.util.*;
  */
 
 public class Chapter implements Serializable, Comparable<Chapter> {
-	private String chapter_name;
+	private String title;
 	private String text;
 	private Date created;
-	
+
+	public Chapter() {
+
+	}
+
 	/**
 	 * Chapter constructor
 	 * @param c chapter title
 	 * @param t chapter text body
 	 */
 	public Chapter(String c, String t) {
-		chapter_name = c;
+		title = c;
 		text = t;
 		created = new Date();
 	}
@@ -27,8 +31,8 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	 * Gets the chapter title
 	 * @return chapter title string
 	 */
-	public String getChapterTitle() {
-		return chapter_name;
+	public String getTitle() {
+		return title;
 	}
 	
 	/**
@@ -40,11 +44,19 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	}
 
 	/**
+	 * Gets the date created
+	 * @return created date
+     */
+	public Date getCreated() {
+		return created;
+	}
+
+	/**
 	 * Compares chapters
 	 * @param c another chapter
 	 * @return alphabetical comparsion by title
      */
 	public int compareTo(Chapter c) {
-		return chapter_name.compareTo(c.getChapterTitle());
+		return title.compareTo(c.getTitle());
 	}
 }
