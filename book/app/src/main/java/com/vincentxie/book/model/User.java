@@ -14,6 +14,7 @@ public class User implements Serializable {
 	private String password;
 	private HashMap<String, Book> subscribed_books;
 	private List<Bookmark> bookmarks;
+	private List<Update> updates;
 	
 	/**
 	 * User constructor
@@ -25,6 +26,7 @@ public class User implements Serializable {
 		password = p;
 		subscribed_books = new HashMap<String, Book>();
 		bookmarks = new ArrayList<Bookmark>();
+		updates = new ArrayList<Update>();
 	}
 	
 	/**
@@ -49,6 +51,14 @@ public class User implements Serializable {
 	 */
 	public HashMap<String, Book> getSubscriptions() {
 		return subscribed_books;
+	}
+
+	/**
+	 * Get list of updates
+	 * @return updates
+     */
+	public List<Update> getUpdates(){
+		return updates;
 	}
 
 	/**

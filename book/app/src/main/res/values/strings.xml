@@ -23,7 +23,7 @@
     <string name="pref_readability">Readability</string>
     <string name="pref_nightmode">Night Mode</string>
     <string name="pref_other">Other</string>
-    <string name="pref_textsize">Text size</string>
+    <string name="pref_textsize">Reader Text size</string>
 
     <string name="pref_title_display_name">Display name</string>
     <string name="pref_default_display_name"></string>
@@ -35,7 +35,7 @@
 
     <string name="pref_noti_summary">Receive updates when new chapters of subscribed books are translated. </string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="title_activity_fullscreen">Reader</string>
     <string name="nightmode_description">Sets a dark background and light text for the reader.</string>
     <string name="textsize_description">Set text size for the reader.</string>
 

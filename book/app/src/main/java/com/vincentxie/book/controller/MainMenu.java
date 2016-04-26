@@ -26,6 +26,7 @@ import com.vincentxie.book.model.Book;
 import android.content.Intent;
 import android.widget.TextView;
 import android.content.SharedPreferences;
+import com.vincentxie.book.model.User;
 
 import java.util.*;
 
@@ -33,6 +34,7 @@ public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SearchView searchView = null;
+    public static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class MainMenu extends AppCompatActivity
         } else {
             deselectAll();
         }
+
+        user = new User("","");
     }
 
     /**

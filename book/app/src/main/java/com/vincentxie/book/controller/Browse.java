@@ -24,6 +24,8 @@ import java.util.*;
 
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Chapter;
+import com.vincentxie.book.model.Update;
+
 import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
@@ -250,6 +252,7 @@ public class Browse extends Fragment {
                 "“Take care. We leave it up to you.”\n" +
                 "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.");
         books.get(0).getChapters().add(chapter);
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         books.add(new Book("title2", "author2", "test2", new File("")));
         books.add(new Book("title", "author", "test", new File("")));
         books.add(new Book("title2", "author5", "test2", new File("")));
