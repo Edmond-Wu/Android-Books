@@ -1,12 +1,12 @@
 package com.vincentxie.book.model;
 
-import java.util.Date;
-import java.util.Calendar;
+import java.util.*;
+import java.io.*;
 
 /**
  * Created by vincexie on 4/25/16.
  */
-public class Update {
+public class Update implements Serializable {
 
     private String update;
     private String desc;
@@ -17,7 +17,7 @@ public class Update {
         this.book = book;
         this.update = update;
         this.desc = description;
-        time = Calendar.getInstance().getTime();
+        this.time = Calendar.getInstance().getTime();
     }
 
     public Update(Book book, String update, String description, Date time){

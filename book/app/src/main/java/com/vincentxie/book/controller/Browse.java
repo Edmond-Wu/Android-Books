@@ -1,5 +1,9 @@
 package com.vincentxie.book.controller;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -160,6 +164,10 @@ public class Browse extends Fragment {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public void setUpDB() {
+
     }
 
     /**

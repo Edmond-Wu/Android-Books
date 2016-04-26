@@ -128,5 +128,4 @@ public class BookView extends AppCompatActivity {
             return row;
         }
     }
-
 }
