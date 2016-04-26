@@ -130,7 +130,7 @@ public class Book implements Serializable {
      */
 	public void toJson(Context context) {
 		ObjectMapper mapper = new ObjectMapper();
-		String file_name = "Book-" + title + ".json";
+		String file_name = "book-" + title + ".json";
 		try {
 			mapper.writeValue(context.openFileOutput(file_name, Context.MODE_PRIVATE), this);
 		} catch (Exception e) {

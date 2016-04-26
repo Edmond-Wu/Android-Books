@@ -302,7 +302,7 @@ public class Browse extends Fragment {
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String file_name = child.getName();
-                if (file_name.contains(".json")) {
+                if (file_name.contains("book-")) {
                     Book b = jsonDeserialize(file_name, context1);
                     System.out.println(b.getTitle());
                 }
