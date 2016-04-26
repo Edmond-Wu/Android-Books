@@ -166,10 +166,6 @@ public class Browse extends Fragment {
         return b;
     }
 
-    public void setUpDB() {
-
-    }
-
     /**
      * Sets up listview with booklist.
      * @param view
