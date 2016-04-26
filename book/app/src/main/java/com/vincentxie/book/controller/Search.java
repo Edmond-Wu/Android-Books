@@ -21,7 +21,6 @@ import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -98,7 +97,7 @@ public class Search extends Fragment {
             View row = inflater.inflate(rowID, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
             titleView.setText(books.get(position).getTitle());
-            TextView authorView = (TextView) row.findViewById(R.id.author);
+            TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);

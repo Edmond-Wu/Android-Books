@@ -48,7 +48,7 @@ public class Home extends Fragment {
     }
 
     public void setUpUpdateList(View view, User user){
-        adapter = new UpdateAdapter(getActivity(), R.layout.browse_listitem, user.getUpdates());
+        adapter = new UpdateAdapter(getActivity(), R.layout.home_updateitem, user.getUpdates());
         list = (ListView) view.findViewById(R.id.updates);
         list.setAdapter(adapter);
 
@@ -84,8 +84,8 @@ public class Home extends Fragment {
             View row = inflater.inflate(rowID, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
             titleView.setText(updates.get(position).getUpdate());
-            TextView authorView = (TextView) row.findViewById(R.id.author);
-            authorView.setText(updates.get(position).getUpdate());
+            TextView descView = (TextView) row.findViewById(R.id.description);
+            descView.setText(updates.get(position).getDescription());
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
