@@ -2,6 +2,8 @@ package com.vincentxie.book.model;
 
 import android.content.Context;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.*;
 import java.util.*;
 
@@ -17,7 +19,14 @@ public class Book implements Serializable {
 	//private List<Review> reviews;
 	private Review review;
 	private File cover;
-	
+
+	/**
+	 * Default constructor
+	 */
+	public Book() {
+
+	}
+
 	/**
 	 * Book constructor
 	 * @param t title of book
@@ -112,6 +121,20 @@ public class Book implements Serializable {
 		} catch(Exception e) {
 			System.out.println("Invalid book serialization");
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Json serialization
+	 * @param context
+     */
+	public void toJson(Context context) {
+		ObjectMapper mapper = new ObjectMapper();
+		String file_name = "Book-" + title + ".json";
+		try {
+			mapper.writeValue(context.openFileOutput(file_name, Context.MODE_PRIVATE), this);
+		} catch (Exception e) {
+			System.out.println("Invalid json serialization.");
 		}
 	}
 

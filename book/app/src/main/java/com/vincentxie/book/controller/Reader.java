@@ -139,7 +139,7 @@ public class Reader extends AppCompatActivity {
      */
     public void setUpChapter(Chapter chapter){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(chapter.getChapterTitle());
+        setTitle(chapter.getTitle());
 
         if(mContentView instanceof TextView) {
             ((TextView) mContentView).setText(chapter.getText());

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.model.Book;
 import android.content.Context;
 import android.widget.TextView;
@@ -144,6 +146,23 @@ public class Browse extends Fragment {
     }
 
     /**
+     * Gets the book from a json file
+     * @param file_name
+     * @param context
+     * @return
+     */
+    public Book jsonDeserialize(String file_name, Context context){
+        Book b = null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            b = mapper.readValue(context.openFileInput(file_name), Book.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
+
+    /**
      * Sets up listview with booklist.
      * @param view
      * @param books Arraylist of books
@@ -273,23 +292,25 @@ public class Browse extends Fragment {
         books.add(new Book("title2", "author2", "test2", new File("")));
 
         for (Book b : books) {
-            b.serialize(context1);
+            //b.serialize(context1);
+            b.toJson(context1);
         }
+
 
         File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String file_name = child.getName();
-                if (file_name.contains(".bin")) {
-                    Book test = deserialize(file_name, context1);
-                    System.out.println(test.getTitle());
-                    System.out.println(test.getAuthor());
+                if (file_name.contains(".json")) {
+                    Book b = jsonDeserialize(file_name, context1);
+                    System.out.println(b.getTitle());
                 }
             }
         } else {
             System.out.println("Empty or invalid directory");
         }
+
 
         currentSort = "title";
         sortByTitle();

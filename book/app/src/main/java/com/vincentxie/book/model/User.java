@@ -15,7 +15,6 @@ public class User implements Serializable {
 	private HashMap<String, Book> subscribed_books;
 	private List<Bookmark> bookmarks;
 	private ArrayList<Update> updates;
-	
 	/**
 	 * User constructor
 	 * @param u Username string

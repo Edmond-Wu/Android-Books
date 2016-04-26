@@ -92,7 +92,7 @@ public class BookView extends AppCompatActivity {
         ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
         chapters.setAdapter(adapter);
 
-        book.serialize(context);
+        book.toJson(context);
 
         chapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,7 +123,7 @@ public class BookView extends AppCompatActivity {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(R.layout.row, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
-            titleView.setText(chapters.get(position).getChapterTitle());
+            titleView.setText(chapters.get(position).getTitle());
 
             return row;
         }
