@@ -25,6 +25,7 @@ import java.util.List;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -154,6 +155,8 @@ public class Home extends Fragment {
             titleView.setText(updates.get(position).getUpdate());
             TextView descView = (TextView) row.findViewById(R.id.description);
             descView.setText(updates.get(position).getDescription());
+            TextView time = (TextView) row.findViewById(R.id.time);
+            time.setText(new SimpleDateFormat("MM-dd-yyyy hh:mm a").format(updates.get(position).getTime()));
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try

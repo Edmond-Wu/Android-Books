@@ -61,6 +61,14 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Add an update.
+	 * @param update
+     */
+	public void addUpdate(Update update){
+		updates.add(0, update);
+	}
+
+	/**
 	 * Serializes the user data
 	 */
 	public void serialize(Context context) {
