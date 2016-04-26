@@ -22,10 +22,8 @@ import com.vincentxie.book.model.Update;
 
 import java.io.InputStream;
 import java.util.List;
-import com.vincentxie.book.model.User;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.app.Activity;
 import java.util.ArrayList;
 
 /**
@@ -38,8 +36,6 @@ public class Home extends Fragment {
     private boolean isLoading = false;
     private List<Update> updates;
     private List<Update> updates_master;
-    private Activity activity = getActivity();
-    private int index;
     private final int INITIAL_SIZE = 5;
     private View loading;
 
@@ -73,7 +69,6 @@ public class Home extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         updates_master = MainMenu.user.getUpdates();
         super.onCreate(savedInstanceState);
-        index = 5;
     }
 
     public Home() {
