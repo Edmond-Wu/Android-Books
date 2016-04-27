@@ -229,9 +229,9 @@ public class MainMenu extends AppCompatActivity
             case R.id.nav_browse:
                 setFragment(Browse.class, "Browse");
                 break;
-            case R.id.nav_profile:
+            /* case R.id.nav_profile:
                 setFragment(Profile.class, "Profile");
-                break;
+                break; */
             case R.id.nav_settings:
                 startActivity(new Intent(this, Settings.class));
                 break;

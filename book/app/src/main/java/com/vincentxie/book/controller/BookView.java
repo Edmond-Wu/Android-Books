@@ -123,9 +123,10 @@ public class BookView extends AppCompatActivity {
         String genresString = "";
         TextView genresText = (TextView)findViewById(R.id.genres_text);
         if(genres != null && genres.size() != 0) {
-            for (int i = 0; i < genres.size(); i++) {
+            for (int i = 0; i < genres.size() - 1; i++) {
                 genresString += genres.get(i) + ", ";
             }
+            genresString += genres.get(genres.size() - 1);
         }
         genresText.setText(genresString);
         title.setText(book.getTitle());
