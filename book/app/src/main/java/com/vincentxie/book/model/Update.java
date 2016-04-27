@@ -13,6 +13,13 @@ public class Update implements Serializable {
     private Book book;
     private Date time;
 
+    /**
+     * Default constructor for json serialization
+     */
+    public Update() {
+
+    }
+
     public Update(Book book, String update, String description){
         this.book = book;
         this.update = update;
