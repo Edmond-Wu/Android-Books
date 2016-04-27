@@ -138,7 +138,7 @@ public class Home extends Fragment {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
-                    myIntent.putExtra("index", position);
+                    myIntent.putExtra("index", Browse.books.indexOf(updates.get(position).getBook()));
                     startActivity(myIntent);
                 }
             });
