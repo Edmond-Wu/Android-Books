@@ -2,6 +2,8 @@ package com.vincentxie.book.model;
 
 import android.content.Context;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.*;
 import java.util.*;
 
@@ -14,7 +16,15 @@ public class User implements Serializable {
 	private String password;
 	private HashMap<Book, Boolean> subscribed_books;
 	private List<Bookmark> bookmarks;
-	private ArrayList<Update> updates;
+	private List<Update> updates;
+
+	/**
+	 * Default constructor for json serialization purposes
+	 */
+	public User() {
+
+	}
+
 	/**
 	 * User constructor
 	 * @param u Username string
@@ -92,5 +102,19 @@ public class User implements Serializable {
      */
 	public List<Bookmark> getBookmarks() {
 		return bookmarks;
+	}
+
+	/**
+	 * Json serialization
+	 * @param context
+	 */
+	public void jsonSerialize(Context context) {
+		ObjectMapper mapper = new ObjectMapper();
+		String file_name = "user-" + username + ".json";
+		try {
+			mapper.writeValue(context.openFileOutput(file_name, Context.MODE_PRIVATE), this);
+		} catch (Exception e) {
+			System.out.println("Invalid json serialization.");
+		}
 	}
 }

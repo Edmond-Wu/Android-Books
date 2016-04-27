@@ -1,5 +1,9 @@
 package com.vincentxie.book.controller;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -294,7 +298,7 @@ public class Browse extends Fragment {
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String file_name = child.getName();
-                if (file_name.contains(".json")) {
+                if (file_name.contains("book-")) {
                     Book b = jsonDeserialize(file_name, context1);
                     System.out.println(b.getTitle());
                 }
