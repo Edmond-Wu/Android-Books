@@ -168,7 +168,10 @@ public class Browse extends Fragment {
      * @param books Arraylist of books
      */
     private void setUpList(View view, List<Book> books){
-        books.add(new Book("Reincarnator", "ALLA", "test", new File("")));
+        List<String> genres = new ArrayList<String>();
+        genres.add("Action");
+        genres.add("Adventure");
+        books.add(new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", new File("")));
         Chapter chapter = new Chapter("Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
                 "\n" +
                 "Fight and kill, a reward will be given.\n" +
@@ -279,17 +282,6 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
-        books.add(new Book("title2", "author2", "test2", new File("")));
-        books.add(new Book("title", "author", "test", new File("")));
-        books.add(new Book("title2", "author5", "test2", new File("")));
-        books.add(new Book("title", "author", "test", new File("")));
-        books.add(new Book("title4", "author7", "test2", new File("")));
-        books.add(new Book("title", "author", "test", new File("")));
-        books.add(new Book("title2", "author8", "test2", new File("")));
-        books.add(new Book("title3", "author", "test", new File("")));
-        books.add(new Book("title2", "author2", "test2", new File("")));
-        books.add(new Book("title6", "author", "test", new File("")));
-        books.add(new Book("title2", "author2", "test2", new File("")));
 
         for (Book b : books) {
             //b.serialize(context1);
@@ -297,7 +289,7 @@ public class Browse extends Fragment {
         }
 
 
-        File folder = context1.getFilesDir();
+        /* File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -309,8 +301,7 @@ public class Browse extends Fragment {
             }
         } else {
             System.out.println("Empty or invalid directory");
-        }
-
+        } */
 
         currentSort = "title";
         sortByTitle();

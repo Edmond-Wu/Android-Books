@@ -12,7 +12,7 @@ import java.util.*;
 public class User implements Serializable {
 	private String username;
 	private String password;
-	private HashMap<String, Book> subscribed_books;
+	private HashMap<Book, Boolean> subscribed_books;
 	private List<Bookmark> bookmarks;
 	private ArrayList<Update> updates;
 	/**
@@ -23,7 +23,7 @@ public class User implements Serializable {
 	public User(String u, String p) {
 		username = u.toLowerCase();
 		password = p;
-		subscribed_books = new HashMap<String, Book>();
+		subscribed_books = new HashMap<Book, Boolean>();
 		bookmarks = new ArrayList<Bookmark>();
 		updates = new ArrayList<Update>();
 	}
@@ -48,7 +48,7 @@ public class User implements Serializable {
 	 * Gets the list of books a user is subscribed to
 	 * @return HashMap of subscribed books
 	 */
-	public HashMap<String, Book> getSubscriptions() {
+	public HashMap<Book, Boolean> getSubscriptions() {
 		return subscribed_books;
 	}
 

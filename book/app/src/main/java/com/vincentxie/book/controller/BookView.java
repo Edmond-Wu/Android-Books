@@ -17,24 +17,30 @@ import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import com.vincentxie.book.model.Chapter;
 import android.widget.ListView;
 import android.graphics.drawable.Drawable;
 import java.io.InputStream;
+import android.widget.ToggleButton;
+import android.view.View.OnClickListener;
 
 public class BookView extends AppCompatActivity {
 
     private static Context context;
+    ToggleButton subButton;
+    private Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        Book book = Browse.books.get(getIntent().getIntExtra("index", 0));
-        Browse.book = book;
+        book = Browse.books.get(getIntent().getIntExtra("index", 0));
         context = BookView.this;
         setUpScreen(book);
+        setSubscribeButton();
+        Browse.book = book;
     }
 
     /**
@@ -72,6 +78,35 @@ public class BookView extends AppCompatActivity {
     }
 
     /**
+     * Add listener to subscribe button
+     */
+    public void setSubscribeButton() {
+
+        subButton = (ToggleButton) findViewById(R.id.sub_button);
+        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
+        if(subs.get(book) != null){
+            if(subs.get(book) == true) {
+                subButton.toggle();
+            }
+        }
+        subButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
+                if(subs.get(book) == null || subs.get(book) == false){
+                    subs.put(book, true);
+                } else {
+                    subs.put(book, false);
+                }
+                System.out.println(subs.get(book));
+            }
+
+        });
+
+    }
+
+    /**
      * Sets up screen with book information.
      * @param book
      */
@@ -79,6 +114,22 @@ public class BookView extends AppCompatActivity {
         ImageView cover = (ImageView)findViewById(R.id.book_activity_cover);
         addImageFromAssets(cover, "cover.jpg");
         setUpChapters(book);
+        TextView title = (TextView)findViewById(R.id.title);
+        title.setText(book.getTitle());
+        TextView author = (TextView)findViewById(R.id.description);
+        author.setText(book.getTitle());
+        TextView synopsis = (TextView)findViewById(R.id.synopsis_text);
+        synopsis.setText(book.getSynopsis());
+        List<String> genres = book.getGenre();
+        String genresString = "";
+        TextView genresText = (TextView)findViewById(R.id.genres_text);
+        if(genres != null && genres.size() != 0) {
+            for (int i = 0; i < genres.size(); i++) {
+                genresString += genres.get(i) + ", ";
+            }
+        }
+        genresText.setText(genresString);
+        title.setText(book.getTitle());
         setTitle(book.getTitle());
     }
 

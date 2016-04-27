@@ -14,11 +14,12 @@ import java.util.*;
 public class Book implements Serializable {
 	private String title;
 	private String author;
-	private String genre;
+	private List<String> genre;
 	private List<Chapter> chapters;
 	//private List<Review> reviews;
 	private Review review;
 	private File cover;
+	private String synopsis;
 
 	/**
 	 * Default constructor
@@ -31,13 +32,14 @@ public class Book implements Serializable {
 	 * Book constructor
 	 * @param t title of book
 	 */
-	public Book(String t, String a, String g, File c) {
+	public Book(String t, String a, List<String> g, String synopsis, File c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
 		//reviews = new ArrayList<Review>();
 		author = a;
 		genre = g;
 		cover = c;
+		this.synopsis = synopsis;
 	}
 	
 	/**
@@ -57,7 +59,7 @@ public class Book implements Serializable {
 	}
 	
 	/**
-	 * Gtes the book's reviews
+	 * Gets the book's reviews
 	 * @return ArrayList of reviews
 	 */
 	/*
@@ -65,6 +67,14 @@ public class Book implements Serializable {
 		return reviews;
 	}
 	*/
+
+	/**
+	 * Gets synopsis
+	 * @return
+     */
+	public String getSynopsis(){
+		return synopsis;
+	}
 
 	/**
 	 * Returns the book's author
@@ -78,7 +88,7 @@ public class Book implements Serializable {
 	 * Return's the book's genre
 	 * @return genre
      */
-	public String getGenre() {
+	public List<String> getGenre() {
 		return genre;
 	}
 
