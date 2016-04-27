@@ -99,7 +99,6 @@ public class BookView extends AppCompatActivity {
                 } else {
                     subs.put(book, false);
                 }
-                System.out.println(subs.get(book));
             }
 
         });

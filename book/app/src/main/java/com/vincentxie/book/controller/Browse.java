@@ -287,6 +287,8 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
+        books.add(new Book("AAA", "ZZZ", genres, "Test", new File("")));
+
         for (Book b : books) {
             //b.serialize(context1);
             b.toJson(context1);

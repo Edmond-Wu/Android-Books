@@ -26,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -84,12 +85,33 @@ public class Home extends Fragment {
         return view;
     }
 
+
+    /**
+     * Prunes update list for unsubscribed books.
+     */
+    public void pruneList(){
+        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
+        for(int i = 0; i < updates_master.size(); i++){
+            Boolean sub = subs.get(updates_master.get(i).getBook());
+            if(sub == null || sub == false){
+                updates_master.set(i, null);
+            }
+        }
+    }
+
+    /**
+     * Set up list of updates
+     * @param view
+     */
     public void setUpUpdateList(View view){
         list = (ListView) view.findViewById(R.id.updates);
+        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
+        pruneList();
+        while(updates_master.remove(null));
         if(updates_master.size() > 0) {
             updates = new ArrayList<Update>();
             for(int i = 0; i < INITIAL_SIZE && i < updates_master.size(); i++){
-                updates.add(updates_master.get(i));
+                    updates.add(updates_master.get(i));
             }
             adapter = new UpdateAdapter(getActivity(), R.layout.home_updateitem, updates);
             loading = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.loading, null, false);

@@ -11,9 +11,29 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".controller.Subscribed" >
 
-    <TextView
+    <ListView
+        android:id="@+id/book_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sortby"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Subscribed"
-        android:id="@+id/hello" />
+        android:id="@+id/sortby"
+        android:layout_alignParentTop="true"
+        android:entries="@array/browse_sortby"
+        android:layout_alignEnd="@+id/book_list" />
+
+    <TextView
+        android:text="@string/sortby"
+        android:layout_toLeftOf="@id/sortby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:paddingTop="13dp" />
+
 </RelativeLayout>
