@@ -20,6 +20,7 @@ public class Book implements Serializable {
 	private Review review;
 	private File cover;
 	private String synopsis;
+	private int id;
 
 	/**
 	 * Default constructor
@@ -43,7 +44,8 @@ public class Book implements Serializable {
 		author = a;
 		genre = g;
 		cover = c;
-		this.synopsis = synopsis;
+		synopsis = synopsis;
+		id = (int) (Math.random() * (100000 - 1)) + 1;
 	}
 	
 	/**
@@ -110,6 +112,14 @@ public class Book implements Serializable {
      */
 	public Review getReview() {
 		return review;
+	}
+
+	/**
+	 * Returns the book's id number
+	 * @return
+     */
+	public int getId() {
+		return id;
 	}
 
 	/**
