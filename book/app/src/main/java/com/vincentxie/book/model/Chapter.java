@@ -14,7 +14,7 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	private Date created;
 
 	public Chapter() {
-
+		created = new Date();
 	}
 
 	/**
@@ -59,6 +59,30 @@ public class Chapter implements Serializable, Comparable<Chapter> {
      */
 	public Date getCreated() {
 		return created;
+	}
+
+	/**
+	 * Sets chapter id
+	 * @param new_id
+     */
+	public void setId(int new_id) {
+		id = new_id;
+	}
+
+	/**
+	 * Sets the chapter title
+	 * @param new_title
+     */
+	public void setTitle(String new_title) {
+		title = new_title;
+	}
+
+	/**
+	 * Sets the chapter text
+	 * @param new_text
+     */
+	public void setText(String new_text) {
+		text = new_text;
 	}
 
 	/**

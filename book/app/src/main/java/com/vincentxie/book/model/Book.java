@@ -193,4 +193,20 @@ public class Book implements Serializable {
 	public void setSynopsis(String syn) {
 		synopsis = syn;
 	}
+
+	/**
+	 * Sets the book's cover
+	 * @param cov
+     */
+	public void setCover(String cov) {
+		cover = cov;
+	}
+
+	/**
+	 * Sets the book's database id
+	 * @param new_id
+     */
+	public void setId(int new_id) {
+		id = new_id;
+	}
 }

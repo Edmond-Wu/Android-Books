@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class Review implements Serializable {
-	private int rating;
+	private float rating;
 	private int id;
 	private String text;
 
@@ -38,7 +38,7 @@ public class Review implements Serializable {
 	 * Gets the review's numerical rating
 	 * @return review stars
 	 */
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
 	
@@ -48,5 +48,29 @@ public class Review implements Serializable {
 	 */
 	public String getText() {
 		return text;
+	}
+
+	/**
+	 * Sets the review's id
+	 * @param new_id
+     */
+	public void setId(int new_id) {
+		id = new_id;
+	}
+
+	/**
+	 * Sets the review's rating
+	 * @param new_rating
+     */
+	public void setRating(float new_rating) {
+		rating = new_rating;
+	}
+
+	/**
+	 * Sets the review's text
+	 * @param new_text
+     */
+	public void setText(String new_text) {
+		text = new_text;
 	}
 }
