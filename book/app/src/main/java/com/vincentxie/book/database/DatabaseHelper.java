@@ -18,11 +18,11 @@ import java.util.*;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static Context mContext;
-    private static String db_path = "/data/data/vincentxie.book/databases/";
+    private static String DB_PATH = "/data/data/vincentxie.book/databases/";
     private static final String DB_NAME = "books.db";
     public final static String BK_TABLE = "Books";
-    public final static String BK_TITLE = "title";
-    public final static String BK_AUTHOR = "author";
+    public final static String KEY_TITLE = "title";
+    public final static String KEY_AUTHOR = "author";
     private static final int DB_VERSION = 10;
     private SQLiteDatabase database;
 
@@ -77,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void copyDatabase() throws IOException {
         InputStream input = mContext.getAssets().open(DB_NAME);
-        String outFile = db_path + DB_NAME;
+        String outFile = DB_PATH + DB_NAME;
         OutputStream output = new FileOutputStream(outFile);
 
         byte[] buffer = new byte[1024];
@@ -96,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase checkDB = null;
 
         try{
-            String myPath = db_path + DB_NAME;
+            String myPath = DB_PATH + DB_NAME;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 
             int i = checkDB.getVersion();
@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void openDatabase() throws SQLException {
-        String path = db_path + DB_NAME;
+        String path = DB_PATH + DB_NAME;
         database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
     }
 
@@ -132,11 +132,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String CREATE_BOOKS_TABLE = "CREATE TABLE" + BK_TABLE + "("
+                + KEY_TITLE + " STRING PRIMARY KEY," + KEY_AUTHOR + " TEXT" + ")";
+        db.execSQL(CREATE_BOOKS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         mContext.deleteDatabase(DB_NAME);
+        onCreate(db);
     }
 }
