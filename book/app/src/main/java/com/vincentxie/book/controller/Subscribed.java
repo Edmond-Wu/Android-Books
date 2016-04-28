@@ -110,27 +110,14 @@ public class Subscribed extends Fragment {
                         return;
                     }
                     if(select.equals("title")){
-                        if(currentSort.equals(select)){
-                            Collections.reverse(books);
-                        } else {
-                            books = com.vincentxie.book.util.Sorter.sortByTitle(books);
-                            currentSort = "title";
-                        }
-
+                        books = com.vincentxie.book.util.Sorter.sortByTitle(books);
+                        currentSort = "title";
                     } else if(select.equals("author")) {
-                        if(currentSort.equals(select)){
-                            Collections.reverse(books);
-                        } else {
-                            books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
-                            currentSort = "author";
-                        }
+                        books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
+                        currentSort = "author";
                     } else if(select.equals("rating")) {
-                        if(currentSort.equals(select)){
-                            Collections.reverse(books);
-                        } else {
-                            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
-                            currentSort = "rating";
-                        }
+                        books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+                        currentSort = "rating";
                     }
                     if(adapter != null){
                         adapter.notifyDataSetChanged();

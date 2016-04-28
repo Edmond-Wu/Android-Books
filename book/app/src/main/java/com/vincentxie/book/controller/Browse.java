@@ -107,27 +107,14 @@ public class Browse extends Fragment {
                         return;
                     }
                     if(select.equals("title")){
-                        if(currentSort.equals(select)){
-                            Collections.reverse(books);
-                        } else {
-                            books = com.vincentxie.book.util.Sorter.sortByTitle(books);
-                            currentSort = "title";
-                        }
-
+                        books = com.vincentxie.book.util.Sorter.sortByTitle(books);
+                        currentSort = "title";
                     } else if(select.equals("author")) {
-                        if(currentSort.equals(select)){
-                            Collections.reverse(books);
-                        } else {
-                            books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
-                            currentSort = "author";
-                        }
+                        books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
+                        currentSort = "author";
                     } else if(select.equals("rating")) {
-                        if(currentSort.equals(select)){
-                            Collections.reverse(books);
-                        } else {
-                            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
-                            currentSort = "rating";
-                        }
+                        books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+                        currentSort = "rating";
                     }
                     if(adapter != null){
                         adapter.notifyDataSetChanged();
@@ -392,9 +379,9 @@ public class Browse extends Fragment {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(rowID, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
-            titleView.setText(books.get(position).getTitle() + "egsgesgopsejgpeojgepsojgeopgjospjeogsepgsg");
+            titleView.setText(books.get(position).getTitle());
             TextView authorView = (TextView) row.findViewById(R.id.description);
-            authorView.setText(books.get(position).getAuthor() + "gewjgoewjgoewgjoewjgieowggwegewgwegwg");
+            authorView.setText(books.get(position).getAuthor());
             RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
             Float rating = ratings.get(books.get(position));
             if(rating != null) {
