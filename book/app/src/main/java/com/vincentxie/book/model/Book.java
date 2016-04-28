@@ -155,4 +155,20 @@ public class Book implements Serializable {
 	public void setReview(Review rev) {
 		review = rev;
 	}
+
+	/**
+	 * Sets the new title of the book
+	 * @param new_title
+     */
+	public void setTitle(String new_title) {
+		title = new_title;
+	}
+
+	/**
+	 * Sets the book's author
+	 * @param new_author
+     */
+	public void setAuthor(String new_author) {
+		author = new_author;
+	}
 }

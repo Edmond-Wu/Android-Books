@@ -1,12 +1,16 @@
 package com.vincentxie.book.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.vincentxie.book.model.Book;
+
 import java.io.*;
+import java.util.*;
 
 /**
  * Created by EDMOUND on 4/26/2016.
@@ -16,6 +20,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static Context mContext;
     private static String db_path = "/data/data/vincentxie.book/databases/";
     private static final String DB_NAME = "books.db";
+    public final static String BK_TABLE = "Books";
+    public final static String BK_TITLE = "title";
+    public final static String BK_AUTHOR = "author";
     private static final int DB_VERSION = 10;
     private SQLiteDatabase database;
 
@@ -42,6 +49,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 throw new Error("Error copying database");
             }
         }
+    }
+
+    public void addBook(Book book) {
+
+    }
+
+    public Book getBook(String title) {
+        return null;
+    }
+
+    public List<Book> getAllBooks() {
+        return null;
+    }
+
+    public int getBooksCount() {
+        return 0;
+    }
+
+    public int updateBook(Book book) {
+        return 0;
+    }
+
+    public void deleteBook(Book book) {
+
     }
 
     public void copyDatabase() throws IOException {

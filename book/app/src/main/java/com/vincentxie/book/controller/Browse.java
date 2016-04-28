@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 import android.content.Context;
 import android.widget.TextView;
@@ -304,6 +305,8 @@ public class Browse extends Fragment {
         for (Book b : books) {
             b.toJson(context1);
         }
+
+        DatabaseHelper helper;
 
         File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
