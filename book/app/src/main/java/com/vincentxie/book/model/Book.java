@@ -30,8 +30,12 @@ public class Book implements Serializable {
 
 	/**
 	 * Book constructor
-	 * @param t title of book
-	 */
+	 * @param t title
+	 * @param a author
+	 * @param g genre
+	 * @param synopsis
+     * @param c cover
+     */
 	public Book(String t, String a, List<String> g, String synopsis, File c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
@@ -154,5 +158,29 @@ public class Book implements Serializable {
      */
 	public void setReview(Review rev) {
 		review = rev;
+	}
+
+	/**
+	 * Sets the new title of the book
+	 * @param new_title
+     */
+	public void setTitle(String new_title) {
+		title = new_title;
+	}
+
+	/**
+	 * Sets the book's author
+	 * @param new_author
+     */
+	public void setAuthor(String new_author) {
+		author = new_author;
+	}
+
+	/**
+	 * Sets the book's synopsis
+	 * @param syn
+     */
+	public void setSynopsis(String syn) {
+		synopsis = syn;
 	}
 }
