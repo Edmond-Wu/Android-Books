@@ -22,6 +22,7 @@ import com.vincentxie.book.model.Chapter;
 
 import org.w3c.dom.Text;
 import android.widget.ScrollView;
+import android.view.MenuInflater;
 
 
 /**
@@ -118,6 +119,13 @@ public class Reader extends AppCompatActivity {
 
         Chapter chapter = Browse.book.getChapters().get(getIntent().getIntExtra("index", 0));
         setUpChapter(chapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.reader_menu, menu);
+        return true;
     }
 
     /**

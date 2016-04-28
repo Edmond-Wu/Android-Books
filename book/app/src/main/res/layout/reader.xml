@@ -23,7 +23,8 @@
             android:layout_marginLeft="@dimen/reader_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="" />
+            android:text=""
+            android:paddingTop="10dp" />
     </ScrollView>
 
 </RelativeLayout>

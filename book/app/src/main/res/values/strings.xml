@@ -24,7 +24,7 @@
     <string name="pref_readability">Readability</string>
     <string name="pref_nightmode">Night Mode</string>
     <string name="pref_other">Other</string>
-    <string name="pref_textsize">Reader Text size</string>
+    <string name="pref_textsize">Reader Text Size</string>
 
     <string name="pref_title_display_name">Display name</string>
     <string name="pref_default_display_name"></string>
