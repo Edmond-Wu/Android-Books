@@ -1,6 +1,8 @@
 package com.vincentxie.book.controller;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -8,6 +10,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +21,7 @@ import com.vincentxie.book.R;
 import com.vincentxie.book.model.Chapter;
 
 import org.w3c.dom.Text;
+import android.widget.ScrollView;
 
 
 /**
@@ -163,6 +169,7 @@ public class Reader extends AppCompatActivity {
         } else {
             show();
         }
+        System.out.println(((ScrollView)findViewById(R.id.reader_scroll)).getScrollY());
     }
 
     private void hide() {

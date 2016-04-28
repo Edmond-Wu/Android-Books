@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.vincentxie.book.R;
@@ -25,6 +26,8 @@ import android.graphics.drawable.Drawable;
 import java.io.InputStream;
 import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 public class BookView extends AppCompatActivity {
 
@@ -41,6 +44,29 @@ public class BookView extends AppCompatActivity {
         setUpScreen(book);
         setSubscribeButton();
         Browse.book = book;
+        setToolbar();
+    }
+
+    /**
+     * Sets up toolbar.
+     */
+    public void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ScrollView)findViewById(R.id.book_scroll)).smoothScrollTo(0, 0);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.empty_menu, menu);
+        return true;
     }
 
     /**
@@ -116,7 +142,7 @@ public class BookView extends AppCompatActivity {
         TextView title = (TextView)findViewById(R.id.title);
         title.setText(book.getTitle());
         TextView author = (TextView)findViewById(R.id.description);
-        author.setText(book.getTitle());
+        author.setText(book.getAuthor());
         TextView synopsis = (TextView)findViewById(R.id.synopsis_text);
         synopsis.setText(book.getSynopsis());
         List<String> genres = book.getGenre();
@@ -131,6 +157,13 @@ public class BookView extends AppCompatActivity {
         genresText.setText(genresString);
         title.setText(book.getTitle());
         setTitle(book.getTitle());
+
+        /* getSupportActionBar().getCustomView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ScrollView)findViewById(R.id.book_scroll)).smoothScrollTo(0, 0);
+            }
+        }); */
     }
 
     /**

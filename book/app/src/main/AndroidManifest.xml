@@ -29,6 +29,7 @@
             android:parentActivityName=".controller.MainMenu" />
         <activity
             android:name=".controller.BookView"
+            android:theme="@style/no_action_bar"
             android:parentActivityName=".controller.MainMenu" />
         <activity
             android:name=".controller.Reader"

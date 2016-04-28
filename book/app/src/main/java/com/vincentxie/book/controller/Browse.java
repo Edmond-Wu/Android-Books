@@ -331,6 +331,13 @@ public class Browse extends Fragment {
         list.setAdapter(adapter);
         setSpinner(view);
 
+        getActivity().findViewById(R.id.toolbar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.smoothScrollToPosition(0);
+            }
+        });
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);

@@ -31,6 +31,7 @@ public class Search extends Fragment {
 
     public static List<Book> results = new ArrayList<Book>();
     private BookAdapter adapter;
+    private ListView list;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,15 @@ public class Search extends Fragment {
      */
     public void setUpSearch(View view){
         adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, results);
-        ListView list = (ListView) view.findViewById(R.id.search_results);
+        list = (ListView) view.findViewById(R.id.search_results);
         list.setAdapter(adapter);
+
+        getActivity().findViewById(R.id.toolbar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.smoothScrollToPosition(0);
+            }
+        });
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
