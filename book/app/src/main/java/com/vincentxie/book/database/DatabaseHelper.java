@@ -1,4 +1,4 @@
-package com.vincentxie.book.controller;
+package com.vincentxie.book.database;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -15,12 +15,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static Context mContext;
     private static String db_path = "/data/data/vincentxie.book/databases/";
-    private static String db_name = "books.db";
+    private static final String DB_NAME = "books.db";
     private static final int DB_VERSION = 10;
     private SQLiteDatabase database;
 
     public DatabaseHelper(Context context) {
-        super(context, db_name, null, DB_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
         mContext = context;
     }
 
@@ -45,8 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void copyDatabase() throws IOException {
-        InputStream input = mContext.getAssets().open(db_name);
-        String outFile = db_path + db_name;
+        InputStream input = mContext.getAssets().open(DB_NAME);
+        String outFile = db_path + DB_NAME;
         OutputStream output = new FileOutputStream(outFile);
 
         byte[] buffer = new byte[1024];
@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase checkDB = null;
 
         try{
-            String myPath = db_path + db_name;
+            String myPath = db_path + DB_NAME;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 
             int i = checkDB.getVersion();
@@ -87,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void openDatabase() throws SQLException {
-        String path = db_path + db_name;
+        String path = db_path + DB_NAME;
         database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
     }
 
@@ -106,6 +106,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        mContext.deleteDatabase(db_name);
+        mContext.deleteDatabase(DB_NAME);
     }
 }
