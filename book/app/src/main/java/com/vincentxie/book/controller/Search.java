@@ -15,12 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class Search extends Fragment {
     public static List<Book> results = new ArrayList<Book>();
     private BookAdapter adapter;
     private ListView list;
+    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,11 @@ public class Search extends Fragment {
             titleView.setText(books.get(position).getTitle());
             TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
+            RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
+            Float rating = ratings.get(books.get(position));
+            if(rating != null) {
+                ratingBar.setRating(rating);
+            }
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
