@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -189,7 +188,7 @@ public class Home extends Fragment {
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
             {
-                InputStream is = context.getAssets().open("cover.jpg");
+                InputStream is = context.getAssets().open(updates.get(position).getBook().getCover());
                 Drawable d = Drawable.createFromStream(is, null);
                 cover.setImageDrawable(d);
                 is.close();

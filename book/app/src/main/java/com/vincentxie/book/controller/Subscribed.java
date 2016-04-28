@@ -20,10 +20,7 @@ import android.widget.TextView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
-import com.vincentxie.book.model.Chapter;
-import com.vincentxie.book.model.Update;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -269,7 +266,7 @@ public class Subscribed extends Fragment {
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
             {
-                InputStream is = context.getAssets().open("cover.jpg");
+                InputStream is = context.getAssets().open(books.get(position).getCover());
                 Drawable d = Drawable.createFromStream(is, null);
                 cover.setImageDrawable(d);
                 is.close();

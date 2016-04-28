@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import com.vincentxie.book.model.Chapter;
@@ -137,7 +136,7 @@ public class BookView extends AppCompatActivity {
      */
     public void setUpScreen(Book book){
         ImageView cover = (ImageView)findViewById(R.id.book_activity_cover);
-        addImageFromAssets(cover, "cover.jpg");
+        addImageFromAssets(cover, book.getCover());
         setUpChapters(book);
         TextView title = (TextView)findViewById(R.id.title);
         title.setText(book.getTitle());

@@ -1,9 +1,5 @@
 package com.vincentxie.book.controller;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteCursorDriver;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQuery;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -188,7 +184,7 @@ public class Browse extends Fragment {
         List<String> genres = new ArrayList<String>();
         genres.add("Action");
         genres.add("Adventure");
-        books.add(new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", new File("")));
+        books.add(new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg"));
         Chapter chapter = new Chapter("Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
                 "\n" +
                 "Fight and kill, a reward will be given.\n" +
@@ -379,7 +375,7 @@ public class Browse extends Fragment {
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
             {
-                InputStream is = context.getAssets().open("cover.jpg");
+                InputStream is = context.getAssets().open(books.get(position).getCover());
                 Drawable d = Drawable.createFromStream(is, null);
                 cover.setImageDrawable(d);
                 is.close();

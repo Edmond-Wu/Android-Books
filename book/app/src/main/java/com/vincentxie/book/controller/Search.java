@@ -111,7 +111,7 @@ public class Search extends Fragment {
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
             {
-                InputStream is = context.getAssets().open("cover.jpg");
+                InputStream is = context.getAssets().open(books.get(position).getCover());
                 Drawable d = Drawable.createFromStream(is, null);
                 cover.setImageDrawable(d);
                 is.close();

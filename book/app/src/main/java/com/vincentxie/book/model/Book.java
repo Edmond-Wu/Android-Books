@@ -18,7 +18,7 @@ public class Book implements Serializable {
 	private List<Chapter> chapters;
 	//private List<Review> reviews;
 	private Review review;
-	private File cover;
+	private String cover;
 	private String synopsis;
 	private int id;
 
@@ -37,14 +37,14 @@ public class Book implements Serializable {
 	 * @param synopsis
      * @param c cover
      */
-	public Book(String t, String a, List<String> g, String synopsis, File c) {
+	public Book(String t, String a, List<String> g, String synopsis, String c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
 		//reviews = new ArrayList<Review>();
 		author = a;
 		genre = g;
 		cover = c;
-		synopsis = synopsis;
+		this.synopsis = synopsis;
 		id = (int) (Math.random() * (100000 - 1)) + 1;
 	}
 	
@@ -100,9 +100,9 @@ public class Book implements Serializable {
 
 	/**
 	 * Gets the book's cover
-	 * @return cover file
+	 * @return cover file name
      */
-	public File getCover() {
+	public String getCover() {
 		return cover;
 	}
 
