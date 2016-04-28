@@ -15,7 +15,8 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private HashMap<Book, Boolean> subscribed_books;
-	private HashMap<Chapter, List<Bookmark>> bookmarks;
+	private HashMap<Book, List<Bookmark>> bookmarks;
+	private HashMap<Book, Float> ratings;
 	private List<Update> updates;
 
 	/**
@@ -34,10 +35,11 @@ public class User implements Serializable {
 		username = u.toLowerCase();
 		password = p;
 		subscribed_books = new HashMap<Book, Boolean>();
-		bookmarks = new HashMap<Chapter, List<Bookmark>>();
+		bookmarks = new HashMap<Book, List<Bookmark>>();
+		ratings = new HashMap<Book, Float>();
 		updates = new ArrayList<Update>();
 	}
-	
+
 	/**
 	 * Gets the username
 	 * @return username string
@@ -45,7 +47,7 @@ public class User implements Serializable {
 	public String getUser() {
 		return username;
 	}
-	
+
 	/**
 	 * Gets the password
 	 * @return password string
@@ -53,7 +55,7 @@ public class User implements Serializable {
 	public String getPass() {
 		return password;
 	}
-	
+
 	/**
 	 * Gets the list of books a user is subscribed to
 	 * @return HashMap of subscribed books
@@ -65,7 +67,7 @@ public class User implements Serializable {
 	/**
 	 * Get list of updates
 	 * @return updates
-     */
+	 */
 	public List<Update> getUpdates(){
 		return updates;
 	}
@@ -73,7 +75,7 @@ public class User implements Serializable {
 	/**
 	 * Add an update.
 	 * @param update
-     */
+	 */
 	public void addUpdate(Update update){
 		updates.add(0, update);
 	}
@@ -97,10 +99,18 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the user's reviews list
+	 * @return reviews
+	 */
+	public HashMap<Book, Float> getRatings() {
+		return ratings;
+	}
+
+	/**
 	 * Gets the user's bookmark list
 	 * @return bookmark list
-     */
-	public HashMap<Chapter, List<Bookmark>> getBookmarks() {
+	 */
+	public HashMap<Book, List<Bookmark>> getBookmarks() {
 		return bookmarks;
 	}
 

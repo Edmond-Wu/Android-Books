@@ -27,20 +27,22 @@ import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.RatingBar;
 
 public class BookView extends AppCompatActivity {
 
     private static Context context;
     ToggleButton subButton;
     private Book book;
+    private HashMap<Book, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        book = Browse.books.get(getIntent().getIntExtra("index", 0));
+        book = Browse.books.get(getIntent().getIntExtra("index", 0));;
         context = BookView.this;
-        setUpScreen(book);
+        setUpScreen();
         setSubscribeButton();
         Browse.book = book;
         setToolbar();
@@ -49,7 +51,7 @@ public class BookView extends AppCompatActivity {
     /**
      * Sets up toolbar.
      */
-    public void setToolbar(){
+    private void setToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,7 +107,7 @@ public class BookView extends AppCompatActivity {
     /**
      * Add listener to subscribe button
      */
-    public void setSubscribeButton() {
+    private void setSubscribeButton() {
 
         subButton = (ToggleButton) findViewById(R.id.sub_button);
         HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
@@ -132,9 +134,8 @@ public class BookView extends AppCompatActivity {
 
     /**
      * Sets up screen with book information.
-     * @param book
      */
-    public void setUpScreen(Book book){
+    private void setUpScreen(){
         ImageView cover = (ImageView)findViewById(R.id.book_activity_cover);
         addImageFromAssets(cover, book.getCover());
         setUpChapters(book);
@@ -157,12 +158,20 @@ public class BookView extends AppCompatActivity {
         title.setText(book.getTitle());
         setTitle(book.getTitle());
 
-        /* getSupportActionBar().getCustomView().setOnClickListener(new View.OnClickListener() {
+
+        RatingBar ratingBar = ((RatingBar)findViewById(R.id.ratingBar));
+        Float rating = ratings.get(book);
+        if(rating != null) {
+            ratingBar.setRating(ratings.get(book));
+        } else {
+            ratingBar.setRating(0);
+        }
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onClick(View v) {
-                ((ScrollView)findViewById(R.id.book_scroll)).smoothScrollTo(0, 0);
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                ratings.put(book, v);
             }
-        }); */
+        });
     }
 
     /**

@@ -7,37 +7,46 @@
         android:id="@+id/cover"
         android:layout_width="@dimen/thumb_size"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
         android:contentDescription="Cover"
-        android:src="@drawable/ic_menu_slideshow" />
+        android:src="@drawable/ic_menu_slideshow"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/cover"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text=""
         android:textSize="12sp"
-        android:textColor="#737373" />
+        android:textColor="#737373"
+        android:layout_toStartOf="@+id/rating_browse_bar"
+        android:layout_alignEnd="@+id/rating_browse_bar" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/description"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/cover"
         android:gravity="center_vertical"
         android:text=""
         android:textSize="16sp"
-        android:textColor="#595959" />
+        android:textColor="#595959"
+        android:layout_toStartOf="@+id/rating_browse_bar" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating_browse_bar"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        style="?android:attr/ratingBarStyleSmall" />
 
 </RelativeLayout>

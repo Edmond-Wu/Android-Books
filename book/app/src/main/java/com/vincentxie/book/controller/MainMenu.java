@@ -66,7 +66,7 @@ public class MainMenu extends AppCompatActivity
      * Sets fragment.
      * @param fragmentClass
      */
-    public void setFragment(Class fragmentClass, String title){
+    private void setFragment(Class fragmentClass, String title){
         Fragment fragment = null;
         try {
             fragment = (Fragment)fragmentClass.newInstance();
@@ -162,7 +162,7 @@ public class MainMenu extends AppCompatActivity
     /**
      * Deselects everything in the submenu.
      */
-    public void deselectSubmenu(){
+    private void deselectSubmenu(){
         NavigationView menu = (NavigationView) findViewById(R.id.nav_view);
         Menu m = menu.getMenu().getItem(3).getSubMenu();
         for(int i = 0; i < m.size(); i++){
@@ -173,7 +173,7 @@ public class MainMenu extends AppCompatActivity
     /**
      * Deselects everything in the menu.
      */
-    public void deselectAll() {
+    private void deselectAll() {
         NavigationView menu = (NavigationView) findViewById(R.id.nav_view);
         menu.setCheckedItem(R.id.invis);
         deselectSubmenu();
@@ -182,7 +182,7 @@ public class MainMenu extends AppCompatActivity
     /**
      * Sets display name when drawer changes.
      */
-    public void setName(DrawerLayout drawer){
+    private void setName(DrawerLayout drawer){
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View view, float v) {}
@@ -204,7 +204,7 @@ public class MainMenu extends AppCompatActivity
     /**
      * Sets display name.
      */
-    public void setNameUtil(){
+    private void setNameUtil(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String name = sharedPref.getString("name", "");
         TextView nameView = (TextView) findViewById(R.id.display_name);

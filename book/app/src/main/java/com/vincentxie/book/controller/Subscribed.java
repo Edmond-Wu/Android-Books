@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class Subscribed extends Fragment {
     private String currentSort;
     private ListView list;
     private static Context context1;
+    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,9 +65,11 @@ public class Subscribed extends Fragment {
         super.onResume();
         setList();
         if(currentSort.equals("title")){
-            sortByTitle();
+            books = com.vincentxie.book.util.Sorter.sortByTitle(books);
         } else if (currentSort.equals("author")){
-            sortByAuthor();
+            books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
+        } else if (currentSort.equals("rating")){
+            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
         }
         adapter.notifyDataSetChanged();
     }
@@ -93,7 +97,7 @@ public class Subscribed extends Fragment {
      * Set up spinner to sort list.
      * @param view
      */
-    public void setSpinner(View view){
+    private void setSpinner(View view){
         Spinner sortby = (Spinner)view.findViewById(R.id.sortby);
 
         sortby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,12 +110,27 @@ public class Subscribed extends Fragment {
                         return;
                     }
                     if(select.equals("title")){
-                        sortByTitle();
-                        currentSort = "title";
+                        if(currentSort.equals(select)){
+                            Collections.reverse(books);
+                        } else {
+                            books = com.vincentxie.book.util.Sorter.sortByTitle(books);
+                            currentSort = "title";
+                        }
 
                     } else if(select.equals("author")) {
-                        sortByAuthor();
-                        currentSort = "author";
+                        if(currentSort.equals(select)){
+                            Collections.reverse(books);
+                        } else {
+                            books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
+                            currentSort = "author";
+                        }
+                    } else if(select.equals("rating")) {
+                        if(currentSort.equals(select)){
+                            Collections.reverse(books);
+                        } else {
+                            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+                            currentSort = "rating";
+                        }
                     }
                     if(adapter != null){
                         adapter.notifyDataSetChanged();
@@ -122,30 +141,6 @@ public class Subscribed extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent){
 
-            }
-        });
-    }
-
-    /**
-     * Sort books by title.
-     */
-    public void sortByTitle(){
-        Collections.sort(books, new Comparator<Book>() {
-            @Override
-            public int compare(Book book, Book t1) {
-                return book.getTitle().compareTo(t1.getTitle());
-            }
-        });
-    }
-
-    /**
-     * Sort books by author.
-     */
-    public void sortByAuthor(){
-        Collections.sort(books, new Comparator<Book>() {
-            @Override
-            public int compare(Book book, Book t1) {
-                return book.getAuthor().compareTo(t1.getAuthor());
             }
         });
     }
@@ -214,7 +209,7 @@ public class Subscribed extends Fragment {
         } */
 
         currentSort = "title";
-        sortByTitle();
+        books = com.vincentxie.book.util.Sorter.sortByTitle(books);
         adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, books);
         list = (ListView) view.findViewById(R.id.book_list);
         list.setAdapter(adapter);
@@ -262,6 +257,11 @@ public class Subscribed extends Fragment {
             titleView.setText(books.get(position).getTitle());
             TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
+            RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
+            Float rating = ratings.get(books.get(position));
+            if(rating != null) {
+                ratingBar.setRating(rating);
+            }
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try

@@ -88,7 +88,7 @@ public class Home extends Fragment {
     /**
      * Prunes update list for unsubscribed books.
      */
-    public void pruneList(){
+    private void pruneList(){
         HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions(); //change this later
         for(int i = 0; i < updates_master.size(); i++){
             Boolean sub = subs.get(updates_master.get(i).getBook());
@@ -102,7 +102,7 @@ public class Home extends Fragment {
      * Set up list of updates
      * @param view
      */
-    public void setUpUpdateList(View view){
+    private void setUpUpdateList(View view){
         list = (ListView) view.findViewById(R.id.updates);
         pruneList();
         while(updates_master.remove(null));

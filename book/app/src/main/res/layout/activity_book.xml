@@ -127,9 +127,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Genres"
                 android:id="@+id/genres"
-                android:layout_below="@+id/book_activity_cover"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp" />
+                android:layout_below="@+id/ratingBar"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,6 +137,14 @@
                 android:id="@+id/genres_text"
                 android:layout_below="@+id/genres"
                 android:layout_alignParentStart="true" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:layout_below="@+id/book_activity_cover"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp" />
         </RelativeLayout>
 
     </ScrollView>

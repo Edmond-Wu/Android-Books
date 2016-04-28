@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 import android.content.Context;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import com.vincentxie.book.model.Chapter;
 import com.vincentxie.book.model.Update;
 
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.util.AttributeSet;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -41,6 +43,7 @@ public class Browse extends Fragment {
     private BookAdapter adapter;
     private String currentSort;
     private static Context context1;
+    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,34 @@ public class Browse extends Fragment {
         context1 = context;
     }
 
-    /**
-     * Set up spinner to sort list.
-     * @param view
-     */
-    public void setSpinner(View view){
+    public static class MySpinner extends Spinner {
+
+        OnItemSelectedListener listener;
+
+        public MySpinner(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        @Override
+        public void setSelection(int position) {
+            super.setSelection(position);
+
+            if (position == getSelectedItemPosition()) {
+                listener.onItemSelected(null, null, position, 0);
+            }
+        }
+
+        public void setOnItemSelectedListener(OnItemSelectedListener listener) {
+            this.listener = listener;
+        }
+    }
+
+
+            /**
+             * Set up spinner to sort list.
+             * @param view
+             */
+    private void setSpinner(View view){
         Spinner sortby = (Spinner)view.findViewById(R.id.sortby);
 
         sortby.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -81,12 +107,27 @@ public class Browse extends Fragment {
                         return;
                     }
                     if(select.equals("title")){
-                        sortByTitle();
-                        currentSort = "title";
+                        if(currentSort.equals(select)){
+                            Collections.reverse(books);
+                        } else {
+                            books = com.vincentxie.book.util.Sorter.sortByTitle(books);
+                            currentSort = "title";
+                        }
 
                     } else if(select.equals("author")) {
-                        sortByAuthor();
-                        currentSort = "author";
+                        if(currentSort.equals(select)){
+                            Collections.reverse(books);
+                        } else {
+                            books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
+                            currentSort = "author";
+                        }
+                    } else if(select.equals("rating")) {
+                        if(currentSort.equals(select)){
+                            Collections.reverse(books);
+                        } else {
+                            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+                            currentSort = "rating";
+                        }
                     }
                     if(adapter != null){
                         adapter.notifyDataSetChanged();
@@ -101,28 +142,10 @@ public class Browse extends Fragment {
         });
     }
 
-    /**
-     * Sort books by title.
-     */
-    public void sortByTitle(){
-        Collections.sort(books, new Comparator<Book>() {
-            @Override
-            public int compare(Book book, Book t1) {
-                return book.getTitle().compareTo(t1.getTitle());
-            }
-        });
-    }
-
-    /**
-     * Sort books by author.
-     */
-    public void sortByAuthor(){
-        Collections.sort(books, new Comparator<Book>() {
-            @Override
-            public int compare(Book book, Book t1) {
-                return book.getAuthor().compareTo(t1.getAuthor());
-            }
-        });
+    @Override
+    public void onResume(){
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -185,6 +208,7 @@ public class Browse extends Fragment {
         genres.add("Action");
         genres.add("Adventure");
         books.add(new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg"));
+        books.add(new Book("Z", "A", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg"));
         Chapter chapter = new Chapter("Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
                 "\n" +
                 "Fight and kill, a reward will be given.\n" +
@@ -324,7 +348,7 @@ public class Browse extends Fragment {
         }
 
         currentSort = "title";
-        sortByTitle();
+        books = com.vincentxie.book.util.Sorter.sortByTitle(books);
         adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, books);
         list = (ListView) view.findViewById(R.id.book_list);
         list.setAdapter(adapter);
@@ -368,9 +392,14 @@ public class Browse extends Fragment {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(rowID, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
-            titleView.setText(books.get(position).getTitle());
+            titleView.setText(books.get(position).getTitle() + "egsgesgopsejgpeojgepsojgeopgjospjeogsepgsg");
             TextView authorView = (TextView) row.findViewById(R.id.description);
-            authorView.setText(books.get(position).getAuthor());
+            authorView.setText(books.get(position).getAuthor() + "gewjgoewjgoewgjoewjgieowggwegewgwegwg");
+            RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
+            Float rating = ratings.get(books.get(position));
+            if(rating != null) {
+                ratingBar.setRating(rating);
+            }
 
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try

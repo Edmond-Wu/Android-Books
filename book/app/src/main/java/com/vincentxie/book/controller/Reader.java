@@ -131,7 +131,7 @@ public class Reader extends AppCompatActivity {
     /**
      * Set settings.
      */
-    public void setSettings(){
+    private void setSettings(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(preferences.getBoolean("nightmode", false) == true){
             if(mContentView instanceof TextView) {
@@ -159,6 +159,19 @@ public class Reader extends AppCompatActivity {
             ((TextView) mContentView).setText(chapter.getText());
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.scroll_up) {
+            ((ScrollView)findViewById(R.id.reader_scroll)).smoothScrollTo(0, 0);
+        } else if (id == R.id.bookmark){
+            System.out.println("bookmark");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

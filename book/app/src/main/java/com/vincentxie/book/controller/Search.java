@@ -53,7 +53,7 @@ public class Search extends Fragment {
      * Set up searchList.
      * @param view
      */
-    public void setUpSearch(View view){
+    private void setUpSearch(View view){
         adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, results);
         list = (ListView) view.findViewById(R.id.search_results);
         list.setAdapter(adapter);

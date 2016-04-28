@@ -16,6 +16,7 @@
     <string-array name="browse_sortby">
         <item>title</item>
         <item>author</item>
+        <item>rating</item>
     </string-array>
 
 </resources>
