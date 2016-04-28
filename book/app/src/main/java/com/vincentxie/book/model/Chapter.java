@@ -8,6 +8,7 @@ import java.util.*;
  */
 
 public class Chapter implements Serializable, Comparable<Chapter> {
+	private int id;
 	private String title;
 	private String text;
 	private Date created;
@@ -25,8 +26,17 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 		title = c;
 		text = t;
 		created = new Date();
+		id = (int) (Math.random() * (1000000 - 1)) + 1;
 	}
-	
+
+	/**
+	 * Gets the chapter's id number
+	 * @return
+     */
+	public int getId() {
+		return id;
+	}
+
 	/**
 	 * Gets the chapter title
 	 * @return chapter title string

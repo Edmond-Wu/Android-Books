@@ -8,7 +8,8 @@ import java.io.Serializable;
 
 public class Review implements Serializable {
 	private int rating;
-	private String review;
+	private int id;
+	private String text;
 
 	public Review() {
 
@@ -17,13 +18,22 @@ public class Review implements Serializable {
 	/**
 	 * Review constructor
 	 * @param star number rating (1 - 5)
-	 * @param r review text
+	 * @param t review text
 	 */
-	public Review(int star, String r) {
+	public Review(int star, String t) {
 		rating = star;
-		review = r;
+		text = t;
+		id = (int) (Math.random() * (100000 - 1)) + 1;
 	}
-	
+
+	/**
+	 * Gets the id number for the review
+	 * @return
+     */
+	public int getId() {
+		return id;
+	}
+
 	/**
 	 * Gets the review's numerical rating
 	 * @return review stars
@@ -36,7 +46,7 @@ public class Review implements Serializable {
 	 * Gets the review's text body
 	 * @return review string
 	 */
-	public String getReview() {
-		return review;
+	public String getText() {
+		return text;
 	}
 }
