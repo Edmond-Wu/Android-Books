@@ -201,8 +201,10 @@ public class Browse extends Fragment {
         List<String> genres = new ArrayList<String>();
         genres.add("Action");
         genres.add("Adventure");
-        books.add(new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg"));
-        books.add(new Book("Z", "A", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg"));
+        Book bk = new Book("Z", "A", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
+        Book bk1 = new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
+        books.add(bk1);
+        books.add(bk);
         Chapter chapter = new Chapter("Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
                 "\n" +
                 "Fight and kill, a reward will be given.\n" +
@@ -302,7 +304,7 @@ public class Browse extends Fragment {
                 "Since their minds were now at rest.\n" +
                 "At the same time they felt bad for Hansoo.\n" +
                 "“Take care. We leave it up to you.”\n" +
-                "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.");
+                "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.", bk1.getId());
         books.get(0).getChapters().add(chapter);
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
@@ -316,8 +318,8 @@ public class Browse extends Fragment {
 
         emptyDirectory();
 
-        for (Book b : books) {
-            b.toJson(context1);
+        for (Book book : books) {
+            book.toJson(context1);
         }
 
         DatabaseHelper helper;

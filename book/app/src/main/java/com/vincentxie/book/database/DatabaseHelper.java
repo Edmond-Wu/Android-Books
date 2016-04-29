@@ -168,11 +168,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        values.put(KEY_BOOK_ID, chapter.getBookid());
         values.put(KEY_CHAPTER_TITLE, chapter.getTitle());
-        values.put(KEY_DATE, chapter.getCreatedString());
+        values.put(KEY_DATE, chapter.getDatestring());
         values.put(KEY_CHAPTER_TEXT, chapter.getText());
         long chapter_id = db.insert(TABLE_CHAPTER, null, values);
         return chapter_id;
+    }
+
+    public Chapter getChapter(long chapter_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT  * FROM " + TABLE_CHAPTER + " WHERE "
+                + KEY_ID + " = " + chapter_id;
+        Log.e(LOG, query);
+
+        Cursor c = db.rawQuery(query, null);
+
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        Chapter chapter = new Chapter();
+        chapter.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        chapter.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
+        chapter.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
+        chapter.setDatestring(c.getString(c.getColumnIndex(KEY_DATE)));
+        chapter.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
+
+        return chapter;
     }
 
     @Override

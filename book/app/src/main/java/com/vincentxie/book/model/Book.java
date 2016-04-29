@@ -137,7 +137,7 @@ public class Book implements Serializable {
 		try {
 			mapper.writeValue(context.openFileOutput(file_name, Context.MODE_PRIVATE), this);
 		} catch (Exception e) {
-			System.out.println("Invalid json serialization.");
+			e.printStackTrace();
 		}
 	}
 

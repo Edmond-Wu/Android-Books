@@ -11,9 +11,11 @@ import java.util.*;
 
 public class Chapter implements Serializable, Comparable<Chapter> {
 	private int id;
+	private int bookid;
 	private String title;
 	private String text;
 	private Date created;
+	private String datestring;
 
 	public Chapter() {
 		created = new Date();
@@ -22,13 +24,17 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	/**
 	 * Chapter constructor
 	 * @param c chapter title
-	 * @param t chapter text body
-	 */
-	public Chapter(String c, String t) {
+	 * @param t chapter text
+	 * @param bkid id number of the book associated with it
+     */
+	public Chapter(String c, String t, int bkid) {
 		title = c;
 		text = t;
 		created = new Date();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH::mm::ss");
+		datestring = df.format(created);
 		id = (int) (Math.random() * (1000000 - 1)) + 1;
+		bookid = bkid;
 	}
 
 	/**
@@ -37,6 +43,10 @@ public class Chapter implements Serializable, Comparable<Chapter> {
      */
 	public int getId() {
 		return id;
+	}
+
+	public int getBookid() {
+		return bookid;
 	}
 
 	/**
@@ -67,10 +77,8 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	 * Gets the date in string format
 	 * @return
      */
-	public String getCreatedString() {
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH::mm::ss");
-		String string_date = df.format(created);
-		return string_date;
+	public String getDatestring() {
+		return datestring;
 	}
 
 	/**
@@ -95,6 +103,14 @@ public class Chapter implements Serializable, Comparable<Chapter> {
      */
 	public void setText(String new_text) {
 		text = new_text;
+	}
+
+	public void setDatestring(String date_string) {
+		datestring = date_string;
+	}
+
+	public void setBookid(int new_book_id) {
+		bookid = new_book_id;
 	}
 
 	/**
