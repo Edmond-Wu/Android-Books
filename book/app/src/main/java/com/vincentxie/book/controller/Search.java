@@ -85,6 +85,12 @@ public class Search extends Fragment {
         });
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
     private static class BookAdapter extends ArrayAdapter<Book> {
 
         Context context;

@@ -16,8 +16,6 @@ public class Book implements Serializable {
 	private String author;
 	private List<String> genre;
 	private List<Chapter> chapters;
-	//private List<Review> reviews;
-	private Review review;
 	private String cover;
 	private String synopsis;
 	private int id;
@@ -40,7 +38,6 @@ public class Book implements Serializable {
 	public Book(String t, String a, List<String> g, String synopsis, String c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
-		//reviews = new ArrayList<Review>();
 		author = a;
 		genre = g;
 		cover = c;
@@ -63,16 +60,6 @@ public class Book implements Serializable {
 	public List<Chapter> getChapters() {
 		return chapters;
 	}
-	
-	/**
-	 * Gets the book's reviews
-	 * @return ArrayList of reviews
-	 */
-	/*
-	public List<Review> getReviews() {
-		return reviews;
-	}
-	*/
 
 	/**
 	 * Gets synopsis
@@ -104,14 +91,6 @@ public class Book implements Serializable {
      */
 	public String getCover() {
 		return cover;
-	}
-
-	/**
-	 * Returns the book's solo review
-	 * @return review
-     */
-	public Review getReview() {
-		return review;
 	}
 
 	/**
@@ -160,14 +139,6 @@ public class Book implements Serializable {
 		} catch (Exception e) {
 			System.out.println("Invalid json serialization.");
 		}
-	}
-
-	/**
-	 * Sets the book's review
-	 * @param rev a review
-     */
-	public void setReview(Review rev) {
-		review = rev;
 	}
 
 	/**

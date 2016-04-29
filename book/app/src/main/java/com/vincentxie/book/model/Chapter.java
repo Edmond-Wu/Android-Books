@@ -1,6 +1,8 @@
 package com.vincentxie.book.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -59,6 +61,16 @@ public class Chapter implements Serializable, Comparable<Chapter> {
      */
 	public Date getCreated() {
 		return created;
+	}
+
+	/**
+	 * Gets the date in string format
+	 * @return
+     */
+	public String getCreatedString() {
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH::mm::ss");
+		String string_date = df.format(created);
+		return string_date;
 	}
 
 	/**

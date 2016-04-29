@@ -3,17 +3,13 @@ package com.vincentxie.book.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.vincentxie.book.model.Book;
 import com.vincentxie.book.model.Chapter;
-import com.vincentxie.book.model.Review;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -29,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //tables
     private final static String TABLE_BOOK = "books";
     private final static String TABLE_CHAPTER = "chapters";
-    private final static String TABLE_REVIEW = "reviews";
+    private final static String TABLE_BOOK_GENRE = "book_genre";
 
     //common columns
     private final static String KEY_ID = "id";
@@ -45,20 +41,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final static String KEY_DATE = "date";
     private final static String KEY_CHAPTER_TEXT = "chapter_text";
 
-    //review columns
-    private final static String KEY_RATING = "rating";
-    private final static String KEY_REVIEW_TEXT = "review_text";
-
-    //chapter & review columns
+    //book_genre columns
     private final static String KEY_BOOK_ID = "book_id";
+    private final static String KEY_GENRE_ID = "genre_id";
 
     //Table creation strings
-    private static final String CREATE_TABLE_BOOK = "CREATE TABLE " + TABLE_BOOK + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+    private final static String CREATE_TABLE_BOOK = "CREATE TABLE " + TABLE_BOOK + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_BOOK_TITLE + " TEXT," + KEY_AUTHOR + " TEXT," + KEY_SYNOPSIS + " TEXT," + KEY_COVER + " TEXT" + ")";
-    private static final String CREATE_TABLE_CHAPTER = "CREATE TABLE " + TABLE_CHAPTER + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+    private final static String CREATE_TABLE_CHAPTER = "CREATE TABLE " + TABLE_CHAPTER + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_BOOK_ID + " INTEGER," + KEY_CHAPTER_TITLE + " TEXT," + KEY_DATE + " DATETIME," + KEY_CHAPTER_TEXT + " TEXT" + ")";
-    private static final String CREATE_TABLE_REVIEW = "CREATE TABLE " + TABLE_REVIEW + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_BOOK_ID + " INTEGER," + KEY_RATING + " INTEGER," + KEY_REVIEW_TEXT + " TEXT" + ")";
+    private final static String CREATE_TABLE_BOOK_GENRE = "CREATE TABLE " + TABLE_BOOK_GENRE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_BOOK_ID + " INTEGER," + KEY_GENRE_ID + " INTEGER" + ")";
 
     private static final int DB_VERSION = 1;
 
@@ -171,62 +164,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_BOOK, KEY_ID + " = ?", new String[]{String.valueOf(book_id)});
     }
 
-    public long createReview(Review review) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_RATING, review.getRating());
-        values.put(KEY_REVIEW_TEXT, review.getText());
-
-        long review_id = db.insert(TABLE_REVIEW, null, values);
-        return review_id;
-    }
-
-    public List<Review> getAllReviews() {
-        List<Review> reviews = new ArrayList<Review>();
-        String select_query = "SELECT  * FROM " + TABLE_REVIEW;
-
-        Log.e(LOG, select_query);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(select_query, null);
-
-        if (c.moveToFirst()) {
-            do {
-                Review review = new Review();
-                review.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                review.setRating(c.getFloat(c.getColumnIndex(KEY_RATING)));
-                review.setText(c.getString(c.getColumnIndex(KEY_REVIEW_TEXT)));
-
-                reviews.add(review);
-            } while (c.moveToNext());
-        }
-        return reviews;
-    }
-
     public long createChapter(Chapter chapter) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(KEY_CHAPTER_TITLE, chapter.getTitle());
-        values.put(KEY_CHAPTER_TEXT, chapter.getTitle());
 
-        long review_id = db.insert(TABLE_REVIEW, null, values);
-        return review_id;
+        values.put(KEY_CHAPTER_TITLE, chapter.getTitle());
+        values.put(KEY_DATE, chapter.getCreatedString());
+        values.put(KEY_CHAPTER_TEXT, chapter.getText());
+        long chapter_id = db.insert(TABLE_CHAPTER, null, values);
+        return chapter_id;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BOOK);
         db.execSQL(CREATE_TABLE_CHAPTER);
-        db.execSQL(CREATE_TABLE_REVIEW);
+        db.execSQL(CREATE_TABLE_BOOK_GENRE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHAPTER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHAPTER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOK_GENRE);
         onCreate(db);
     }
 }

@@ -132,6 +132,13 @@ public class Browse extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        if(currentSort.equals("title")){
+            books = com.vincentxie.book.util.Sorter.sortByTitle(books);
+        } else if (currentSort.equals("author")){
+            books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
+        } else if (currentSort.equals("rating")){
+            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+        }
         adapter.notifyDataSetChanged();
     }
 
