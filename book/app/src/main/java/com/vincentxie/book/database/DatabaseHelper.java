@@ -70,7 +70,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long book_id = db.insert(TABLE_BOOK, null, values);
 
-
+        for (Chapter c : book.getChapters()) {
+            createChapter(c);
+        }
 
         return book_id;
     }
@@ -196,6 +198,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         chapter.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
 
         return chapter;
+    }
+
+    public List<Chapter> getAllChapters() {
+        List<Chapter> chapters = new ArrayList<Chapter>();
+        String query = "SELECT  * FROM " + TABLE_CHAPTER;
+        Log.e(LOG, query);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Chapter chap = new Chapter();
+                chap.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                chap.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
+                chap.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
+                chap.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
+                chap.setDatestring(c.getString(c.getColumnIndex(KEY_DATE)));
+                chap.setDateFromString();
+
+                chapters.add(chap);
+            } while (c.moveToNext());
+        }
+
+        return chapters;
     }
 
     @Override

@@ -198,6 +198,24 @@ public class Browse extends Fragment {
      * @param books Arraylist of books
      */
     private void setUpList(View view, List<Book> books){
+        File folder = context1.getFilesDir();
+        File[] directoryListing = folder.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String file_name = child.getName();
+                if (file_name.contains("book-")) {
+                    //System.out.println(file_name);
+                    try {
+                        Book b = jsonDeserialize(file_name, context1);
+                        System.out.println(b.getTitle());
+                    } catch (Exception e) {
+                        continue;
+                    }
+                }
+            }
+        } else {
+            System.out.println("Empty or invalid directory");
+        }
         List<String> genres = new ArrayList<String>();
         genres.add("Action");
         genres.add("Adventure");
@@ -316,32 +334,13 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
-        emptyDirectory();
+        //emptyDirectory();
 
         for (Book book : books) {
             book.toJson(context1);
         }
 
         DatabaseHelper helper;
-
-        File folder = context1.getFilesDir();
-        File[] directoryListing = folder.listFiles();
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                String file_name = child.getName();
-                if (file_name.contains("book-")) {
-                    System.out.println(file_name);
-                    try {
-                        Book b = jsonDeserialize(file_name, context1);
-                        System.out.println(b.getTitle());
-                    } catch (Exception e) {
-                        continue;
-                    }
-                }
-            }
-        } else {
-            System.out.println("Empty or invalid directory");
-        }
 
         currentSort = "title";
         books = com.vincentxie.book.util.Sorter.sortByTitle(books);

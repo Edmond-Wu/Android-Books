@@ -113,6 +113,16 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 		bookid = new_book_id;
 	}
 
+	public void setDateFromString() {
+		String pattern = "MM/dd/yyyy HH::mm::ss";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+		try {
+			created = formatter.parse(datestring);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Compares chapters
 	 * @param c another chapter
