@@ -18,6 +18,7 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	private String datestring;
 
 	public Chapter() {
+		id = (int) (Math.random() * (1000000 - 1)) + 1;
 		created = new Date();
 	}
 

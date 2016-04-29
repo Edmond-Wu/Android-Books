@@ -25,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //tables
     private final static String TABLE_BOOK = "books";
     private final static String TABLE_CHAPTER = "chapters";
+    private final static String TABLE_GENRE = "genres";
     private final static String TABLE_BOOK_GENRE = "book_genre";
 
     //common columns
@@ -41,6 +42,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final static String KEY_DATE = "date";
     private final static String KEY_CHAPTER_TEXT = "chapter_text";
 
+    //genre columns
+    private final static String KEY_GENRE = "genre";
+
     //book_genre columns
     private final static String KEY_BOOK_ID = "book_id";
     private final static String KEY_GENRE_ID = "genre_id";
@@ -50,6 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_BOOK_TITLE + " TEXT," + KEY_AUTHOR + " TEXT," + KEY_SYNOPSIS + " TEXT," + KEY_COVER + " TEXT" + ")";
     private final static String CREATE_TABLE_CHAPTER = "CREATE TABLE " + TABLE_CHAPTER + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_BOOK_ID + " INTEGER," + KEY_CHAPTER_TITLE + " TEXT," + KEY_DATE + " DATETIME," + KEY_CHAPTER_TEXT + " TEXT" + ")";
+    private final static String CREATE_TABLE_GENRE = "CREATE TABLE " + TABLE_GENRE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_GENRE + " TEXT" + ")";
     private final static String CREATE_TABLE_BOOK_GENRE = "CREATE TABLE " + TABLE_BOOK_GENRE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_BOOK_ID + " INTEGER," + KEY_GENRE_ID + " INTEGER" + ")";
 
@@ -225,10 +231,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return chapters;
     }
 
+    public List<Chapter> getChaptersByBook(int book_id) {
+        List<Chapter> chapters = new ArrayList<Chapter>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT  * FROM " + TABLE_CHAPTER + " WHERE "
+                + KEY_BOOK_ID + " = " + book_id;
+        Log.e(LOG, query);
+
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()) {
+            Chapter chap = new Chapter();
+            chap.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            chap.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
+            chap.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
+            chap.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
+            chap.setDatestring(c.getString(c.getColumnIndex(KEY_DATE)));
+            chap.setDateFromString();
+
+            chapters.add(chap);
+        } while (c.moveToNext());
+        return chapters;
+    }
+
+    public void deleteChapter(Chapter chapter) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CHAPTER, KEY_ID + " = ?", new String[]{String.valueOf(chapter.getId())});
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BOOK);
         db.execSQL(CREATE_TABLE_CHAPTER);
+        db.execSQL(CREATE_TABLE_GENRE);
         db.execSQL(CREATE_TABLE_BOOK_GENRE);
     }
 

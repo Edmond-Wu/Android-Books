@@ -20,6 +20,8 @@ import com.vincentxie.book.model.Book;
 import java.util.HashMap;
 import java.util.List;
 import com.vincentxie.book.model.Chapter;
+import com.vincentxie.book.model.Genre;
+
 import android.widget.ListView;
 import android.graphics.drawable.Drawable;
 import java.io.InputStream;
@@ -145,14 +147,14 @@ public class BookView extends AppCompatActivity {
         author.setText(book.getAuthor());
         TextView synopsis = (TextView)findViewById(R.id.synopsis_text);
         synopsis.setText(book.getSynopsis());
-        List<String> genres = book.getGenre();
+        List<Genre> genres = book.getGenres();
         String genresString = "";
         TextView genresText = (TextView)findViewById(R.id.genres_text);
         if(genres != null && genres.size() != 0) {
             for (int i = 0; i < genres.size() - 1; i++) {
-                genresString += genres.get(i) + ", ";
+                genresString += genres.get(i).getGenre() + ", ";
             }
-            genresString += genres.get(genres.size() - 1);
+            genresString += genres.get(genres.size() - 1).getGenre();
         }
         genresText.setText(genresString);
         title.setText(book.getTitle());

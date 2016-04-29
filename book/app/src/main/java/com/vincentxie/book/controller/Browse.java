@@ -27,6 +27,7 @@ import java.util.*;
 
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Chapter;
+import com.vincentxie.book.model.Genre;
 import com.vincentxie.book.model.Update;
 
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -192,12 +193,7 @@ public class Browse extends Fragment {
         return b;
     }
 
-    /**
-     * Sets up listview with booklist.
-     * @param view
-     * @param books Arraylist of books
-     */
-    private void setUpList(View view, List<Book> books){
+    public void deserializeList() {
         File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
@@ -216,9 +212,18 @@ public class Browse extends Fragment {
         } else {
             System.out.println("Empty or invalid directory");
         }
-        List<String> genres = new ArrayList<String>();
-        genres.add("Action");
-        genres.add("Adventure");
+    }
+
+    /**
+     * Sets up listview with booklist.
+     * @param view
+     * @param books Arraylist of books
+     */
+    private void setUpList(View view, List<Book> books){
+        emptyDirectory();
+        List<Genre> genres = new ArrayList<Genre>();
+        genres.add(new Genre("Action"));
+        genres.add(new Genre("Adventure"));
         Book bk = new Book("Z", "A", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
         Book bk1 = new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
         books.add(bk1);
@@ -334,11 +339,11 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
-        //emptyDirectory();
-
         for (Book book : books) {
             book.toJson(context1);
         }
+
+        deserializeList();
 
         DatabaseHelper helper;
 

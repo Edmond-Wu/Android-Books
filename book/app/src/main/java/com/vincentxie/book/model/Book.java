@@ -14,7 +14,7 @@ import java.util.*;
 public class Book implements Serializable {
 	private String title;
 	private String author;
-	private List<String> genre;
+	private List<Genre> genres;
 	private List<Chapter> chapters;
 	private String cover;
 	private String synopsis;
@@ -24,7 +24,7 @@ public class Book implements Serializable {
 	 * Default constructor
 	 */
 	public Book() {
-
+		id = (int) (Math.random() * (100000 - 1)) + 1;
 	}
 
 	/**
@@ -35,11 +35,11 @@ public class Book implements Serializable {
 	 * @param synopsis
      * @param c cover
      */
-	public Book(String t, String a, List<String> g, String synopsis, String c) {
+	public Book(String t, String a, List<Genre> g, String synopsis, String c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
 		author = a;
-		genre = g;
+		genres = g;
 		cover = c;
 		this.synopsis = synopsis;
 		id = (int) (Math.random() * (100000 - 1)) + 1;
@@ -81,8 +81,8 @@ public class Book implements Serializable {
 	 * Return's the book's genre
 	 * @return genre
      */
-	public List<String> getGenre() {
-		return genre;
+	public List<Genre> getGenres() {
+		return genres;
 	}
 
 	/**
