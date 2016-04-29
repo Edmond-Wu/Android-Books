@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.vincentxie.book.model.Book;
 import com.vincentxie.book.model.Chapter;
+import com.vincentxie.book.model.Genre;
 
 import java.util.*;
 
@@ -18,7 +19,6 @@ import java.util.*;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String LOG = "DatabaseHelper";
-    private static Context mContext;
 
     private static final String DB_NAME = "books.db";
 
@@ -63,7 +63,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        mContext = context;
     }
 
     public long createBook(Book book) {
@@ -76,17 +75,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long book_id = db.insert(TABLE_BOOK, null, values);
 
+        List<Genre> genres = getAllGenres();
+        List<String> genre_names = new ArrayList<String>();
+        List<String> db_genre_names = new ArrayList<String>();
+        for (Genre g : genres) {
+            db_genre_names.add(g.getGenre());
+        }
+        for (Genre g : book.getGenres()) {
+            String genre = g.getGenre();
+            if (!db_genre_names.contains(genre)) {
+                long genre_id = createGenre(g);
+            }
+        }
         for (Chapter c : book.getChapters()) {
             createChapter(c);
         }
-
         return book_id;
     }
 
     public Book getBook(long book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String select_query = "SELECT  * FROM " + TABLE_BOOK + " WHERE " + KEY_ID + " = " + book_id;
+        String select_query = "SELECT * FROM " + TABLE_BOOK + " WHERE " + KEY_ID + " = " + book_id;
         Log.e(LOG, select_query);
 
         Cursor c = db.rawQuery(select_query, null);
@@ -107,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<Book>();
-        String select_query = "SELECT  * FROM " + TABLE_BOOK;
+        String select_query = "SELECT * FROM " + TABLE_BOOK;
 
         Log.e(LOG, select_query);
 
@@ -131,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Book> getAllBooksByAuthor(String author_name) {
         List<Book> books = new ArrayList<Book>();
-        String select_query = "SELECT  * FROM " + TABLE_BOOK + " WHERE "
+        String select_query = "SELECT * FROM " + TABLE_BOOK + " WHERE "
                 + KEY_AUTHOR + " = " + author_name;
 
         Log.e(LOG, select_query);
@@ -172,6 +182,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_BOOK, KEY_ID + " = ?", new String[]{String.valueOf(book_id)});
     }
 
+    public long createGenre(Genre genre) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_GENRE, genre.getGenre());
+
+        long genre_id = db.insert(TABLE_GENRE, null, values);
+        return genre_id;
+    }
+
+    public Genre getGenre(long genre_id) {
+        Genre genre;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_GENRE + " WHERE "
+                + KEY_ID + " = " + genre_id;
+        Log.e(LOG, query);
+        Cursor c = db.rawQuery(query, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        genre = new Genre();
+        genre.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        genre.setGenre(c.getString(c.getColumnIndex(KEY_GENRE)));
+
+        return genre;
+    }
+
+    public List<Genre> getAllGenres() {
+        List<Genre> genres = new ArrayList<Genre>();
+        String query = "SELECT * FROM " + TABLE_GENRE;
+        Log.e(LOG, query);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Genre genre = new Genre();
+                genre.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                genre.setGenre(c.getString(c.getColumnIndex(KEY_GENRE)));
+                genres.add(genre);
+            } while (c.moveToNext());
+        }
+
+        return genres;
+    }
+
+    public int updateGenre(Genre genre) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_GENRE, genre.getGenre());
+
+        return db.update(TABLE_GENRE, values, KEY_ID + " = ?", new String[]{String.valueOf(genre.getId())});
+    }
+
+    public void deleteGenre(long genre_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GENRE, KEY_ID + " = ?", new String[]{String.valueOf(genre_id)});
+    }
+
+
     public long createChapter(Chapter chapter) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -186,7 +257,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Chapter getChapter(long chapter_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT  * FROM " + TABLE_CHAPTER + " WHERE "
+        String query = "SELECT * FROM " + TABLE_CHAPTER + " WHERE "
                 + KEY_ID + " = " + chapter_id;
         Log.e(LOG, query);
 
@@ -208,7 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Chapter> getAllChapters() {
         List<Chapter> chapters = new ArrayList<Chapter>();
-        String query = "SELECT  * FROM " + TABLE_CHAPTER;
+        String query = "SELECT * FROM " + TABLE_CHAPTER;
         Log.e(LOG, query);
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -234,7 +305,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Chapter> getChaptersByBook(int book_id) {
         List<Chapter> chapters = new ArrayList<Chapter>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT  * FROM " + TABLE_CHAPTER + " WHERE "
+        String query = "SELECT * FROM " + TABLE_CHAPTER + " WHERE "
                 + KEY_BOOK_ID + " = " + book_id;
         Log.e(LOG, query);
 
@@ -242,7 +313,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             Chapter chap = new Chapter();
-            chap.setId(c.getInt(c.getColumnIndex(KEY_ID)));
             chap.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
             chap.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
             chap.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
@@ -254,9 +324,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return chapters;
     }
 
-    public void deleteChapter(Chapter chapter) {
+    public int updateChapter(Chapter chapter) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CHAPTER, KEY_ID + " = ?", new String[]{String.valueOf(chapter.getId())});
+        ContentValues values = new ContentValues();
+        values.put(KEY_CHAPTER_TITLE, chapter.getTitle());
+        values.put(KEY_CHAPTER_TEXT, chapter.getText());
+        values.put(KEY_DATE, chapter.getDatestring());
+
+        return db.update(TABLE_CHAPTER, values, KEY_ID + " = ?", new String[]{String.valueOf(chapter.getId())});
+    }
+
+    public void deleteChapter(long chapter_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CHAPTER, KEY_ID + " = ?", new String[]{String.valueOf(chapter_id)});
+    }
+
+    public long createBookGenre(long book_id, long genre_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_BOOK_ID, book_id);
+        values.put(KEY_GENRE_ID, genre_id);
+
+        long id = db.insert(CREATE_TABLE_BOOK_GENRE, null, values);
+        return id;
     }
 
     @Override
@@ -273,5 +363,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHAPTER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOK_GENRE);
         onCreate(db);
+    }
+
+    public void wipe() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_BOOK, null, null);
+        db.delete(TABLE_CHAPTER, null, null);
+        db.delete(TABLE_GENRE, null, null);
+        db.delete(TABLE_BOOK_GENRE, null, null);
+    }
+
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
     }
 }

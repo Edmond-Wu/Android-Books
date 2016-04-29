@@ -24,7 +24,7 @@ public class Book implements Serializable {
 	 * Default constructor
 	 */
 	public Book() {
-		id = (int) (Math.random() * (100000 - 1)) + 1;
+
 	}
 
 	/**
@@ -41,8 +41,7 @@ public class Book implements Serializable {
 		author = a;
 		genres = g;
 		cover = c;
-		this.synopsis = synopsis;
-		id = (int) (Math.random() * (100000 - 1)) + 1;
+		synopsis = synopsis;
 	}
 	
 	/**

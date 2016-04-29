@@ -10,12 +10,11 @@ public class Genre implements Serializable {
     private String genre;
 
     public Genre() {
-        id = (int) (Math.random() * (1000 - 1)) + 1;
+
     }
 
     public Genre(String g) {
         genre = g;
-        id = (int) (Math.random() * (1000 - 1)) + 1;
     }
 
     public int getId() {

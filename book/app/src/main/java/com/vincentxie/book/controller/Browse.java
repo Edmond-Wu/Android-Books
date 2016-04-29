@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,8 +227,6 @@ public class Browse extends Fragment {
         genres.add(new Genre("Adventure"));
         Book bk = new Book("Z", "A", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
         Book bk1 = new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
-        books.add(bk1);
-        books.add(bk);
         Chapter chapter = new Chapter("Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
                 "\n" +
                 "Fight and kill, a reward will be given.\n" +
@@ -328,7 +327,9 @@ public class Browse extends Fragment {
                 "At the same time they felt bad for Hansoo.\n" +
                 "“Take care. We leave it up to you.”\n" +
                 "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.", bk1.getId());
-        books.get(0).getChapters().add(chapter);
+        bk.getChapters().add(chapter);
+        books.add(bk);
+        books.add(bk1);
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
@@ -345,7 +346,17 @@ public class Browse extends Fragment {
 
         deserializeList();
 
-        DatabaseHelper helper;
+        DatabaseHelper db = new DatabaseHelper(context1);
+        db.wipe();
+        long book1_id = db.createBook(bk);
+        long book2_id = db.createBook(bk1);
+        Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
+        Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
+        Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
+        for (Genre genre : db.getAllGenres()) {
+            System.out.println(genre.getId());
+        }
+        db.closeDB();
 
         currentSort = "title";
         books = com.vincentxie.book.util.Sorter.sortByTitle(books);

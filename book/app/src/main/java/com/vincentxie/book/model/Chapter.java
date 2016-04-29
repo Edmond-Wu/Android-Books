@@ -18,8 +18,7 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	private String datestring;
 
 	public Chapter() {
-		id = (int) (Math.random() * (1000000 - 1)) + 1;
-		created = new Date();
+
 	}
 
 	/**
@@ -34,7 +33,6 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 		created = new Date();
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH::mm::ss");
 		datestring = df.format(created);
-		id = (int) (Math.random() * (1000000 - 1)) + 1;
 		bookid = bkid;
 	}
 
