@@ -58,8 +58,13 @@ public class Sorter {
         Collections.sort(books, new Comparator<Book>() {
             @Override
             public int compare(Book book, Book t1) {
-                Float rating1 = ratings.get(book) == null ? 0 : 2 * ratings.get(book);
-                Float rating2 = ratings.get(book) == null ? 0 : 2 * ratings.get(t1);
+                int rating1 = 0, rating2 = 0;
+                if(ratings.get(book) != null){
+                    rating1 = ratings.get(book).intValue();
+                }
+                if(ratings.get(t1) != null){
+                    rating2 = ratings.get(t1).intValue();
+                }
                 return (int)(rating2 - rating1);
             }
         });

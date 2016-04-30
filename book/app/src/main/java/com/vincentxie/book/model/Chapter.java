@@ -1,6 +1,8 @@
 package com.vincentxie.book.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -9,9 +11,11 @@ import java.util.*;
 
 public class Chapter implements Serializable, Comparable<Chapter> {
 	private int id;
+	private int bookid;
 	private String title;
 	private String text;
 	private Date created;
+	private String datestring;
 
 	public Chapter() {
 
@@ -20,13 +24,16 @@ public class Chapter implements Serializable, Comparable<Chapter> {
 	/**
 	 * Chapter constructor
 	 * @param c chapter title
-	 * @param t chapter text body
-	 */
-	public Chapter(String c, String t) {
+	 * @param t chapter text
+	 * @param bkid id number of the book associated with it
+     */
+	public Chapter(String c, String t, int bkid) {
 		title = c;
 		text = t;
 		created = new Date();
-		id = (int) (Math.random() * (1000000 - 1)) + 1;
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH::mm::ss");
+		datestring = df.format(created);
+		bookid = bkid;
 	}
 
 	/**
@@ -35,6 +42,10 @@ public class Chapter implements Serializable, Comparable<Chapter> {
      */
 	public int getId() {
 		return id;
+	}
+
+	public int getBookid() {
+		return bookid;
 	}
 
 	/**
@@ -59,6 +70,56 @@ public class Chapter implements Serializable, Comparable<Chapter> {
      */
 	public Date getCreated() {
 		return created;
+	}
+
+	/**
+	 * Gets the date in string format
+	 * @return
+     */
+	public String getDatestring() {
+		return datestring;
+	}
+
+	/**
+	 * Sets chapter id
+	 * @param new_id
+     */
+	public void setId(int new_id) {
+		id = new_id;
+	}
+
+	/**
+	 * Sets the chapter title
+	 * @param new_title
+     */
+	public void setTitle(String new_title) {
+		title = new_title;
+	}
+
+	/**
+	 * Sets the chapter text
+	 * @param new_text
+     */
+	public void setText(String new_text) {
+		text = new_text;
+	}
+
+	public void setDatestring(String date_string) {
+		datestring = date_string;
+	}
+
+	public void setBookid(int new_book_id) {
+		bookid = new_book_id;
+	}
+
+	public void setDateFromString() {
+		String pattern = "MM/dd/yyyy HH::mm::ss";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+		try {
+			created = formatter.parse(datestring);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

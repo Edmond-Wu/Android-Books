@@ -14,10 +14,8 @@ import java.util.*;
 public class Book implements Serializable {
 	private String title;
 	private String author;
-	private List<String> genre;
+	private List<Genre> genres;
 	private List<Chapter> chapters;
-	//private List<Review> reviews;
-	private Review review;
 	private String cover;
 	private String synopsis;
 	private int id;
@@ -37,15 +35,13 @@ public class Book implements Serializable {
 	 * @param synopsis
      * @param c cover
      */
-	public Book(String t, String a, List<String> g, String synopsis, String c) {
+	public Book(String t, String a, List<Genre> g, String synopsis, String c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
-		//reviews = new ArrayList<Review>();
 		author = a;
-		genre = g;
+		genres = g;
 		cover = c;
-		this.synopsis = synopsis;
-		id = (int) (Math.random() * (100000 - 1)) + 1;
+		synopsis = synopsis;
 	}
 	
 	/**
@@ -63,16 +59,6 @@ public class Book implements Serializable {
 	public List<Chapter> getChapters() {
 		return chapters;
 	}
-	
-	/**
-	 * Gets the book's reviews
-	 * @return ArrayList of reviews
-	 */
-	/*
-	public List<Review> getReviews() {
-		return reviews;
-	}
-	*/
 
 	/**
 	 * Gets synopsis
@@ -94,8 +80,8 @@ public class Book implements Serializable {
 	 * Return's the book's genre
 	 * @return genre
      */
-	public List<String> getGenre() {
-		return genre;
+	public List<Genre> getGenres() {
+		return genres;
 	}
 
 	/**
@@ -104,14 +90,6 @@ public class Book implements Serializable {
      */
 	public String getCover() {
 		return cover;
-	}
-
-	/**
-	 * Returns the book's solo review
-	 * @return review
-     */
-	public Review getReview() {
-		return review;
 	}
 
 	/**
@@ -158,16 +136,8 @@ public class Book implements Serializable {
 		try {
 			mapper.writeValue(context.openFileOutput(file_name, Context.MODE_PRIVATE), this);
 		} catch (Exception e) {
-			System.out.println("Invalid json serialization.");
+			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Sets the book's review
-	 * @param rev a review
-     */
-	public void setReview(Review rev) {
-		review = rev;
 	}
 
 	/**
@@ -192,5 +162,21 @@ public class Book implements Serializable {
      */
 	public void setSynopsis(String syn) {
 		synopsis = syn;
+	}
+
+	/**
+	 * Sets the book's cover
+	 * @param cov
+     */
+	public void setCover(String cov) {
+		cover = cov;
+	}
+
+	/**
+	 * Sets the book's database id
+	 * @param new_id
+     */
+	public void setId(int new_id) {
+		id = new_id;
 	}
 }
