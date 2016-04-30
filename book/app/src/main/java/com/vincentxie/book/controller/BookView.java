@@ -1,7 +1,9 @@
 package com.vincentxie.book.controller;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,12 +15,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
+import android.view.MotionEvent;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
+import android.view.View.OnTouchListener;
+import android.widget.ListAdapter;
+import android.view.View.MeasureSpec;
+import android.support.v7.widget.Toolbar.LayoutParams;
+import android.widget.Button;
 
 import java.util.HashMap;
 import java.util.List;
+
+import com.vincentxie.book.model.Bookmark;
 import com.vincentxie.book.model.Chapter;
 import android.widget.ListView;
 import android.graphics.drawable.Drawable;
@@ -28,13 +37,19 @@ import android.view.View.OnClickListener;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.RatingBar;
+import java.util.ArrayList;
 
 public class BookView extends AppCompatActivity {
 
     private static Context context;
     ToggleButton subButton;
-    private Book book;
+    private static Book book;
+    private BookmarkAdapter bookmarkAdapter;
+    private ChapterAdapter chapterAdapter;
+    private static ListView bookmarkList;
+    private ListView chapters;
     private HashMap<Book, Float> ratings = MainMenu.user.getRatings();
+    public static List<Bookmark> bookmarks = MainMenu.user.getBookmarks().get(book);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +70,14 @@ public class BookView extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ScrollView)findViewById(R.id.book_scroll)).smoothScrollTo(0, 0);
-            }
-        });
+        if(toolbar != null) {
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ScrollView) findViewById(R.id.book_scroll)).smoothScrollTo(0, 0);
+                }
+            });
+        }
     }
 
     @Override
@@ -68,6 +85,16 @@ public class BookView extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.empty_menu, menu);
         return true;
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        stretchListView(bookmarkList);
+        stretchListView(chapters);
+        bookmarkAdapter.notifyDataSetChanged();
+        chapterAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -138,7 +165,6 @@ public class BookView extends AppCompatActivity {
     private void setUpScreen(){
         ImageView cover = (ImageView)findViewById(R.id.book_activity_cover);
         addImageFromAssets(cover, book.getCover());
-        setUpChapters(book);
         TextView title = (TextView)findViewById(R.id.title);
         title.setText(book.getTitle());
         TextView author = (TextView)findViewById(R.id.description);
@@ -158,6 +184,9 @@ public class BookView extends AppCompatActivity {
         title.setText(book.getTitle());
         setTitle(book.getTitle());
 
+        setUpChapters(book);
+        setUpBookmarks();
+
 
         RatingBar ratingBar = ((RatingBar)findViewById(R.id.ratingBar));
         Float rating = ratings.get(book);
@@ -174,48 +203,162 @@ public class BookView extends AppCompatActivity {
         });
     }
 
+    private void setUpBookmarks(){
+        bookmarkList = (ListView) findViewById(R.id.bookmarks);
+        if(bookmarks == null){
+            bookmarks = new ArrayList<Bookmark>();
+        }
+        bookmarkAdapter = new BookmarkAdapter(this, R.layout.bookmark_row, bookmarks);
+        if (bookmarkList != null) {
+            bookmarkList.setAdapter(bookmarkAdapter);
+            stretchListView(bookmarkList);
+            bookmarkList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    System.out.println(id);
+                    Intent myIntent = new Intent(getApplicationContext(), Reader.class);
+                    int index = Browse.book.getChapters().indexOf(bookmarks.get(position).getChapter());
+                    myIntent.putExtra("bookmarks", position);
+                    myIntent.putExtra("index", index);
+                    startActivity(myIntent);
+                }
+            });
+        }
+    }
+
     /**
      * Sets up listview with chapters.
      * @param book
      */
     private void setUpChapters(Book book){
 
-        ListView chapters = (ListView) findViewById(R.id.chapters);
-        ChapterAdapter adapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
-        chapters.setAdapter(adapter);
+        chapters = (ListView) findViewById(R.id.chapters);
+        if (chapters != null) {
+            chapters.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+        }
+
+        chapterAdapter = new ChapterAdapter(this, R.layout.row, book.getChapters());
+        if (chapters != null) {
+            chapters.setAdapter(chapterAdapter);
+            stretchListView(chapters);
+            chapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myIntent = new Intent(getApplicationContext(), Reader.class);
+                    myIntent.putExtra("index", position);
+                    startActivity(myIntent);
+                }
+            });
+        }
 
         book.toJson(context);
+    }
 
-        chapters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(getApplicationContext(), Reader.class);
-                myIntent.putExtra("index", position);
-                startActivity(myIntent);
-            }
-        });
+    /**
+     * Stretches listview to show all elements.
+     * @param listView
+     */
+    public static void stretchListView(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 
     private static class ChapterAdapter extends ArrayAdapter<Chapter> {
 
         Context context;
         List<Chapter> chapters;
+        int rowid;
 
         private static class ViewHolder {
             private TextView itemView;
         }
 
-        public ChapterAdapter(Context context, int textViewResourceId, List<Chapter> items) {
+        public ChapterAdapter(Context context, int resourceId, List<Chapter> items) {
             super(context, -1, items);
             this.chapters = items;
             this.context = context;
+            this.rowid = resourceId;
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = inflater.inflate(R.layout.row, parent, false);
+            View row = inflater.inflate(rowid, parent, false);
             TextView titleView = (TextView) row.findViewById(R.id.title);
             titleView.setText(chapters.get(position).getTitle());
+
+            return row;
+        }
+    }
+
+    private static class BookmarkAdapter extends ArrayAdapter<Bookmark> {
+
+        Context context;
+        List<Bookmark> bookmarks;
+        int rowid;
+
+        private static class ViewHolder {
+            private TextView itemView;
+        }
+
+        public BookmarkAdapter(Context context, int resourceId, List<Bookmark> items) {
+            super(context, -1, items);
+            this.bookmarks = items;
+            this.context = context;
+            this.rowid = resourceId;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = inflater.inflate(rowid, parent, false);
+            TextView titleView = (TextView) row.findViewById(R.id.title);
+            titleView.setText(bookmarks.get(position).getName());
+            ImageView delete = (ImageView) row.findViewById(R.id.delete_bookmark_button);
+            delete.setTag(position);
+            delete.setOnClickListener(
+                    new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final View myView = view;
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Integer index = (Integer) myView.getTag();
+                                    bookmarks.remove(index.intValue());
+                                    stretchListView(bookmarkList);
+                                    notifyDataSetChanged();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {}
+                            });
+                            builder.setTitle("Delete this bookmark?");
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+            );
 
             return row;
         }

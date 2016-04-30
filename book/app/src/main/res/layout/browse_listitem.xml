@@ -21,7 +21,6 @@
         android:singleLine="true"
         android:textSize="12sp"
         android:textColor="#737373"
-        android:autoText="false"
         android:layout_below="@+id/title"
         android:layout_toEndOf="@+id/cover" />
 

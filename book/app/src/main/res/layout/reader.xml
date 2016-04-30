@@ -10,13 +10,14 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_marginBottom="@dimen/scroll_margin"
         android:layout_marginTop="@dimen/scroll_margin"
         android:scrollbarThumbVertical="@color/lightBlue"
         android:scrollbarSize="@dimen/scroll_size"
-        android:id="@+id/reader_scroll" >
+        android:id="@+id/reader_scroll"
+        android:layout_alignParentEnd="false">
         <TextView
             android:id="@+id/fullscreen_content"
             android:layout_marginRight="@dimen/reader_margin"
@@ -24,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text=""
-            android:paddingTop="10dp" />
+            android:paddingTop="10dp"
+            android:clickable="false" />
     </ScrollView>
 
 </RelativeLayout>

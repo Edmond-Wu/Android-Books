@@ -11,11 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.SearchView;
+import android.view.WindowManager.LayoutParams;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.LinearLayout;
+import android.text.TextWatcher;
+import android.text.Editable;
 
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Chapter;
@@ -23,6 +29,9 @@ import com.vincentxie.book.model.Chapter;
 import org.w3c.dom.Text;
 import android.widget.ScrollView;
 import android.view.MenuInflater;
+import android.widget.EditText;
+import android.text.InputType;
+import com.vincentxie.book.model.Bookmark;
 
 
 /**
@@ -30,11 +39,16 @@ import android.view.MenuInflater;
  * status bar and navigation/system bar) with user interaction.
  */
 public class Reader extends AppCompatActivity {
+
+    private int scroll;
+    private Chapter chapter;
+    private ScrollView scrollView;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
     private static final boolean AUTO_HIDE = true;
+    private static final int INITIAL_HIDE_DELAY = 1000;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -117,8 +131,14 @@ public class Reader extends AppCompatActivity {
 
         setSettings();
 
-        Chapter chapter = Browse.book.getChapters().get(getIntent().getIntExtra("index", 0));
-        setUpChapter(chapter);
+        chapter = Browse.book.getChapters().get(getIntent().getIntExtra("index", 0));
+        try {
+            Bookmark bookmark = BookView.bookmarks.get(getIntent().getIntExtra("bookmarks", -1));
+            scroll = bookmark.getScroll();
+        } catch (Exception e){
+            scroll = 0;
+        }
+        setUpChapter();
     }
 
     @Override
@@ -149,14 +169,20 @@ public class Reader extends AppCompatActivity {
 
     /**
      * Sets up data for the page.
-     * @param chapter
      */
-    public void setUpChapter(Chapter chapter){
+    public void setUpChapter(){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(chapter.getTitle());
 
         if(mContentView instanceof TextView) {
             ((TextView) mContentView).setText(chapter.getText());
+            scrollView = ((ScrollView)findViewById(R.id.reader_scroll));
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.scrollTo(0, scroll);
+                }
+            });
         }
 
     }
@@ -168,7 +194,44 @@ public class Reader extends AppCompatActivity {
         if (id == R.id.scroll_up) {
             ((ScrollView)findViewById(R.id.reader_scroll)).smoothScrollTo(0, 0);
         } else if (id == R.id.bookmark){
-            System.out.println("bookmark");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setHint("Bookmark name");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(input)
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            BookView.bookmarks.add(new Bookmark(((ScrollView)findViewById(R.id.reader_scroll)).getScrollY(),
+                                chapter, input.getText().toString()));
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {}
+                    })
+                    .setTitle("Add bookmark");
+
+            final AlertDialog dialog = builder.create();
+            dialog.getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence c, int i, int j, int k) {}
+
+                @Override
+                public void onTextChanged(CharSequence c, int i, int j, int k) {}
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (editable.toString().length() == 0){
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                    } else {
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    }
+                }
+            });
+            dialog.setView(input, 20, 0, 20, 0);
+            dialog.show();
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         }
 
         return super.onOptionsItemSelected(item);
@@ -181,7 +244,7 @@ public class Reader extends AppCompatActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(600);
+        delayedHide(INITIAL_HIDE_DELAY);
     }
 
     private void toggle() {
@@ -190,7 +253,6 @@ public class Reader extends AppCompatActivity {
         } else {
             show();
         }
-        System.out.println(((ScrollView)findViewById(R.id.reader_scroll)).getScrollY());
     }
 
     private void hide() {

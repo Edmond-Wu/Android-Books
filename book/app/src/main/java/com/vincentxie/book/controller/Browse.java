@@ -297,6 +297,7 @@ public class Browse extends Fragment {
                 "“Take care. We leave it up to you.”\n" +
                 "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.");
         books.get(0).getChapters().add(chapter);
+        books.get(0).getChapters().add(new Chapter("test", "test"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
