@@ -342,6 +342,11 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
+        try {
+            context1.deleteDatabase("books.db");
+        } catch (Exception e) {
+
+        }
         DatabaseHelper db = new DatabaseHelper(context1);
         db.wipe();
 
@@ -350,17 +355,9 @@ public class Browse extends Fragment {
             db.createBook(book);
         }
 
-        //Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
-        //Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
-        //Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
-        for (Chapter chap : db.getAllChapters()) {
-            System.out.println("Chapter Name: " + chap.getTitle() + ", Book ID: " + chap.getBookid());
-        }
-        for (Book book : db.getAllBooks()) {
-            for (Chapter chap : book.getChapters()) {
-                System.out.println(chap.getTitle() + " - " + chap.getBookid());
-            }
-        }
+        Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
+        Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
+        Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
 
         //db.closeDB();
 

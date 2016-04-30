@@ -120,6 +120,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         List<Chapter> chapters = getChaptersByBook((int)book_id);
         book.getChapters().addAll(chapters);
+        List<Genre> genres = getGenresByBook((int)book_id);
+        book.getGenres().addAll(genres);
 
         return book;
     }
@@ -144,6 +146,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 List<Chapter> chapters = getChaptersByBook(book.getId());
                 book.getChapters().addAll(chapters);
+                List<Genre> genres = getGenresByBook((int)book.getId());
+                book.getGenres().addAll(genres);
 
                 books.add(book);
             } while (c.moveToNext());
@@ -154,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Book> getAllBooksByAuthor(String author_name) {
         List<Book> books = new ArrayList<Book>();
         String select_query = "SELECT * FROM " + TABLE_BOOK + " WHERE "
-                + KEY_AUTHOR + " = " + author_name;
+                + KEY_AUTHOR + " = \"" + author_name + "\"";
 
         Log.e(LOG, select_query);
 
@@ -172,6 +176,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 List<Chapter> chapters = getChaptersByBook(book.getId());
                 book.getChapters().addAll(chapters);
+                List<Genre> genres = getGenresByBook(book.getId());
+                book.getGenres().addAll(genres);
 
                 books.add(book);
             } while (c.moveToNext());
@@ -201,6 +207,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteBook(long book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        List<Chapter> chapters = getChaptersByBook((int)book_id);
+        for (Chapter chapter : chapters) {
+            System.out.println(chapter.getId());
+            deleteChapter(chapter.getId());
+        }
         db.delete(TABLE_BOOK, KEY_ID + " = ?", new String[]{String.valueOf(book_id)});
     }
 
@@ -251,6 +262,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return genres;
     }
 
+    public List<Genre> getGenresByBook(long book_id) {
+        List<Genre> genres = new ArrayList<Genre>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_BOOK_GENRE + " WHERE "
+                + KEY_BOOK_ID + " = " + book_id;
+        Log.e(LOG, query);
+
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Genre genre = new Genre();
+                genre.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                genre.setGenre(getGenre(c.getInt(c.getColumnIndex(KEY_GENRE_ID))).getGenre());
+
+                genres.add(genre);
+            } while (c.moveToNext());
+        }
+        return genres;
+    }
+
     public int updateGenre(Genre genre) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -262,6 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteGenre(long genre_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GENRE, KEY_ID + " = ?", new String[]{String.valueOf(genre_id)});
+        db.delete(TABLE_BOOK_GENRE, KEY_GENRE_ID + " = ?", new String[]{String.valueOf(genre_id)});
     }
 
 
@@ -336,6 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 Chapter chap = new Chapter();
+                chap.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 chap.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
                 chap.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
                 chap.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
