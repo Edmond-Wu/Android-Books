@@ -24,7 +24,8 @@ public class Book implements Serializable {
 	 * Default constructor
 	 */
 	public Book() {
-
+		chapters = new ArrayList<Chapter>();
+		genres = new ArrayList<Genre>();
 	}
 
 	/**
@@ -32,16 +33,16 @@ public class Book implements Serializable {
 	 * @param t title
 	 * @param a author
 	 * @param g genre
-	 * @param synopsis
+	 * @param synop
      * @param c cover
      */
-	public Book(String t, String a, List<Genre> g, String synopsis, String c) {
+	public Book(String t, String a, List<Genre> g, String synop, String c) {
 		title = t;
 		chapters = new ArrayList<Chapter>();
 		author = a;
 		genres = g;
 		cover = c;
-		synopsis = synopsis;
+		synopsis = synop;
 	}
 	
 	/**

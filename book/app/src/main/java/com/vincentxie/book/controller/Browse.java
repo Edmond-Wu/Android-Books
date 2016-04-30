@@ -227,7 +227,7 @@ public class Browse extends Fragment {
         genres.add(new Genre("Adventure"));
         Book bk = new Book("Z", "A", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
         Book bk1 = new Book("Reincarnator", "ALLA", genres, "The change brought to entertain the bored God. And the story of Kang Hansoo who returned to the past to save the humankind from its perishment brought by the change.", "reincarnator.jpg");
-        Chapter chapter = new Chapter("Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
+        Chapter chapter = new Chapter("Bk Chapter 1", "A god who loved watching bloody battles the most created a new world to get rid of his boredom.\n" +
                 "\n" +
                 "Fight and kill, a reward will be given.\n" +
                 "\n" +
@@ -326,8 +326,10 @@ public class Browse extends Fragment {
                 "Since their minds were now at rest.\n" +
                 "At the same time they felt bad for Hansoo.\n" +
                 "“Take care. We leave it up to you.”\n" +
-                "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.", bk1.getId());
+                "The three watched the disappeared Hansoo as they smiled with a mix of regret and relief. Soon the energy blasted out by the golden dragons swept them from above like a storm.", bk.getId());
         bk.getChapters().add(chapter);
+        bk.getChapters().add(new Chapter("Bk Chapter 2", "This is Chapter 2.", bk.getId()));
+        bk1.getChapters().add(new Chapter("Bk1 Chapter 1", "This is Chapter 1.", bk1.getId()));
         books.add(bk);
         books.add(bk1);
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
@@ -340,23 +342,27 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
-        for (Book book : books) {
-            book.toJson(context1);
-        }
-
-        deserializeList();
-
         DatabaseHelper db = new DatabaseHelper(context1);
         db.wipe();
-        long book1_id = db.createBook(bk);
-        long book2_id = db.createBook(bk1);
-        Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
-        Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
-        Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
-        for (Genre genre : db.getAllGenres()) {
-            System.out.println(genre.getId());
+
+        for (Book book : books) {
+            book.toJson(context1);
+            db.createBook(book);
         }
-        db.closeDB();
+
+        //Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
+        //Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
+        //Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
+        for (Chapter chap : db.getAllChapters()) {
+            System.out.println("Chapter Name: " + chap.getTitle() + ", Book ID: " + chap.getBookid());
+        }
+        for (Book book : db.getAllBooks()) {
+            for (Chapter chap : book.getChapters()) {
+                System.out.println(chap.getTitle() + " - " + chap.getBookid());
+            }
+        }
+
+        //db.closeDB();
 
         currentSort = "title";
         books = com.vincentxie.book.util.Sorter.sortByTitle(books);

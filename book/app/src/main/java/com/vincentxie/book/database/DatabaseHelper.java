@@ -77,17 +77,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         List<Genre> genres = getAllGenres();
         List<String> genre_names = new ArrayList<String>();
-        List<String> db_genre_names = new ArrayList<String>();
-        for (Genre g : genres) {
-            db_genre_names.add(g.getGenre());
+
+        //forms a list of genre strings
+        for (Genre genre : genres) {
+            genre_names.add(genre.getGenre());
         }
-        for (Genre g : book.getGenres()) {
-            String genre = g.getGenre();
-            if (!db_genre_names.contains(genre)) {
-                long genre_id = createGenre(g);
+        for (Genre genre : book.getGenres()) {
+            //if the database contains the genre
+            if (genre_names.contains(genre.getGenre())) {
+                int genre_index = genre_names.indexOf(genre.getGenre());
+                createBookGenre(book_id, genres.get(genre_index).getId());
+            }
+            else {
+                createBookGenre(book_id, createGenre(genre));
             }
         }
         for (Chapter c : book.getChapters()) {
+            c.setBookid((int)book_id);
             createChapter(c);
         }
         return book_id;
@@ -112,6 +118,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         book.setSynopsis(c.getString(c.getColumnIndex(KEY_SYNOPSIS)));
         book.setCover((c.getString(c.getColumnIndex(KEY_COVER))));
 
+        List<Chapter> chapters = getChaptersByBook((int)book_id);
+        book.getChapters().addAll(chapters);
+
         return book;
     }
 
@@ -132,6 +141,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 book.setAuthor(c.getString(c.getColumnIndex(KEY_AUTHOR)));
                 book.setSynopsis(c.getString(c.getColumnIndex(KEY_SYNOPSIS)));
                 book.setCover((c.getString(c.getColumnIndex(KEY_COVER))));
+
+                List<Chapter> chapters = getChaptersByBook(book.getId());
+                book.getChapters().addAll(chapters);
 
                 books.add(book);
             } while (c.moveToNext());
@@ -158,6 +170,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 book.setSynopsis(c.getString(c.getColumnIndex(KEY_SYNOPSIS)));
                 book.setCover((c.getString(c.getColumnIndex(KEY_COVER))));
 
+                List<Chapter> chapters = getChaptersByBook(book.getId());
+                book.getChapters().addAll(chapters);
+
                 books.add(book);
             } while (c.moveToNext());
         }
@@ -173,6 +188,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_AUTHOR, book.getAuthor());
         values.put(KEY_SYNOPSIS, book.getSynopsis());
         values.put(KEY_COVER, book.getCover());
+
+        List<Chapter> chapters = book.getChapters();
+        List<Chapter> db_chapters = getChaptersByBook(book.getId());
+        List<String> chapter_names = new ArrayList<String>();
+        for (Chapter chapter : db_chapters) {
+            chapter_names.add(chapter.getTitle());
+        }
 
         return db.update(TABLE_BOOK, values, KEY_ID + " = ?", new String[]{String.valueOf(book.getId())});
     }
@@ -312,15 +334,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(query, null);
 
         if (c.moveToFirst()) {
-            Chapter chap = new Chapter();
-            chap.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
-            chap.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
-            chap.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
-            chap.setDatestring(c.getString(c.getColumnIndex(KEY_DATE)));
-            chap.setDateFromString();
+            do {
+                Chapter chap = new Chapter();
+                chap.setBookid(c.getInt(c.getColumnIndex(KEY_BOOK_ID)));
+                chap.setTitle(c.getString(c.getColumnIndex(KEY_CHAPTER_TITLE)));
+                chap.setText(c.getString(c.getColumnIndex(KEY_CHAPTER_TEXT)));
+                chap.setDatestring(c.getString(c.getColumnIndex(KEY_DATE)));
+                chap.setDateFromString();
 
-            chapters.add(chap);
-        } while (c.moveToNext());
+                chapters.add(chap);
+            }while (c.moveToNext());
+        }
         return chapters;
     }
 
@@ -345,8 +369,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_BOOK_ID, book_id);
         values.put(KEY_GENRE_ID, genre_id);
 
-        long id = db.insert(CREATE_TABLE_BOOK_GENRE, null, values);
+        long id = db.insert(TABLE_BOOK_GENRE, null, values);
         return id;
+    }
+
+    public void printBookGenres() {
+        String query = "SELECT * FROM " + TABLE_BOOK_GENRE;
+        Log.e(LOG, query);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.moveToFirst()) {
+            do {
+                System.out.println("Book ID: " + c.getInt(c.getColumnIndex(KEY_BOOK_ID)) + ", Genre ID: " + c.getInt(c.getColumnIndex(KEY_GENRE_ID)));
+            } while (c.moveToNext());
+        }
     }
 
     @Override
