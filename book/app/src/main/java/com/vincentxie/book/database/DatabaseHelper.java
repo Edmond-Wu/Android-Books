@@ -189,17 +189,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-
         values.put(KEY_BOOK_TITLE, book.getTitle());
         values.put(KEY_AUTHOR, book.getAuthor());
         values.put(KEY_SYNOPSIS, book.getSynopsis());
         values.put(KEY_COVER, book.getCover());
 
-        List<Chapter> chapters = book.getChapters();
-        List<Chapter> db_chapters = getChaptersByBook(book.getId());
-        List<String> chapter_names = new ArrayList<String>();
-        for (Chapter chapter : db_chapters) {
-            chapter_names.add(chapter.getTitle());
+        int num_chapters = book.getChapters().size();
+        int chapters_in_db = getChaptersByBook(book.getId()).size();
+        int difference = num_chapters - chapters_in_db;
+        if (difference >= 0) {
+            int i = 0;
+            while (i < chapters_in_db) {
+                updateChapter(book.getChapters().get(i));
+                i++;
+            }
+            while (i < num_chapters) {
+                createChapter(book.getChapters().get(i));
+                i++;
+            }
+        }
+        else {
+            int i = 0;
+            while (i < num_chapters) {
+                updateChapter(book.getChapters().get(i));
+                i++;
+            }
+            while (i < chapters_in_db) {
+                deleteChapter(getChaptersByBook(book.getId()).get(i).getId());
+                i++;
+            }
         }
 
         return db.update(TABLE_BOOK, values, KEY_ID + " = ?", new String[]{String.valueOf(book.getId())});

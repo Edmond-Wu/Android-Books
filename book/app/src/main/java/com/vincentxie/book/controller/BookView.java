@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.MotionEvent;
 import com.vincentxie.book.R;
+import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 import android.view.View.OnTouchListener;
 import android.widget.ListAdapter;
@@ -256,7 +257,8 @@ public class BookView extends AppCompatActivity {
                 }
             });
         }
-
+        DatabaseHelper db_helper = new DatabaseHelper(context);
+        db_helper.updateBook(book);
         book.toJson(context);
     }
 
