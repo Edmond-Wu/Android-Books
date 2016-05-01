@@ -347,9 +347,9 @@ public class Browse extends Fragment {
             book.toJson(context1);
             db.createBook(book);
         }
-
-        Book book = db.getBooksByTitle("R").get(0);
-        System.out.println(book.getTitle());
+        Book book = db.getAllBooks().get(0);
+        book.getChapters().add(new Chapter("Chapter 3", "This is chapter 3", book.getId()));
+        db.updateBook(book);
 
         for (Book b : db.getAllBooks()) {
             for (Chapter c : b.getChapters()) {
