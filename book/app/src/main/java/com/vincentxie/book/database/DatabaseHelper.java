@@ -155,10 +155,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return books;
     }
 
-    public List<Book> getAllBooksByAuthor(String author_name) {
+    //adds to the list if the book's author contains the author_name
+    public List<Book> getBooksByAuthor(String author_name) {
         List<Book> books = new ArrayList<Book>();
-        String select_query = "SELECT * FROM " + TABLE_BOOK + " WHERE "
-                + KEY_AUTHOR + " = \"" + author_name + "\"";
+        String select_query = "SELECT * FROM " + TABLE_BOOK
+                + " WHERE " + KEY_AUTHOR + " LIKE " + "\"%" + author_name + "%\"";
+
+        Log.e(LOG, select_query);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(select_query, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Book book = new Book();
+                book.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                book.setTitle(c.getString(c.getColumnIndex(KEY_BOOK_TITLE)));
+                book.setAuthor(c.getString(c.getColumnIndex(KEY_AUTHOR)));
+                book.setSynopsis(c.getString(c.getColumnIndex(KEY_SYNOPSIS)));
+                book.setCover((c.getString(c.getColumnIndex(KEY_COVER))));
+
+                List<Chapter> chapters = getChaptersByBook(book.getId());
+                book.getChapters().addAll(chapters);
+                List<Genre> genres = getGenresByBook(book.getId());
+                book.getGenres().addAll(genres);
+
+                books.add(book);
+            } while (c.moveToNext());
+        }
+        return books;
+    }
+
+    //Adds to the list if the book contains the title
+    public List<Book> getBooksByTitle(String title) {
+        List<Book> books = new ArrayList<Book>();
+        String select_query = "SELECT * FROM " + TABLE_BOOK
+                + " WHERE " + KEY_BOOK_TITLE + " LIKE " + "\"%" + title + "%\"";
 
         Log.e(LOG, select_query);
 
