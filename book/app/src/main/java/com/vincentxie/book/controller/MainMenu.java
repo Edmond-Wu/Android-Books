@@ -35,11 +35,13 @@ public class MainMenu extends AppCompatActivity
 
     private SearchView searchView = null;
     public static User user;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        context = MainMenu.this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -60,6 +62,7 @@ public class MainMenu extends AppCompatActivity
         }
 
         user = new User("","");
+        user.toJson(context);
     }
 
     /**
@@ -209,6 +212,8 @@ public class MainMenu extends AppCompatActivity
         String name = sharedPref.getString("name", "");
         TextView nameView = (TextView) findViewById(R.id.display_name);
         nameView.setText(name);
+        user.setUsername(name);
+        user.toJson(context);
     }
 
     @Override

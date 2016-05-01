@@ -259,7 +259,7 @@ public class BookView extends AppCompatActivity {
         }
         DatabaseHelper db_helper = new DatabaseHelper(context);
         db_helper.updateBook(book);
-        book.toJson(context);
+        //book.toJson(context);
     }
 
     /**

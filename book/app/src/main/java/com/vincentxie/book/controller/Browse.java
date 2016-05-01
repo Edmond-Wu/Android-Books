@@ -346,7 +346,7 @@ public class Browse extends Fragment {
         db.wipe();
 
         for (Book book : books) {
-            book.toJson(context1);
+            //book.toJson(context1);
             db.createBook(book);
         }
 

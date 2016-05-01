@@ -80,6 +80,10 @@ public class User implements Serializable {
 		updates.add(0, update);
 	}
 
+	public void setUsername(String name) {
+		username = name;
+	}
+
 	/**
 	 * Serializes the user data
 	 */
@@ -118,7 +122,7 @@ public class User implements Serializable {
 	 * Json serialization
 	 * @param context
 	 */
-	public void jsonSerialize(Context context) {
+	public void toJson(Context context) {
 		ObjectMapper mapper = new ObjectMapper();
 		String file_name = "user-" + username + ".json";
 		try {
