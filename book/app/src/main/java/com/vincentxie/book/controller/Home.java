@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 import com.vincentxie.book.model.Update;
-import com.vincentxie.book.model.User;
 
 import java.io.InputStream;
 import java.util.List;
@@ -40,7 +39,6 @@ public class Home extends Fragment {
     private List<Update> updates_master;
     private final int INITIAL_SIZE = 5;
     private View loading;
-    private User user;
 
     private Runnable loadUpdates = new Runnable() {
         @Override
@@ -70,9 +68,8 @@ public class Home extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        updates_master = MainMenu.user.getUpdates();
         super.onCreate(savedInstanceState);
-        user = ((User) getArguments().getSerializable("user"));
-        updates_master = user.getUpdates();
     }
 
     public Home() {
@@ -92,7 +89,7 @@ public class Home extends Fragment {
      * Prunes update list for unsubscribed books.
      */
     private void pruneList(){
-        HashMap<Book, Boolean> subs = user.getSubscriptions(); //change this later
+        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions(); //change this later
         for(int i = 0; i < updates_master.size(); i++){
             Boolean sub = subs.get(updates_master.get(i).getBook());
             if(sub == null || sub == false){

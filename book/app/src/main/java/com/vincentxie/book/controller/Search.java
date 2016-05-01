@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
-import com.vincentxie.book.model.User;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -35,14 +34,11 @@ public class Search extends Fragment {
     public static List<Book> results = new ArrayList<Book>();
     private BookAdapter adapter;
     private ListView list;
-    private static HashMap<Book, Float> ratings;
-    private User user;
+    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = ((User) getArguments().getSerializable("user"));
-        ratings = user.getRatings();
     }
     public Search() {
 
