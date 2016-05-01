@@ -33,6 +33,7 @@ import com.vincentxie.book.model.Update;
 
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.util.AttributeSet;
+import com.vincentxie.book.model.User;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -45,11 +46,14 @@ public class Browse extends Fragment {
     private BookAdapter adapter;
     private String currentSort;
     private static Context context1;
-    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
+    private static HashMap<Book, Float> ratings;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = ((User) getArguments().getSerializable("user"));
+        ratings = user.getRatings();
     }
     public Browse() {
 
@@ -332,15 +336,8 @@ public class Browse extends Fragment {
         bk1.getChapters().add(new Chapter("Bk1 Chapter 1", "This is Chapter 1.", bk1.getId()));
         books.add(bk);
         books.add(bk1);
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
+        user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
 
         DatabaseHelper db = new DatabaseHelper(context1);
         db.wipe();

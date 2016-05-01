@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
+import com.vincentxie.book.model.User;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -41,11 +42,14 @@ public class Subscribed extends Fragment {
     private String currentSort;
     private ListView list;
     private static Context context1;
-    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
+    private static HashMap<Book, Float> ratings;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = ((User) getArguments().getSerializable("user"));
+        ratings = user.getRatings();
     }
     public Subscribed() {
 
@@ -79,7 +83,7 @@ public class Subscribed extends Fragment {
      */
     public void setList(){
         books.clear();
-        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
+        HashMap<Book, Boolean> subs = user.getSubscriptions();
         for(Book b: subs.keySet()){
             if(subs.get(b) == true){
                 books.add(b);

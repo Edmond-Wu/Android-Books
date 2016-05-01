@@ -53,20 +53,21 @@ public class MainMenu extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        user = new User("","");
         if (savedInstanceState == null) {
-            setFragment(Home.class, "Home");
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", user);
+            setFragment(Home.class, "Home", bundle);
         } else {
             deselectAll();
         }
-
-        user = new User("","");
     }
 
     /**
      * Sets fragment.
      * @param fragmentClass
      */
-    private void setFragment(Class fragmentClass, String title){
+    private void setFragment(Class fragmentClass, String title, Bundle bundle){
         Fragment fragment = null;
         try {
             fragment = (Fragment)fragmentClass.newInstance();
@@ -76,6 +77,7 @@ public class MainMenu extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content, fragment, "fragment").commit();
+        fragment.setArguments(bundle);
         setTitle(title);
     }
 
@@ -106,7 +108,9 @@ public class MainMenu extends AppCompatActivity
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     if(newText.length() > 0) {
-                        setFragment(Search.class, "Results");
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user", user);
+                        setFragment(Search.class, "Results", bundle);
                         deselectAll();
                         search(newText);
                     }
@@ -114,7 +118,9 @@ public class MainMenu extends AppCompatActivity
                 }
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    setFragment(Search.class, "Results for " + "'" + query + "'");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", user);
+                    setFragment(Search.class, "Results for " + "'" + query + "'", bundle);
                     searchView.onActionViewCollapsed();
                     return true;
                 }
@@ -214,15 +220,22 @@ public class MainMenu extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Bundle bundle;
         switch (item.getItemId()){
             case R.id.nav_home:
-                setFragment(Home.class, "Home");
+                bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                setFragment(Home.class, "Home", bundle);
                 break;
             case R.id.nav_subscribed:
-                setFragment(Subscribed.class, "Subscribed");
+                bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                setFragment(Subscribed.class, "Subscribed", bundle);
                 break;
             case R.id.nav_browse:
-                setFragment(Browse.class, "Browse");
+                bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                setFragment(Browse.class, "Browse", bundle);
                 break;
             /* case R.id.nav_profile:
                 setFragment(Profile.class, "Profile");
