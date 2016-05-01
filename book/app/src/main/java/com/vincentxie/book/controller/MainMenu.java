@@ -1,6 +1,7 @@
 package com.vincentxie.book.controller;
 
-
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -27,7 +28,6 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 import com.vincentxie.book.model.User;
 
-import java.io.Serializable;
 import java.util.*;
 
 public class MainMenu extends AppCompatActivity
@@ -35,7 +35,6 @@ public class MainMenu extends AppCompatActivity
 
     private SearchView searchView = null;
     public static User user;
-    private List<Book> books = new ArrayList<Book>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +137,9 @@ public class MainMenu extends AppCompatActivity
     public void search(String query) {
         query = query.toLowerCase();
         String[] queries = query.split(" ");
+        List<Book> list = Browse.books;
         Search.results = new ArrayList<Book>();
-        for(Book b: books){
+        for(Book b: list){
             Search.results.add(b);
         }
         List<Book> results = Search.results;
@@ -224,19 +224,16 @@ public class MainMenu extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.nav_home:
                 bundle = new Bundle();
-                bundle.putSerializable("books", (Serializable)books);
                 bundle.putSerializable("user", user);
                 setFragment(Home.class, "Home", bundle);
                 break;
             case R.id.nav_subscribed:
                 bundle = new Bundle();
-                bundle.putSerializable("books", (Serializable)books);
                 bundle.putSerializable("user", user);
                 setFragment(Subscribed.class, "Subscribed", bundle);
                 break;
             case R.id.nav_browse:
                 bundle = new Bundle();
-                bundle.putSerializable("books", (Serializable)books);
                 bundle.putSerializable("user", user);
                 setFragment(Browse.class, "Browse", bundle);
                 break;

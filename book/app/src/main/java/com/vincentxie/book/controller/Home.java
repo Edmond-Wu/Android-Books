@@ -41,7 +41,6 @@ public class Home extends Fragment {
     private final int INITIAL_SIZE = 5;
     private View loading;
     private User user;
-    private List<Book> books;
 
     private Runnable loadUpdates = new Runnable() {
         @Override
@@ -49,7 +48,7 @@ public class Home extends Fragment {
             isLoading = true;
             try { Thread.sleep(750);
             } catch (InterruptedException e) {}
-                if(books.size() > 0){
+                if(Browse.books.size() > 0){
                     int size = updates.size();
                     for(int i = size; i < updates_master.size() && i < size + 5; i++) {
                         updates.add(updates_master.get(i));
@@ -74,7 +73,6 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         user = ((User) getArguments().getSerializable("user"));
         updates_master = user.getUpdates();
-        books = ((List<Book>) getArguments().getSerializable("books"));
     }
 
     public Home() {
@@ -149,7 +147,7 @@ public class Home extends Fragment {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
-                    myIntent.putExtra("index", books.indexOf(updates.get(position).getBook())); //CHANGE THIS
+                    myIntent.putExtra("index", Browse.books.indexOf(updates.get(position).getBook()));
                     startActivity(myIntent);
                 }
             });
