@@ -41,19 +41,20 @@ import com.vincentxie.book.model.User;
 public class Browse extends Fragment {
 
     ListView list;
-    public static List<Book> books = new ArrayList<Book>();
     public static Book book;
     private BookAdapter adapter;
     private String currentSort;
     private static Context context1;
     private static HashMap<Book, Float> ratings;
     private User user;
+    public static List<Book> books;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = ((User) getArguments().getSerializable("user"));
         ratings = user.getRatings();
+        books = ((List<Book>) getArguments().getSerializable("books"));
     }
     public Browse() {
 

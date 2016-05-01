@@ -37,12 +37,14 @@ public class Search extends Fragment {
     private ListView list;
     private static HashMap<Book, Float> ratings;
     private User user;
+    private List<Book> books;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = ((User) getArguments().getSerializable("user"));
         ratings = user.getRatings();
+        books = ((List<Book>) getArguments().getSerializable("books"));
     }
     public Search() {
 
@@ -75,7 +77,7 @@ public class Search extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
-                myIntent.putExtra("index", Browse.books.indexOf(results.get(position)));
+                myIntent.putExtra("index", books.indexOf(results.get(position))); //CHANGE THIS
                 startActivity(myIntent);
             }
         });
