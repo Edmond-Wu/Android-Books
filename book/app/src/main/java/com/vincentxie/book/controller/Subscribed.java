@@ -212,7 +212,7 @@ public class Subscribed extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
-                int index = Browse.books.indexOf(books.get(position));
+                int index = MainMenu.books.indexOf(books.get(position));
                 myIntent.putExtra("index", index);
                 startActivity(myIntent);
             }

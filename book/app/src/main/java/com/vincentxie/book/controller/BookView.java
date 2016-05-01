@@ -58,7 +58,7 @@ public class BookView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        book = Browse.books.get(getIntent().getIntExtra("index", 0));;
+        book = MainMenu.books.get(getIntent().getIntExtra("index", 0));;
         context = BookView.this;
         setUpScreen();
         setSubscribeButton();

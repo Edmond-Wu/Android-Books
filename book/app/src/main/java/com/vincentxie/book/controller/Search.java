@@ -71,7 +71,7 @@ public class Search extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
-                myIntent.putExtra("index", Browse.books.indexOf(results.get(position)));
+                myIntent.putExtra("index", MainMenu.books.indexOf(results.get(position)));
                 startActivity(myIntent);
             }
         });
