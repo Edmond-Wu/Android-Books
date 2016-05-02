@@ -234,15 +234,14 @@ public class Browse extends Fragment {
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
         DatabaseHelper db = new DatabaseHelper(context1);
-        db.wipe();
+        //db.wipe();
 
+        /*
         for (Book book : books) {
             //book.toJson(context1);
             db.createBook(book);
         }
-
-        Book book = db.getBooksByTitle("R").get(0);
-        System.out.println(book.getTitle());
+        */
 
         for (Book b : db.getAllBooks()) {
             for (Chapter c : b.getChapters()) {

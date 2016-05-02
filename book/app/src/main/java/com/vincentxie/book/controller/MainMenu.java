@@ -21,6 +21,7 @@ import android.support.v7.widget.SearchView;
 import android.content.Context;
 
 import com.vincentxie.book.*;
+import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 
 import android.content.Intent;
@@ -69,6 +70,7 @@ public class MainMenu extends AppCompatActivity
         user = new User("", "");
         user.toJson(context);
 
+        /*
         List<Genre> genres = new ArrayList<Genre>();
         genres.add(new Genre("Action"));
         genres.add(new Genre("Adventure"));
@@ -179,6 +181,15 @@ public class MainMenu extends AppCompatActivity
         bk1.getChapters().add(new Chapter("Bk1 Chapter 1", "This is Chapter 1.", bk1.getId()));
         books.add(bk);
         books.add(bk1);
+        */
+        DatabaseHelper db = new DatabaseHelper(context);
+        List<Genre> genres = db.getAllGenres();
+        for (Genre genre : genres) {
+            System.out.println(genre.getGenre());
+        }
+        for (Book book : db.getAllBooks()) {
+            System.out.println(book.getTitle());
+        }
     }
 
     /**
