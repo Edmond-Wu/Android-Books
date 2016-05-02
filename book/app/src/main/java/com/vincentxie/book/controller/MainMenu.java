@@ -183,13 +183,14 @@ public class MainMenu extends AppCompatActivity
         books.add(bk1);
         */
         DatabaseHelper db = new DatabaseHelper(context);
-        List<Genre> genres = db.getAllGenres();
-        for (Genre genre : genres) {
-            System.out.println(genre.getGenre());
+        books = db.getAllBooks();
+        /*
+        for (Book book : books) {
+            for (Genre genre : book.getGenres()) {
+                System.out.println(book.getTitle() + ", " + genre.getGenre());
+            }
         }
-        for (Book book : db.getAllBooks()) {
-            System.out.println(book.getTitle());
-        }
+        */
     }
 
     /**
