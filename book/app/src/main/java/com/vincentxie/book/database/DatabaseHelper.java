@@ -217,6 +217,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return books;
     }
 
+    public boolean containsBook(Book book) {
+        String title = book.getTitle();
+        String author = book.getAuthor();
+        for (Book b : getAllBooks()) {
+            if (b.getTitle().equals(title) && b.getAuthor().equals(author)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int updateBook(Book book) {
         SQLiteDatabase db = this.getWritableDatabase();
 

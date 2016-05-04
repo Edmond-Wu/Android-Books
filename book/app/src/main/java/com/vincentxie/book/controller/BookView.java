@@ -50,7 +50,6 @@ public class BookView extends AppCompatActivity {
     private ChapterAdapter chapterAdapter;
     private static ListView bookmarkList;
     private ListView chapters;
-    private HashMap<Book, Float> ratings = MainMenu.user.getRatings();
     public static List<Bookmark> bookmarks = MainMenu.user.getBookmarks().get(book);
 
     @Override
@@ -187,18 +186,19 @@ public class BookView extends AppCompatActivity {
 
 
         RatingBar ratingBar = ((RatingBar)findViewById(R.id.ratingBar));
-        Float rating = ratings.get(book);
+        Float rating = MainMenu.user.getRatings().get(book);
         if(rating != null) {
-            ratingBar.setRating(ratings.get(book));
+            ratingBar.setRating(MainMenu.user.getRatings().get(book));
         } else {
             ratingBar.setRating(0);
         }
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                ratings.put(book, v);
+                MainMenu.user.getRatings().put(book, v);
             }
         });
+        MainMenu.user.serialize(context);
     }
 
     private void setUpBookmarks(){
@@ -252,9 +252,8 @@ public class BookView extends AppCompatActivity {
                 }
             });
         }
-        DatabaseHelper db_helper = new DatabaseHelper(context);
-        db_helper.updateBook(book);
-        //book.toJson(context);
+        MainMenu.db = new DatabaseHelper(context);
+        MainMenu.db.updateBook(book);
     }
 
     /**
