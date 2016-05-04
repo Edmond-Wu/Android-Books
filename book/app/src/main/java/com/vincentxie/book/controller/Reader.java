@@ -45,6 +45,7 @@ public class Reader extends AppCompatActivity {
 
     private int scroll;
     private Chapter chapter;
+    private int chapterNum;
     private ScrollView scrollView;
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -134,9 +135,10 @@ public class Reader extends AppCompatActivity {
 
         setSettings();
 
-        chapter = Browse.book.getChapters().get(getIntent().getIntExtra("index", 0));
+        chapterNum = getIntent().getIntExtra("index", 0);
+        chapter = Browse.book.getChapters().get(chapterNum);
         try {
-            Bookmark bookmark = BookView.bookmarks.get(getIntent().getIntExtra("bookmarks", -1));
+            Bookmark bookmark = BookView.bookmarks.get(getIntent().getIntExtra("bookmarks", 0));
             scroll = bookmark.getScroll();
         } catch (Exception e){
             scroll = 0;
@@ -206,7 +208,7 @@ public class Reader extends AppCompatActivity {
                     .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Bookmark bookmark = new Bookmark(((ScrollView)findViewById(R.id.reader_scroll)).getScrollY(),
-                                    chapter, input.getText().toString());
+                                    chapterNum, input.getText().toString());
                             try {
                                 MainMenu.user.getBookmarks().get(Browse.book.getTitle() + Browse.book.getAuthor()).add(bookmark);
                             } catch (Exception e){

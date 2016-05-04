@@ -7,14 +7,14 @@ import java.io.*;
  */
 public class Bookmark implements Serializable {
     private int scroll;
-    private Chapter chapter;
+    private int chapter;
     private String name;
 
     public Bookmark() {
 
     }
 
-    public Bookmark(int scr, Chapter chap, String name) {
+    public Bookmark(int scr, int chap, String name) {
         scroll = scr;
         chapter = chap;
         this.name = name;
@@ -24,16 +24,8 @@ public class Bookmark implements Serializable {
         return scroll;
     }
 
-    public Chapter getChapter() {
+    public int getChapter() {
         return chapter;
-    }
-
-    public void setScroll(int new_scroll) {
-        scroll = new_scroll;
-    }
-
-    public void setChapter(Chapter new_chapter) {
-        chapter = new_chapter;
     }
 
     public String getName(){

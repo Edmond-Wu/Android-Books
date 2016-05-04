@@ -73,17 +73,10 @@ public class Subscribed extends Fragment {
      */
     public void setList(){
         books.clear();
-<<<<<<< HEAD
         HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
         for(Book book: MainMenu.books) {
             if (subs.get(book.getTitle() + book.getAuthor()) != null && subs.get(book.getTitle() + book.getAuthor()) == true) {
                 books.add(book);
-=======
-        HashSet<Book> subs = MainMenu.user.getSubscriptions();
-        for(Book b: subs){
-            if(subs.contains(b)){
-                books.add(b);
->>>>>>> b1e1edf859ead4bfc2dda0c73a8351319b1da316
             }
         }
     }

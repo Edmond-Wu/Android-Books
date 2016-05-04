@@ -14,15 +14,9 @@ import java.util.*;
 public class User implements Serializable {
 	private String username;
 	private String password;
-<<<<<<< HEAD
 	private HashMap<String, Boolean> subscribed_books;
 	private HashMap<String, List<Bookmark>> bookmarks;
 	private HashMap<String, Float> ratings;
-=======
-	private HashSet<Book> subscribed_books;
-	private HashMap<Book, List<Bookmark>> bookmarks;
-	private HashMap<Book, Float> ratings;
->>>>>>> b1e1edf859ead4bfc2dda0c73a8351319b1da316
 	private List<Update> updates;
 
 	/**
@@ -40,15 +34,9 @@ public class User implements Serializable {
 	public User(String u, String p) {
 		username = u.toLowerCase();
 		password = p;
-<<<<<<< HEAD
 		subscribed_books = new HashMap<String, Boolean>();
 		bookmarks = new HashMap<String, List<Bookmark>>();
 		ratings = new HashMap<String, Float>();
-=======
-		subscribed_books = new HashSet<Book>();
-		bookmarks = new HashMap<Book, List<Bookmark>>();
-		ratings = new HashMap<Book, Float>();
->>>>>>> b1e1edf859ead4bfc2dda0c73a8351319b1da316
 		updates = new ArrayList<Update>();
 	}
 
@@ -72,11 +60,7 @@ public class User implements Serializable {
 	 * Gets the list of books a user is subscribed to
 	 * @return HashMap of subscribed books
 	 */
-<<<<<<< HEAD
 	public HashMap<String, Boolean> getSubscriptions() {
-=======
-	public HashSet<Book> getSubscriptions() {
->>>>>>> b1e1edf859ead4bfc2dda0c73a8351319b1da316
 		return subscribed_books;
 	}
 
@@ -106,11 +90,7 @@ public class User implements Serializable {
 	public void serialize(Context context) {
 		FileOutputStream fileOut;
 		try {
-<<<<<<< HEAD
-			String file_name = "user" + ".ser";
-=======
 			String file_name = "user.ser";
->>>>>>> b1e1edf859ead4bfc2dda0c73a8351319b1da316
 			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);

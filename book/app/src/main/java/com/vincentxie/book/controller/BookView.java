@@ -222,7 +222,7 @@ public class BookView extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     System.out.println(id);
                     Intent myIntent = new Intent(getApplicationContext(), Reader.class);
-                    int index = Browse.book.getChapters().indexOf(bookmarks.get(position).getChapter());
+                    int index = bookmarks.get(position).getChapter();
                     myIntent.putExtra("bookmarks", position);
                     myIntent.putExtra("index", index);
                     startActivity(myIntent);
