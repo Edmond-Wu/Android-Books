@@ -17,7 +17,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.MotionEvent;
 import com.vincentxie.book.R;
-import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 import android.view.View.OnTouchListener;
 import android.widget.ListAdapter;

@@ -17,13 +17,11 @@ import android.app.SearchManager;
 import android.support.v7.widget.SearchView;
 import android.content.Context;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.vincentxie.book.*;
-import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 
 import android.content.Intent;
@@ -36,7 +34,6 @@ import com.vincentxie.book.model.User;
 
 import java.io.*;
 import java.util.*;
-import java.io.*;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,16 +46,26 @@ public class MainMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://popping-torch-3684.firebaseio.com/");
         myFirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                System.out.println(snapshot.getValue());
+                for (DataSnapshot bookSnapshhot : snapshot.getChildren()) {
+                    Book book = bookSnapshhot.getValue(Book.class);
+                    System.out.println(book.getAuthor() + " - " + book.getTitle());
+                    for (Chapter chapter : book.getChapters()) {
+                        System.out.println(chapter.getTitle());
+                    }
+                    for (Genre genre : book.getGenres()) {
+                        System.out.println(genre.getGenre());
+                    }
+                    books.add(book);
+                    System.out.println(books.size());
+                }
             }
             @Override public void onCancelled(FirebaseError error) { }
         });
-        System.out.println(myFirebaseRef.toString());*/
         setContentView(R.layout.activity_menu);
         context = MainMenu.this;
         //emptyDirectory();
@@ -67,6 +74,9 @@ public class MainMenu extends AppCompatActivity
             user = new User("", "");
         }
         System.out.println(user.getUser());
+        for (Book book : books) {
+            System.out.println(book.getTitle());
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -87,9 +97,11 @@ public class MainMenu extends AppCompatActivity
         }
 
         user.serialize(context);
+        /*
         DatabaseHelper db = new DatabaseHelper(context);
         books = db.getAllBooks();
         System.out.println(books.size());
+        */
     }
 
     public User deserialize(String file_name, Context context){
