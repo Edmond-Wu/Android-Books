@@ -199,6 +199,7 @@ public class BookView extends AppCompatActivity {
                 ratings.put(book, v);
             }
         });
+        MainMenu.user.serialize(context);
     }
 
     private void setUpBookmarks(){
@@ -252,8 +253,8 @@ public class BookView extends AppCompatActivity {
                 }
             });
         }
-        DatabaseHelper db_helper = new DatabaseHelper(context);
-        db_helper.updateBook(book);
+        //DatabaseHelper db_helper = new DatabaseHelper(context);
+        //db_helper.updateBook(book);
         //book.toJson(context);
     }
 

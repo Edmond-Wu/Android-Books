@@ -169,11 +169,12 @@ public class Subscribed extends Fragment {
      * @param view
      */
     private void setUpList(View view){
+        /*
         for (Book b : books) {
             //b.serialize(context1);
             b.toJson(context1);
         }
-
+        */
 
         /* File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();

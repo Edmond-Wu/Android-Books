@@ -30,6 +30,8 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 
+import com.vincentxie.book.model.Chapter;
+import com.vincentxie.book.model.Genre;
 import com.vincentxie.book.model.User;
 
 import java.io.*;
@@ -80,9 +82,9 @@ public class MainMenu extends AppCompatActivity
         }
 
 
-        user.toJson(context);
+        user.serialize(context);
 
-        /*
+
         List<Genre> genres = new ArrayList<Genre>();
         genres.add(new Genre("Action"));
         genres.add(new Genre("Adventure"));
@@ -193,16 +195,19 @@ public class MainMenu extends AppCompatActivity
         bk1.getChapters().add(new Chapter("Bk1 Chapter 1", "This is Chapter 1.", bk1.getId()));
         books.add(bk);
         books.add(bk1);
-        */
+
         DatabaseHelper db = new DatabaseHelper(context);
-        books = db.getAllBooks();
-        /*
+        db.wipe();
+
         for (Book book : books) {
-            for (Genre genre : book.getGenres()) {
-                System.out.println(book.getTitle() + ", " + genre.getGenre());
+            if (db.containsBook(book)) {
+                db.updateBook(book);
+            }
+            else {
+                db.createBook(book);
             }
         }
-        */
+
     }
 
     public User deserialize(String file_name, Context context){
