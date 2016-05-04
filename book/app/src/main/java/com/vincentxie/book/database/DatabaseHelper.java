@@ -99,6 +99,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return book_id;
     }
 
+    public boolean containsBook(Book book) {
+        for (Book b : getAllBooks()) {
+            if (b.getAuthor().equals(book.getAuthor()) && b.getTitle().equals(book.getTitle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Book getBook(long book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
 

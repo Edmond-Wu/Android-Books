@@ -30,6 +30,7 @@ import java.util.*;
 import com.vincentxie.book.model.Bookmark;
 import com.vincentxie.book.model.Chapter;
 import com.vincentxie.book.model.Genre;
+import com.vincentxie.book.model.User;
 
 import android.widget.ListView;
 import android.graphics.drawable.Drawable;
@@ -50,8 +51,9 @@ public class BookView extends AppCompatActivity {
     private ChapterAdapter chapterAdapter;
     private static ListView bookmarkList;
     private ListView chapters;
-    private HashMap<Book, Float> ratings = MainMenu.user.getRatings();
-    public static List<Bookmark> bookmarks = MainMenu.user.getBookmarks().get(book);
+    private static User user;
+    private HashMap<Book, Float> ratings;
+    public static List<Bookmark> bookmarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,9 @@ public class BookView extends AppCompatActivity {
         setContentView(R.layout.activity_book);
         book = MainMenu.books.get(getIntent().getIntExtra("index", 0));;
         context = BookView.this;
+        user = MainMenu.deserialize("user.ser", context);
+        ratings = MainMenu.user.getRatings();
+        bookmarks = MainMenu.user.getBookmarks().get(book);
         setUpScreen();
         setSubscribeButton();
         Browse.book = book;
@@ -154,7 +159,7 @@ public class BookView extends AppCompatActivity {
             }
 
         });
-        MainMenu.user.serialize(context);
+        user.serialize(context);
     }
 
     /**
@@ -199,6 +204,7 @@ public class BookView extends AppCompatActivity {
                 ratings.put(book, v);
             }
         });
+        user.serialize(context);
     }
 
     private void setUpBookmarks(){
@@ -252,8 +258,8 @@ public class BookView extends AppCompatActivity {
                 }
             });
         }
-        DatabaseHelper db_helper = new DatabaseHelper(context);
-        db_helper.updateBook(book);
+        //DatabaseHelper db_helper = new DatabaseHelper(context);
+        //db_helper.updateBook(book);
         //book.toJson(context);
     }
 

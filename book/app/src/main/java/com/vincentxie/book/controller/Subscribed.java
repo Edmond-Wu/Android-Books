@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.R;
+import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 
 import java.io.*;
@@ -35,7 +36,6 @@ public class Subscribed extends Fragment {
     private String currentSort;
     private ListView list;
     private static Context context1;
-    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class Subscribed extends Fragment {
         } else if (currentSort.equals("author")){
             books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
         } else if (currentSort.equals("rating")){
-            books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+            books = com.vincentxie.book.util.Sorter.sortByRating(MainMenu.user.getRatings(), books);
         }
         adapter.notifyDataSetChanged();
     }
@@ -110,7 +110,7 @@ public class Subscribed extends Fragment {
                         books = com.vincentxie.book.util.Sorter.sortByAuthor(books);
                         currentSort = "author";
                     } else if(select.equals("rating")) {
-                        books = com.vincentxie.book.util.Sorter.sortByRating(ratings, books);
+                        books = com.vincentxie.book.util.Sorter.sortByRating(MainMenu.user.getRatings(), books);
                         currentSort = "rating";
                     }
                     if(adapter != null){
@@ -169,11 +169,12 @@ public class Subscribed extends Fragment {
      * @param view
      */
     private void setUpList(View view){
+        /*
+        DatabaseHelper db = new DatabaseHelper(context1);
         for (Book b : books) {
-            //b.serialize(context1);
-            b.toJson(context1);
+            db.updateBook(b);
         }
-
+        */
 
         /* File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
@@ -239,7 +240,7 @@ public class Subscribed extends Fragment {
             TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
             RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
-            Float rating = ratings.get(books.get(position));
+            Float rating = MainMenu.user.getRatings().get(books.get(position));
             if(rating != null) {
                 ratingBar.setRating(rating);
             }

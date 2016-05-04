@@ -30,6 +30,8 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 
+import com.vincentxie.book.model.Chapter;
+import com.vincentxie.book.model.Genre;
 import com.vincentxie.book.model.User;
 
 import java.io.*;
@@ -46,8 +48,11 @@ public class MainMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu);
+        context = MainMenu.this;
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://popping-torch-3684.firebaseio.com/");
+        myFirebaseRef.keepSynced(true);
         myFirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -56,9 +61,16 @@ public class MainMenu extends AppCompatActivity
             @Override public void onCancelled(FirebaseError error) { }
         });
         System.out.println(myFirebaseRef.toString());
-        setContentView(R.layout.activity_menu);
-        context = MainMenu.this;
+
         user = deserialize("user.ser", context);
+        for (Book book : user.getSubscriptions()) {
+            System.out.println(book.getTitle());
+        }
+        for (Book book : user.getRatings().keySet()) {
+            System.out.println(user.getRatings().get(book));
+        }
+        //emptyDirectory();
+        //user = new User("","");
         System.out.println(user.getUser());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,9 +92,9 @@ public class MainMenu extends AppCompatActivity
         }
 
 
-        user.toJson(context);
+        user.serialize(context);
+        printDirFiles();
 
-        /*
         List<Genre> genres = new ArrayList<Genre>();
         genres.add(new Genre("Action"));
         genres.add(new Genre("Adventure"));
@@ -193,19 +205,29 @@ public class MainMenu extends AppCompatActivity
         bk1.getChapters().add(new Chapter("Bk1 Chapter 1", "This is Chapter 1.", bk1.getId()));
         books.add(bk);
         books.add(bk1);
-        */
-        DatabaseHelper db = new DatabaseHelper(context);
-        books = db.getAllBooks();
+
         /*
+        DatabaseHelper db = new DatabaseHelper(context);
+        db.wipe();
+        for (Book book : books) {
+            if (db.containsBook(book)) {
+                db.updateBook(book);
+            }
+            else {
+                db.createBook(book);
+            }
+        }
+
         for (Book book : books) {
             for (Genre genre : book.getGenres()) {
                 System.out.println(book.getTitle() + ", " + genre.getGenre());
             }
         }
         */
+        user.serialize(context);
     }
 
-    public User deserialize(String file_name, Context context){
+    public static User deserialize(String file_name, Context context){
         User user = null;
         FileInputStream fileIn;
         try {
@@ -220,7 +242,7 @@ public class MainMenu extends AppCompatActivity
         return user;
     }
 
-    public void printDirFiles() {
+    public static void printDirFiles() {
         File folder = context.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
@@ -238,7 +260,7 @@ public class MainMenu extends AppCompatActivity
         }
     }
 
-    public void emptyDirectory() {
+    public static void emptyDirectory() {
         File folder = context.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
