@@ -85,6 +85,7 @@ public class MainMenu extends AppCompatActivity
             @Override public void onCancelled(FirebaseError error) { }
         });
         setContentView(R.layout.activity_menu);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
