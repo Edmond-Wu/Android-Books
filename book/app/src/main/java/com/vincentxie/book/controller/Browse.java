@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
 import android.content.Context;
 import android.widget.RatingBar;
@@ -27,9 +25,6 @@ import java.io.*;
 import java.util.*;
 
 import com.vincentxie.book.R;
-import com.vincentxie.book.model.Chapter;
-import com.vincentxie.book.model.Genre;
-import com.vincentxie.book.model.Update;
 
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.util.AttributeSet;
