@@ -47,6 +47,7 @@ public class MainMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = MainMenu.this;
         user = deserialize("user.ser", context);
         if(user == null) {
             user = new User("", "");
@@ -84,7 +85,6 @@ public class MainMenu extends AppCompatActivity
             @Override public void onCancelled(FirebaseError error) { }
         });
         setContentView(R.layout.activity_menu);
-        context = MainMenu.this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
