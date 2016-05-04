@@ -51,18 +51,19 @@ public class BookView extends AppCompatActivity {
     private ChapterAdapter chapterAdapter;
     private static ListView bookmarkList;
     private ListView chapters;
-    private HashMap<Book, Float> ratings = MainMenu.user.getRatings();
-    public static List<Bookmark> bookmarks = MainMenu.user.getBookmarks().get(book);
+    private HashMap<String, Float> ratings = MainMenu.user.getRatings();
+    public static List<Bookmark> bookmarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        book = MainMenu.books.get(getIntent().getIntExtra("index", 0));;
+        book = MainMenu.books.get(getIntent().getIntExtra("index", 0));
+        Browse.book = book;
+        bookmarks = MainMenu.user.getBookmarks().get(book.getTitle() + book.getAuthor());
         context = BookView.this;
         setUpScreen();
         setSubscribeButton();
-        Browse.book = book;
         setToolbar();
     }
 
@@ -96,6 +97,7 @@ public class BookView extends AppCompatActivity {
         super.onResume();
         stretchListView(bookmarkList);
         stretchListView(chapters);
+        bookmarks = MainMenu.user.getBookmarks().get(book.getTitle() + book.getAuthor());
         bookmarkAdapter.notifyDataSetChanged();
         chapterAdapter.notifyDataSetChanged();
     }
@@ -140,9 +142,9 @@ public class BookView extends AppCompatActivity {
     private void setSubscribeButton() {
 
         subButton = (ToggleButton) findViewById(R.id.sub_button);
-        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
-        if(subs.get(book) != null){
-            if(subs.get(book) == true) {
+        HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
+        if(subs.get(book.getTitle() + book.getAuthor()) != null){
+            if(subs.get(book.getTitle() + book.getAuthor()) == true) {
                 subButton.toggle();
             }
         }
@@ -150,12 +152,13 @@ public class BookView extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
-                if(subs.get(book) == null || subs.get(book) == false){
-                    subs.put(book, true);
+                HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
+                if(subs.get(book.getTitle() + book.getAuthor()) == null || subs.get(book.getTitle() + book.getAuthor()) == false){
+                    subs.put(book.getTitle() + book.getAuthor(), true);
                 } else {
-                    subs.put(book, false);
+                    subs.put(book.getTitle() + book.getAuthor(), false);
                 }
+                MainMenu.user.serialize(getApplicationContext());
             }
 
         });
@@ -192,16 +195,16 @@ public class BookView extends AppCompatActivity {
 
 
         RatingBar ratingBar = ((RatingBar)findViewById(R.id.ratingBar));
-        Float rating = ratings.get(book);
+        Float rating = ratings.get(book.getTitle() + book.getAuthor());
         if(rating != null) {
-            ratingBar.setRating(ratings.get(book));
+            ratingBar.setRating(rating);
         } else {
             ratingBar.setRating(0);
         }
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                ratings.put(book, v);
+                ratings.put(book.getTitle() + book.getAuthor(), v);
             }
         });
     }

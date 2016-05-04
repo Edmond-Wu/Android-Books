@@ -41,7 +41,7 @@ public class Subscribed extends Fragment {
     private String currentSort;
     private ListView list;
     private static Context context1;
-    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
+    private static HashMap<String, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,10 @@ public class Subscribed extends Fragment {
      */
     public void setList(){
         books.clear();
-        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
-        for(Book b: subs.keySet()){
-            if(subs.get(b) == true){
-                books.add(b);
+        HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
+        for(Book book: MainMenu.books) {
+            if (subs.get(book.getTitle() + book.getAuthor()) != null && subs.get(book.getTitle() + book.getAuthor()) == true) {
+                books.add(book);
             }
         }
     }
@@ -245,7 +245,7 @@ public class Subscribed extends Fragment {
             TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
             RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
-            Float rating = ratings.get(books.get(position));
+            Float rating = ratings.get(books.get(position).getTitle() + books.get(position).getAuthor());
             if(rating != null) {
                 ratingBar.setRating(rating);
             }

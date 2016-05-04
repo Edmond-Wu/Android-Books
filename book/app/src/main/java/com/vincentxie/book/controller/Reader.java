@@ -24,6 +24,7 @@ import android.text.TextWatcher;
 import android.text.Editable;
 
 import com.vincentxie.book.R;
+import com.vincentxie.book.model.Book;
 import com.vincentxie.book.model.Chapter;
 
 import org.w3c.dom.Text;
@@ -33,6 +34,8 @@ import android.widget.EditText;
 import android.text.InputType;
 import com.vincentxie.book.model.Bookmark;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -202,8 +205,15 @@ public class Reader extends AppCompatActivity {
             builder.setView(input)
                     .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            BookView.bookmarks.add(new Bookmark(((ScrollView)findViewById(R.id.reader_scroll)).getScrollY(),
-                                chapter, input.getText().toString()));
+                            Bookmark bookmark = new Bookmark(((ScrollView)findViewById(R.id.reader_scroll)).getScrollY(),
+                                    chapter, input.getText().toString());
+                            try {
+                                MainMenu.user.getBookmarks().get(Browse.book.getTitle() + Browse.book.getAuthor()).add(bookmark);
+                            } catch (Exception e){
+                                List<Bookmark> list = new ArrayList<Bookmark>();
+                                list.add(bookmark);
+                                MainMenu.user.getBookmarks().put(Browse.book.getTitle() + Browse.book.getAuthor(), list);
+                            }
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -232,6 +242,9 @@ public class Reader extends AppCompatActivity {
             dialog.setView(input, 20, 0, 20, 0);
             dialog.show();
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        } else if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

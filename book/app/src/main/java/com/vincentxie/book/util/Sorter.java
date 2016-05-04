@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class Sorter {
 
-    private static HashMap<Book, Float> ratings;
+    private static HashMap<String, Float> ratings;
 
     private Sorter(){
 
@@ -53,17 +53,17 @@ public class Sorter {
      * @param books
      * @return list sorted by rating
      */
-    public static List<Book> sortByRating(HashMap<Book, Float> myRatings, List<Book> books){
+    public static List<Book> sortByRating(HashMap<String, Float> myRatings, List<Book> books){
         ratings = myRatings;
         Collections.sort(books, new Comparator<Book>() {
             @Override
             public int compare(Book book, Book t1) {
                 int rating1 = 0, rating2 = 0;
-                if(ratings.get(book) != null){
-                    rating1 = ratings.get(book).intValue();
+                if(ratings.get(book.getTitle() + book.getAuthor()) != null){
+                    rating1 = ratings.get(book.getTitle() + book.getAuthor()).intValue();
                 }
-                if(ratings.get(t1) != null){
-                    rating2 = ratings.get(t1).intValue();
+                if(ratings.get(t1.getTitle() + t1.getAuthor()) != null){
+                    rating2 = ratings.get(t1.getTitle() + t1.getAuthor()).intValue();
                 }
                 return (int)(rating2 - rating1);
             }

@@ -34,7 +34,7 @@ public class Search extends Fragment {
     public static List<Book> results = new ArrayList<Book>();
     private BookAdapter adapter;
     private ListView list;
-    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
+    private static HashMap<String, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class Search extends Fragment {
             TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
             RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
-            Float rating = ratings.get(books.get(position));
+            Float rating = ratings.get(books.get(position).getTitle() + books.get(position).getAuthor());
             if(rating != null) {
                 ratingBar.setRating(rating);
             }

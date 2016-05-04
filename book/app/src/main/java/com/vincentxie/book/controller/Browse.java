@@ -45,7 +45,7 @@ public class Browse extends Fragment {
     private BookAdapter adapter;
     private String currentSort;
     private static Context context1;
-    private static HashMap<Book, Float> ratings = MainMenu.user.getRatings();
+    private static HashMap<String, Float> ratings = MainMenu.user.getRatings();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -221,38 +221,6 @@ public class Browse extends Fragment {
      * @param books Arraylist of books
      */
     private void setUpList(View view, List<Book> books){
-        emptyDirectory();
-
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
-        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
-
-        DatabaseHelper db = new DatabaseHelper(context1);
-        //db.wipe();
-
-        /*
-        for (Book book : books) {
-            //book.toJson(context1);
-            db.createBook(book);
-        }
-        */
-
-        for (Book b : db.getAllBooks()) {
-            for (Chapter c : b.getChapters()) {
-                System.out.println("Book ID: " + b.getId() + " " + b.getTitle() + ": " + c.getTitle());
-            }
-        }
-        Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
-        Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
-        Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
-
-        //db.closeDB();
 
         currentSort = "title";
         books = com.vincentxie.book.util.Sorter.sortByTitle(books);
@@ -303,7 +271,7 @@ public class Browse extends Fragment {
             TextView authorView = (TextView) row.findViewById(R.id.description);
             authorView.setText(books.get(position).getAuthor());
             RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_browse_bar);
-            Float rating = ratings.get(books.get(position));
+            Float rating = ratings.get(books.get(position).getTitle() + books.get(position).getAuthor());
             if(rating != null) {
                 ratingBar.setRating(rating);
             }

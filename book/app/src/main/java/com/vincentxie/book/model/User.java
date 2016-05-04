@@ -14,9 +14,9 @@ import java.util.*;
 public class User implements Serializable {
 	private String username;
 	private String password;
-	private HashMap<Book, Boolean> subscribed_books;
-	private HashMap<Book, List<Bookmark>> bookmarks;
-	private HashMap<Book, Float> ratings;
+	private HashMap<String, Boolean> subscribed_books;
+	private HashMap<String, List<Bookmark>> bookmarks;
+	private HashMap<String, Float> ratings;
 	private List<Update> updates;
 
 	/**
@@ -34,9 +34,9 @@ public class User implements Serializable {
 	public User(String u, String p) {
 		username = u.toLowerCase();
 		password = p;
-		subscribed_books = new HashMap<Book, Boolean>();
-		bookmarks = new HashMap<Book, List<Bookmark>>();
-		ratings = new HashMap<Book, Float>();
+		subscribed_books = new HashMap<String, Boolean>();
+		bookmarks = new HashMap<String, List<Bookmark>>();
+		ratings = new HashMap<String, Float>();
 		updates = new ArrayList<Update>();
 	}
 
@@ -60,7 +60,7 @@ public class User implements Serializable {
 	 * Gets the list of books a user is subscribed to
 	 * @return HashMap of subscribed books
 	 */
-	public HashMap<Book, Boolean> getSubscriptions() {
+	public HashMap<String, Boolean> getSubscriptions() {
 		return subscribed_books;
 	}
 
@@ -90,7 +90,7 @@ public class User implements Serializable {
 	public void serialize(Context context) {
 		FileOutputStream fileOut;
 		try {
-			String file_name = username + ".ser";
+			String file_name = "user" + ".ser";
 			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
@@ -106,7 +106,7 @@ public class User implements Serializable {
 	 * Gets the user's reviews list
 	 * @return reviews
 	 */
-	public HashMap<Book, Float> getRatings() {
+	public HashMap<String, Float> getRatings() {
 		return ratings;
 	}
 
@@ -114,7 +114,7 @@ public class User implements Serializable {
 	 * Gets the user's bookmark list
 	 * @return bookmark list
 	 */
-	public HashMap<Book, List<Bookmark>> getBookmarks() {
+	public HashMap<String, List<Bookmark>> getBookmarks() {
 		return bookmarks;
 	}
 

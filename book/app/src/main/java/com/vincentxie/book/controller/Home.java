@@ -89,9 +89,9 @@ public class Home extends Fragment {
      * Prunes update list for unsubscribed books.
      */
     private void pruneList(){
-        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions(); //change this later
+        HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
         for(int i = 0; i < updates_master.size(); i++){
-            Boolean sub = subs.get(updates_master.get(i).getBook());
+            Boolean sub = subs.get(updates_master.get(i).getBook().getTitle() + updates_master.get(i).getBook().getAuthor());
             if(sub == null || sub == false){
                 updates_master.set(i, null);
             }
