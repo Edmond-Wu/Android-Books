@@ -115,7 +115,7 @@ public class Book implements Serializable {
 	public void serialize(Context context) {
 		FileOutputStream fileOut;
 		try {
-			String file_name = title + ".ser";
+			String file_name = title + ".bin";
 			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);

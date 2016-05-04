@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,6 +223,8 @@ public class Browse extends Fragment {
      * @param books Arraylist of books
      */
     private void setUpList(View view, List<Book> books){
+        emptyDirectory();
+
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
         MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
@@ -237,11 +238,15 @@ public class Browse extends Fragment {
         DatabaseHelper db = new DatabaseHelper(context1);
         //db.wipe();
 
+        for (Book book : db.getAllBooks()) {
+            book.toJson(context1);
+        }
+
         //List<Book> book_list = deserializeList();
 
-        Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
-        Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
-        Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
+        //Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
+        //Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
+        //Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
 
         //db.closeDB();
 
