@@ -1,7 +1,5 @@
 package com.vincentxie.book.controller;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -10,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.support.v4.app.Fragment;
@@ -20,6 +17,11 @@ import android.app.SearchManager;
 import android.support.v7.widget.SearchView;
 import android.content.Context;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.vincentxie.book.*;
 import com.vincentxie.book.database.DatabaseHelper;
 import com.vincentxie.book.model.Book;
@@ -28,11 +30,9 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 
-import com.vincentxie.book.model.Chapter;
-import com.vincentxie.book.model.Genre;
-import com.vincentxie.book.model.Update;
 import com.vincentxie.book.model.User;
 
+import java.io.*;
 import java.util.*;
 
 public class MainMenu extends AppCompatActivity
@@ -46,8 +46,20 @@ public class MainMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
+        Firebase myFirebaseRef = new Firebase("https://popping-torch-3684.firebaseio.com/");
+        myFirebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());
+            }
+            @Override public void onCancelled(FirebaseError error) { }
+        });
+        System.out.println(myFirebaseRef.toString());
         setContentView(R.layout.activity_menu);
         context = MainMenu.this;
+        user = deserialize("user.ser", context);
+        System.out.println(user.getUser());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -67,7 +79,7 @@ public class MainMenu extends AppCompatActivity
             deselectAll();
         }
 
-        user = new User("", "");
+
         user.toJson(context);
 
         /*
@@ -191,6 +203,51 @@ public class MainMenu extends AppCompatActivity
             }
         }
         */
+    }
+
+    public User deserialize(String file_name, Context context){
+        User user = null;
+        FileInputStream fileIn;
+        try {
+            fileIn = context.openFileInput(file_name);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            user = (User)in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public void printDirFiles() {
+        File folder = context.getFilesDir();
+        File[] directoryListing = folder.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String file_name = child.getName();
+                System.out.println(file_name);
+                try {
+
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+        } else {
+            System.out.println("Empty or invalid directory");
+        }
+    }
+
+    public void emptyDirectory() {
+        File folder = context.getFilesDir();
+        File[] directoryListing = folder.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                child.delete();
+            }
+        } else {
+            System.out.println("Empty or invalid directory");
+        }
     }
 
     /**
@@ -340,7 +397,7 @@ public class MainMenu extends AppCompatActivity
         TextView nameView = (TextView) findViewById(R.id.display_name);
         nameView.setText(name);
         user.setUsername(name);
-        user.toJson(context);
+        //user.toJson(context);
     }
 
     @Override

@@ -25,8 +25,7 @@ import android.view.View.MeasureSpec;
 import android.support.v7.widget.Toolbar.LayoutParams;
 import android.widget.Button;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import com.vincentxie.book.model.Bookmark;
 import com.vincentxie.book.model.Chapter;
@@ -140,26 +139,22 @@ public class BookView extends AppCompatActivity {
     private void setSubscribeButton() {
 
         subButton = (ToggleButton) findViewById(R.id.sub_button);
-        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
-        if(subs.get(book) != null){
-            if(subs.get(book) == true) {
-                subButton.toggle();
-            }
+        HashSet<Book> subs = MainMenu.user.getSubscriptions();
+        if(subs.contains(book)){
+            subButton.toggle();
         }
         subButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
-                if(subs.get(book) == null || subs.get(book) == false){
-                    subs.put(book, true);
-                } else {
-                    subs.put(book, false);
+                HashSet<Book> subs = MainMenu.user.getSubscriptions();
+                if (!subs.contains(book)) {
+                    subs.add(book);
                 }
             }
 
         });
-
+        MainMenu.user.serialize(context);
     }
 
     /**

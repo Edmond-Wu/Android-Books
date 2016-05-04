@@ -14,7 +14,7 @@ import java.util.*;
 public class User implements Serializable {
 	private String username;
 	private String password;
-	private HashMap<Book, Boolean> subscribed_books;
+	private HashSet<Book> subscribed_books;
 	private HashMap<Book, List<Bookmark>> bookmarks;
 	private HashMap<Book, Float> ratings;
 	private List<Update> updates;
@@ -34,7 +34,7 @@ public class User implements Serializable {
 	public User(String u, String p) {
 		username = u.toLowerCase();
 		password = p;
-		subscribed_books = new HashMap<Book, Boolean>();
+		subscribed_books = new HashSet<Book>();
 		bookmarks = new HashMap<Book, List<Bookmark>>();
 		ratings = new HashMap<Book, Float>();
 		updates = new ArrayList<Update>();
@@ -60,7 +60,7 @@ public class User implements Serializable {
 	 * Gets the list of books a user is subscribed to
 	 * @return HashMap of subscribed books
 	 */
-	public HashMap<Book, Boolean> getSubscriptions() {
+	public HashSet<Book> getSubscriptions() {
 		return subscribed_books;
 	}
 
@@ -90,7 +90,7 @@ public class User implements Serializable {
 	public void serialize(Context context) {
 		FileOutputStream fileOut;
 		try {
-			String file_name = username + ".ser";
+			String file_name = "user.ser";
 			fileOut = context.openFileOutput(file_name, Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
@@ -124,9 +124,8 @@ public class User implements Serializable {
 	 */
 	public void toJson(Context context) {
 		ObjectMapper mapper = new ObjectMapper();
-		String file_name = "user-" + username + ".json";
 		try {
-			mapper.writeValue(context.openFileOutput(file_name, Context.MODE_PRIVATE), this);
+			mapper.writeValue(context.openFileOutput("user.json", Context.MODE_PRIVATE), this);
 		} catch (Exception e) {
 			System.out.println("Invalid json serialization.");
 		}

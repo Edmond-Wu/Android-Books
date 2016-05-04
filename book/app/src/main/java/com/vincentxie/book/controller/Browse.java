@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,7 +193,8 @@ public class Browse extends Fragment {
         return b;
     }
 
-    public void deserializeList() {
+    public List<Book> deserializeList() {
+        List<Book> books = new ArrayList<Book>();
         File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
@@ -204,6 +204,7 @@ public class Browse extends Fragment {
                     //System.out.println(file_name);
                     try {
                         Book b = jsonDeserialize(file_name, context1);
+                        books.add(b);
                         System.out.println(b.getTitle());
                     } catch (Exception e) {
                         continue;
@@ -213,6 +214,7 @@ public class Browse extends Fragment {
         } else {
             System.out.println("Empty or invalid directory");
         }
+        return books;
     }
 
     /**
@@ -236,21 +238,15 @@ public class Browse extends Fragment {
         DatabaseHelper db = new DatabaseHelper(context1);
         //db.wipe();
 
-        /*
-        for (Book book : books) {
-            //book.toJson(context1);
-            db.createBook(book);
+        for (Book book : db.getAllBooks()) {
+            book.toJson(context1);
         }
-        */
 
-        for (Book b : db.getAllBooks()) {
-            for (Chapter c : b.getChapters()) {
-                System.out.println("Book ID: " + b.getId() + " " + b.getTitle() + ": " + c.getTitle());
-            }
-        }
-        Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
-        Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
-        Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
+        //List<Book> book_list = deserializeList();
+
+        //Log.d("Book Count", "Book Count: " + db.getAllBooks().size());
+        //Log.d("Chapter Count", "Chapter Count: " + db.getAllChapters().size());
+        //Log.d("Genre Count", "Genre Count: " + db.getAllGenres().size());
 
         //db.closeDB();
 

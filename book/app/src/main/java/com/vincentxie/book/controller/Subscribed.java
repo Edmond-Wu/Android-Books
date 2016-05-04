@@ -22,14 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -79,9 +73,9 @@ public class Subscribed extends Fragment {
      */
     public void setList(){
         books.clear();
-        HashMap<Book, Boolean> subs = MainMenu.user.getSubscriptions();
-        for(Book b: subs.keySet()){
-            if(subs.get(b) == true){
+        HashSet<Book> subs = MainMenu.user.getSubscriptions();
+        for(Book b: subs){
+            if(subs.contains(b)){
                 books.add(b);
             }
         }
