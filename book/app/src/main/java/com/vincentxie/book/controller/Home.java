@@ -89,9 +89,10 @@ public class Home extends Fragment {
     private void pruneList(){
         HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
         for(int i = 0; i < updates_master.size(); i++){
-            Boolean sub = subs.get(updates_master.get(i).getBook().getTitle() + updates_master.get(i).getBook().getAuthor());
+            Boolean sub = subs.get(updates_master.get(i).getTitle() + updates_master.get(i).getAuthor());
             if(sub == null || sub == false){
-                updates_master.set(i, null);
+                updates_master.remove(i);
+                i--;
             }
         }
     }
@@ -142,8 +143,14 @@ public class Home extends Fragment {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent myIntent = new Intent(getActivity().getApplicationContext(), BookView.class);
-                    myIntent.putExtra("index", MainMenu.books.indexOf(updates.get(position).getBook()));
-                    startActivity(myIntent);
+                    Update u = updates.get(position);
+                    for(int i = 0; i < MainMenu.books.size(); i++){
+                        Book b = MainMenu.books.get(i);
+                        if(b.getTitle().equals(u.getTitle()) && b.getAuthor().equals(u.getAuthor())){
+                            myIntent.putExtra("index", i);
+                            startActivity(myIntent);
+                        }
+                    }
                 }
             });
         } else {
@@ -186,7 +193,7 @@ public class Home extends Fragment {
             ImageView cover = (ImageView) row.findViewById(R.id.cover);
             try
             {
-                InputStream is = context.getAssets().open(updates.get(position).getBook().getCover());
+                InputStream is = context.getAssets().open(updates.get(position).getCover());
                 Drawable d = Drawable.createFromStream(is, null);
                 cover.setImageDrawable(d);
                 is.close();

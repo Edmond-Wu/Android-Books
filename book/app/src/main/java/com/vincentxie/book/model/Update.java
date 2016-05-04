@@ -10,7 +10,9 @@ public class Update implements Serializable {
 
     private String update;
     private String desc;
-    private Book book;
+    private String title;
+    private String author;
+    private String cover;
     private Date time;
 
     /**
@@ -20,15 +22,17 @@ public class Update implements Serializable {
 
     }
 
-    public Update(Book book, String update, String description){
-        this.book = book;
+    public Update(String title, String author, String update, String description, String cover){
+        this.title = title;
+        this.author = author;
         this.update = update;
         this.desc = description;
         this.time = Calendar.getInstance().getTime();
+        this.cover = cover;
     }
 
-    public Update(Book book, String update, String description, Date time){
-        this(book, update, description);
+    public Update(String title, String author, String update, String description, String cover, Date time){
+        this(title, author, update, description, cover);
         this.time = time;
     }
 
@@ -56,8 +60,19 @@ public class Update implements Serializable {
      * Get Book
      * @return Book
      */
-    public Book getBook(){
-        return book;
+    public String getTitle(){
+        return title;
+    }
+    public String getAuthor(){
+        return author;
+    }
+
+    /**
+     * Get cover
+     * @return
+     */
+    public String getCover(){
+        return cover;
     }
 
 }
