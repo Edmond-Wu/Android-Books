@@ -61,10 +61,12 @@ public class MainMenu extends AppCompatActivity
         System.out.println(myFirebaseRef.toString());*/
         setContentView(R.layout.activity_menu);
         context = MainMenu.this;
+        //emptyDirectory();
         user = deserialize("user.ser", context);
         if(user == null) {
             user = new User("", "");
         }
+        System.out.println(user.getUser());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -87,7 +89,7 @@ public class MainMenu extends AppCompatActivity
         user.serialize(context);
         DatabaseHelper db = new DatabaseHelper(context);
         books = db.getAllBooks();
-
+        System.out.println(books.size());
     }
 
     public User deserialize(String file_name, Context context){
