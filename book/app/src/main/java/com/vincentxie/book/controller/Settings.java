@@ -194,6 +194,7 @@ public class Settings extends AppCompatPreferenceActivity {
         }
     }
 
+
     /**
      * This fragment shows notification preferences only. It is used when the
      * activity is showing a two-pane settings UI.

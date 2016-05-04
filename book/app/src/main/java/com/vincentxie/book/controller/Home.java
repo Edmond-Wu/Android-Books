@@ -24,7 +24,6 @@ import java.util.*;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import java.text.SimpleDateFormat;
-import android.support.v4.widget.SwipeRefreshLayout;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -33,7 +32,6 @@ public class Home extends Fragment {
 
     private UpdateAdapter adapter;
     private ListView list;
-    private SwipeRefreshLayout swipe;
     private boolean isLoading = false;
     private List<Update> updates;
     private List<Update> updates_master;
