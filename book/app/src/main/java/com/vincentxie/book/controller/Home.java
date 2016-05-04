@@ -89,6 +89,7 @@ public class Home extends Fragment {
     private void pruneList(){
         HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
         for(int i = 0; i < updates_master.size(); i++){
+            System.out.println(updates_master.get(i).getCover());
             Boolean sub = subs.get(updates_master.get(i).getTitle() + updates_master.get(i).getAuthor());
             if(sub == null || sub == false){
                 updates_master.remove(i);
@@ -104,7 +105,6 @@ public class Home extends Fragment {
     private void setUpUpdateList(View view){
         list = (ListView) view.findViewById(R.id.updates);
         pruneList();
-        while(updates_master.remove(null));
         if(updates_master.size() > 0) {
             updates = new ArrayList<Update>();
             for(int i = 0; i < INITIAL_SIZE && i < updates_master.size(); i++){
@@ -146,7 +146,7 @@ public class Home extends Fragment {
                     Update u = updates.get(position);
                     for(int i = 0; i < MainMenu.books.size(); i++){
                         Book b = MainMenu.books.get(i);
-                        if(b.getTitle().equals(u.getTitle()) && b.getAuthor().equals(u.getAuthor())){
+                        if(b.getTitle().equalsIgnoreCase(u.getTitle()) && b.getAuthor().equalsIgnoreCase(u.getAuthor())){
                             myIntent.putExtra("index", i);
                             startActivity(myIntent);
                         }
@@ -198,7 +198,7 @@ public class Home extends Fragment {
                 cover.setImageDrawable(d);
                 is.close();
             }
-            catch(Exception e){}
+            catch(Exception e){  }
             return row;
         }
     }

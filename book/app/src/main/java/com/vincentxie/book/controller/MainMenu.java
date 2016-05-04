@@ -31,6 +31,7 @@ import android.content.SharedPreferences;
 import com.vincentxie.book.model.Chapter;
 import com.vincentxie.book.model.Genre;
 import com.vincentxie.book.model.User;
+import com.vincentxie.book.model.Update;
 
 import java.io.*;
 import java.util.*;
@@ -46,37 +47,44 @@ public class MainMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = deserialize("user.ser", context);
+        if(user == null) {
+            user = new User("", "");
+        }
         Firebase.setAndroidContext(this);
-        Firebase myFirebaseRef = new Firebase("https://popping-torch-3684.firebaseio.com/");
+        Firebase myFirebaseRef = new Firebase("https://torrid-heat-5739.firebaseio.com/");
         myFirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot bookSnapshhot : snapshot.getChildren()) {
+                DataSnapshot booksnap = snapshot.child("books");
+                for (DataSnapshot bookSnapshhot : booksnap.getChildren()) {
                     Book book = bookSnapshhot.getValue(Book.class);
-                    System.out.println(book.getAuthor() + " - " + book.getTitle());
-                    for (Chapter chapter : book.getChapters()) {
-                        System.out.println(chapter.getTitle());
+                    boolean dup = false;
+                    for(int i = 0; i < books.size(); i++){
+                        if(books.get(i).getTitle().equalsIgnoreCase(book.getTitle()) && books.get(i).getAuthor().equalsIgnoreCase(book.getAuthor())){
+                            books.set(i, book);
+                            dup = true;
+                        }
                     }
-                    for (Genre genre : book.getGenres()) {
-                        System.out.println(genre.getGenre());
+                    if(!dup){
+                        books.add(book);
                     }
-                    books.add(book);
-                    System.out.println(books.size());
+                }
+                DataSnapshot updatesnap = snapshot.child("updates");
+                for (DataSnapshot updateSnapshhot : updatesnap.getChildren()) {
+                    Update u = updateSnapshhot.getValue(Update.class);
+                    System.out.println(u.getCover());
+                    if(user.getUpdates().size() == 0){
+                        user.addUpdate(u);
+                    } else if(user.getUpdates().get(0).getId() < u.getId()){
+                        user.addUpdate(u);
+                    }
                 }
             }
             @Override public void onCancelled(FirebaseError error) { }
         });
         setContentView(R.layout.activity_menu);
         context = MainMenu.this;
-        //emptyDirectory();
-        user = deserialize("user.ser", context);
-        if(user == null) {
-            user = new User("", "");
-        }
-        System.out.println(user.getUser());
-        for (Book book : books) {
-            System.out.println(book.getTitle());
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,11 +105,6 @@ public class MainMenu extends AppCompatActivity
         }
 
         user.serialize(context);
-        /*
-        DatabaseHelper db = new DatabaseHelper(context);
-        books = db.getAllBooks();
-        System.out.println(books.size());
-        */
     }
 
     public User deserialize(String file_name, Context context){

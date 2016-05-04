@@ -9,11 +9,12 @@ import java.io.*;
 public class Update implements Serializable {
 
     private String update;
-    private String desc;
+    private String description;
     private String title;
     private String author;
     private String cover;
-    private Date time;
+    private Date time = Calendar.getInstance().getTime();
+    private int id;
 
     /**
      * Default constructor for json serialization
@@ -22,18 +23,14 @@ public class Update implements Serializable {
 
     }
 
-    public Update(String title, String author, String update, String description, String cover){
+    public Update(String title, String author, String update, String description, String cover, int id){
         this.title = title;
         this.author = author;
         this.update = update;
-        this.desc = description;
+        this.description = description;
         this.time = Calendar.getInstance().getTime();
         this.cover = cover;
-    }
-
-    public Update(String title, String author, String update, String description, String cover, Date time){
-        this(title, author, update, description, cover);
-        this.time = time;
+        this.id = id;
     }
 
     public Date getTime(){
@@ -53,7 +50,7 @@ public class Update implements Serializable {
      * @return String description
      */
     public String getDescription(){
-        return desc;
+        return description;
     }
 
     /**
@@ -69,10 +66,14 @@ public class Update implements Serializable {
 
     /**
      * Get cover
-     * @return
+     * @return cover
      */
     public String getCover(){
         return cover;
+    }
+
+    public int getId(){
+        return id;
     }
 
 }

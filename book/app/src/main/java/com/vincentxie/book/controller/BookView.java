@@ -174,7 +174,20 @@ public class BookView extends AppCompatActivity {
         TextView author = (TextView)findViewById(R.id.description);
         author.setText(book.getAuthor());
         TextView synopsis = (TextView)findViewById(R.id.synopsis_text);
-        synopsis.setText(book.getSynopsis());
+        String text = "";
+        if(book.getSynopsis().contains("+ ")) {
+            for (String s : book.getSynopsis().split(" + ")) {
+                try {
+                    text += s.substring(1, s.length() - 4);
+                    text += '\n';
+                } catch (Exception e) {
+
+                }
+            }
+        } else {
+            text = book.getSynopsis();
+        }
+        synopsis.setText(text);
         List<Genre> genres = book.getGenres();
         String genresString = "";
         TextView genresText = (TextView)findViewById(R.id.genres_text);

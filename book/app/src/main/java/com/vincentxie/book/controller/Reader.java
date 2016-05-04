@@ -35,6 +35,7 @@ import android.text.InputType;
 import com.vincentxie.book.model.Bookmark;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -180,7 +181,21 @@ public class Reader extends AppCompatActivity {
         setTitle(chapter.getTitle());
 
         if(mContentView instanceof TextView) {
-            ((TextView) mContentView).setText(chapter.getText());
+            String text = "";
+            if(chapter.getText().contains("+ ")) {
+                for (String s : chapter.getText().split(" + ")) {
+                    try {
+                        System.out.println(s);
+                        text += s.substring(1, s.length() - 4);
+                        text += '\n';
+                    } catch (Exception e) {
+
+                    }
+                }
+            } else {
+                text = chapter.getText();
+            }
+            ((TextView) mContentView).setText(text);
             scrollView = ((ScrollView)findViewById(R.id.reader_scroll));
             scrollView.post(new Runnable() {
                 @Override
