@@ -74,7 +74,6 @@ public class MainMenu extends AppCompatActivity
                 DataSnapshot updatesnap = snapshot.child("updates");
                 for (DataSnapshot updateSnapshhot : updatesnap.getChildren()) {
                     Update u = updateSnapshhot.getValue(Update.class);
-                    System.out.println(u.getCover());
                     if(user.getUpdates().size() == 0){
                         user.addUpdate(u);
                     } else if(user.getUpdates().get(0).getId() < u.getId()){
