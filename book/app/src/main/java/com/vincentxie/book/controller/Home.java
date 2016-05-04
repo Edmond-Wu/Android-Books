@@ -20,12 +20,10 @@ import com.vincentxie.book.model.Book;
 import com.vincentxie.book.model.Update;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.*;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 
 /**
  * Created by vincexie on 4/19/16.

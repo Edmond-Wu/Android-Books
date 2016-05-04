@@ -194,7 +194,8 @@ public class Browse extends Fragment {
         return b;
     }
 
-    public void deserializeList() {
+    public List<Book> deserializeList() {
+        List<Book> books = new ArrayList<Book>();
         File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();
         if (directoryListing != null) {
@@ -204,6 +205,7 @@ public class Browse extends Fragment {
                     //System.out.println(file_name);
                     try {
                         Book b = jsonDeserialize(file_name, context1);
+                        books.add(b);
                         System.out.println(b.getTitle());
                     } catch (Exception e) {
                         continue;
@@ -213,6 +215,7 @@ public class Browse extends Fragment {
         } else {
             System.out.println("Empty or invalid directory");
         }
+        return books;
     }
 
     /**
@@ -221,6 +224,15 @@ public class Browse extends Fragment {
      * @param books Arraylist of books
      */
     private void setUpList(View view, List<Book> books){
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter", "Chapter 1 has been translated!"));
+        MainMenu.user.getUpdates().add(new Update(books.get(0), "New chapter Chapter 2 has been translated!", "Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated! Chapter 2 has been translated!"));
 
         currentSort = "title";
         books = com.vincentxie.book.util.Sorter.sortByTitle(books);

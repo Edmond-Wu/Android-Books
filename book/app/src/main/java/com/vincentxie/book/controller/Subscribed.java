@@ -22,14 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vincentxie.book.R;
 import com.vincentxie.book.model.Book;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created by vincexie on 4/19/16.
@@ -79,10 +73,17 @@ public class Subscribed extends Fragment {
      */
     public void setList(){
         books.clear();
+<<<<<<< HEAD
         HashMap<String, Boolean> subs = MainMenu.user.getSubscriptions();
         for(Book book: MainMenu.books) {
             if (subs.get(book.getTitle() + book.getAuthor()) != null && subs.get(book.getTitle() + book.getAuthor()) == true) {
                 books.add(book);
+=======
+        HashSet<Book> subs = MainMenu.user.getSubscriptions();
+        for(Book b: subs){
+            if(subs.contains(b)){
+                books.add(b);
+>>>>>>> b1e1edf859ead4bfc2dda0c73a8351319b1da316
             }
         }
     }
@@ -175,11 +176,12 @@ public class Subscribed extends Fragment {
      * @param view
      */
     private void setUpList(View view){
+        /*
         for (Book b : books) {
             //b.serialize(context1);
             b.toJson(context1);
         }
-
+        */
 
         /* File folder = context1.getFilesDir();
         File[] directoryListing = folder.listFiles();

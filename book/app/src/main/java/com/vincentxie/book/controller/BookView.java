@@ -25,8 +25,7 @@ import android.view.View.MeasureSpec;
 import android.support.v7.widget.Toolbar.LayoutParams;
 import android.widget.Button;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import com.vincentxie.book.model.Bookmark;
 import com.vincentxie.book.model.Chapter;
@@ -162,7 +161,7 @@ public class BookView extends AppCompatActivity {
             }
 
         });
-
+        MainMenu.user.serialize(context);
     }
 
     /**
@@ -207,6 +206,7 @@ public class BookView extends AppCompatActivity {
                 ratings.put(book.getTitle() + book.getAuthor(), v);
             }
         });
+        MainMenu.user.serialize(context);
     }
 
     private void setUpBookmarks(){
@@ -260,8 +260,8 @@ public class BookView extends AppCompatActivity {
                 }
             });
         }
-        DatabaseHelper db_helper = new DatabaseHelper(context);
-        db_helper.updateBook(book);
+        //DatabaseHelper db_helper = new DatabaseHelper(context);
+        //db_helper.updateBook(book);
         //book.toJson(context);
     }
 

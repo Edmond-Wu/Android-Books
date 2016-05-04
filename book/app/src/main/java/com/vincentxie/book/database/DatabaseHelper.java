@@ -99,11 +99,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return book_id;
     }
 
+    public boolean containsBook(Book book) {
+        for (Book b : getAllBooks()) {
+            if (b.getTitle().equals(book.getTitle()) && b.getAuthor().equals(book.getAuthor())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Book getBook(long book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String select_query = "SELECT * FROM " + TABLE_BOOK + " WHERE " + KEY_ID + " = " + book_id;
-        Log.e(LOG, select_query);
+        //Log.e(LOG, select_query);
 
         Cursor c = db.rawQuery(select_query, null);
 
@@ -130,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Book> books = new ArrayList<Book>();
         String select_query = "SELECT * FROM " + TABLE_BOOK;
 
-        Log.e(LOG, select_query);
+        //Log.e(LOG, select_query);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(select_query, null);
@@ -161,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String select_query = "SELECT * FROM " + TABLE_BOOK
                 + " WHERE " + KEY_AUTHOR + " LIKE " + "\"%" + author_name + "%\"";
 
-        Log.e(LOG, select_query);
+        //Log.e(LOG, select_query);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(select_query, null);
@@ -192,7 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String select_query = "SELECT * FROM " + TABLE_BOOK
                 + " WHERE " + KEY_BOOK_TITLE + " LIKE " + "\"%" + title + "%\"";
 
-        Log.e(LOG, select_query);
+        //Log.e(LOG, select_query);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(select_query, null);
@@ -279,7 +288,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_GENRE + " WHERE "
                 + KEY_ID + " = " + genre_id;
-        Log.e(LOG, query);
+        //Log.e(LOG, query);
         Cursor c = db.rawQuery(query, null);
         if (c != null) {
             c.moveToFirst();
@@ -295,7 +304,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Genre> getAllGenres() {
         List<Genre> genres = new ArrayList<Genre>();
         String query = "SELECT * FROM " + TABLE_GENRE;
-        Log.e(LOG, query);
+        //Log.e(LOG, query);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
@@ -317,7 +326,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_BOOK_GENRE + " WHERE "
                 + KEY_BOOK_ID + " = " + book_id;
-        Log.e(LOG, query);
+        //Log.e(LOG, query);
 
         Cursor c = db.rawQuery(query, null);
 
@@ -364,7 +373,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_CHAPTER + " WHERE "
                 + KEY_ID + " = " + chapter_id;
-        Log.e(LOG, query);
+        //Log.e(LOG, query);
 
         Cursor c = db.rawQuery(query, null);
 
@@ -385,7 +394,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Chapter> getAllChapters() {
         List<Chapter> chapters = new ArrayList<Chapter>();
         String query = "SELECT * FROM " + TABLE_CHAPTER;
-        Log.e(LOG, query);
+        //Log.e(LOG, query);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
@@ -412,7 +421,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_CHAPTER + " WHERE "
                 + KEY_BOOK_ID + " = " + book_id;
-        Log.e(LOG, query);
+        //Log.e(LOG, query);
 
         Cursor c = db.rawQuery(query, null);
 
