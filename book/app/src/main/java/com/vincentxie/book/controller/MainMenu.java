@@ -50,7 +50,7 @@ public class MainMenu extends AppCompatActivity
         context = MainMenu.this;
         user = deserialize("user.ser", context);
         if(user == null) {
-            user = new User("", "");
+            user = new User("Jem Reader", "");
         }
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://torrid-heat-5739.firebaseio.com/");
@@ -298,9 +298,12 @@ public class MainMenu extends AppCompatActivity
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String name = sharedPref.getString("name", "");
         TextView nameView = (TextView) findViewById(R.id.display_name);
-        nameView.setText(name);
+        if(name.isEmpty()){
+            nameView.setText("Jem Reader");
+        } else {
+            nameView.setText(name);
+        }
         user.setUsername(name);
-        //user.toJson(context);
     }
 
     @Override
