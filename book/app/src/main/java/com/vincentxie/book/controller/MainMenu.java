@@ -122,7 +122,7 @@ public class MainMenu extends AppCompatActivity
             in.close();
             fileIn.close();
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return user;
     }
