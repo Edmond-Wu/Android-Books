@@ -58,28 +58,32 @@ public class MainMenu extends AppCompatActivity
         myFirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                DataSnapshot booksnap = snapshot.child("books");
-                for (DataSnapshot bookSnapshhot : booksnap.getChildren()) {
-                    Book book = bookSnapshhot.getValue(Book.class);
-                    boolean dup = false;
-                    for(int i = 0; i < books.size(); i++){
-                        if(books.get(i).getTitle().equalsIgnoreCase(book.getTitle()) && books.get(i).getAuthor().equalsIgnoreCase(book.getAuthor())){
-                            books.set(i, book);
-                            dup = true;
+                try {
+                    DataSnapshot booksnap = snapshot.child("books");
+                    for (DataSnapshot bookSnapshhot : booksnap.getChildren()) {
+                        Book book = bookSnapshhot.getValue(Book.class);
+                        boolean dup = false;
+                        for(int i = 0; i < books.size(); i++){
+                            if(books.get(i).getTitle().equalsIgnoreCase(book.getTitle()) && books.get(i).getAuthor().equalsIgnoreCase(book.getAuthor())){
+                                books.set(i, book);
+                                dup = true;
+                            }
+                        }
+                        if(!dup){
+                            books.add(book);
                         }
                     }
-                    if(!dup){
-                        books.add(book);
+                    DataSnapshot updatesnap = snapshot.child("updates");
+                    for (DataSnapshot updateSnapshhot : updatesnap.getChildren()) {
+                        Update u = updateSnapshhot.getValue(Update.class);
+                        if(user.getUpdates().size() == 0){
+                            user.addUpdate(u);
+                        } else if(user.getUpdates().get(0).getId() < u.getId()){
+                            user.addUpdate(u);
+                        }
                     }
-                }
-                DataSnapshot updatesnap = snapshot.child("updates");
-                for (DataSnapshot updateSnapshhot : updatesnap.getChildren()) {
-                    Update u = updateSnapshhot.getValue(Update.class);
-                    if(user.getUpdates().size() == 0){
-                        user.addUpdate(u);
-                    } else if(user.getUpdates().get(0).getId() < u.getId()){
-                        user.addUpdate(u);
-                    }
+                } catch (Exception e) {
+
                 }
             }
             @Override public void onCancelled(FirebaseError error) { }
