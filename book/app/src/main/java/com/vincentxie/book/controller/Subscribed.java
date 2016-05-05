@@ -169,27 +169,6 @@ public class Subscribed extends Fragment {
      * @param view
      */
     private void setUpList(View view){
-        /*
-        for (Book b : books) {
-            //b.serialize(context1);
-            b.toJson(context1);
-        }
-        */
-
-        /* File folder = context1.getFilesDir();
-        File[] directoryListing = folder.listFiles();
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                String file_name = child.getName();
-                if (file_name.contains("book-")) {
-                    Book b = jsonDeserialize(file_name, context1);
-                    System.out.println(b.getTitle());
-                }
-            }
-        } else {
-            System.out.println("Empty or invalid directory");
-        } */
-
         currentSort = "title";
         books = com.vincentxie.book.util.Sorter.sortByTitle(books);
         adapter = new BookAdapter(getActivity(), R.layout.browse_listitem, books);
@@ -215,7 +194,6 @@ public class Subscribed extends Fragment {
     }
 
     private static class BookAdapter extends ArrayAdapter<Book> {
-
         Context context;
         List<Book> books;
         int rowID;

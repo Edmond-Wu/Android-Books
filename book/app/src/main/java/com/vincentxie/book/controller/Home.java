@@ -46,7 +46,8 @@ public class Home extends Fragment {
             } catch (InterruptedException e) {}
                 if(MainMenu.books.size() > 0){
                     int size = updates.size();
-                    for(int i = size; i < updates_master.size() && i < size + 5; i++) {
+                    updates.clear();
+                    for(int i = 0; i < updates_master.size() && i < size + 5; i++) {
                         updates.add(updates_master.get(i));
                     }
                 }

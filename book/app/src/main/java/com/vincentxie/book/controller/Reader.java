@@ -172,7 +172,6 @@ public class Reader extends AppCompatActivity {
         }
     }
 
-
     /**
      * Sets up data for the page.
      */
@@ -185,7 +184,6 @@ public class Reader extends AppCompatActivity {
             if(chapter.getText().contains("+ ")) {
                 for (String s : chapter.getText().split(" + ")) {
                     try {
-                        System.out.println(s);
                         text += s.substring(1, s.length() - 4);
                         text += '\n';
                     } catch (Exception e) {

@@ -53,7 +53,8 @@ public class MainMenu extends AppCompatActivity
             user = new User("Jem Reader", "");
         }
         Firebase.setAndroidContext(this);
-        Firebase myFirebaseRef = new Firebase("https://torrid-heat-5739.firebaseio.com/");
+        //Firebase myFirebaseRef = new Firebase("https://torrid-heat-5739.firebaseio.com/");
+        Firebase myFirebaseRef = new Firebase("https://popping-torch-3684.firebaseio.com/");
         myFirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
